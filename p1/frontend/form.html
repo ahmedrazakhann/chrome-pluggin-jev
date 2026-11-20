@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Application Form</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #4f46e5;
+      --accent-soft: #eef2ff;
+      --error: #dc2626;
+      --ok: #16a34a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 860px; margin: 32px auto; padding: 0 16px; }
+    header h1 { margin: 0 0 4px; font-size: 1.8rem; }
+    header p { margin: 0 0 20px; color: var(--muted); }
+
+    .progress { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; }
+    .progress-bar { height: 8px; background: #e5e7eb; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+    .progress-label { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+
+    form { background: var(--card); border-radius: 14px; padding: 28px; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+    fieldset { border: none; padding: 0; margin: 0 0 28px; }
+    legend { font-weight: 700; font-size: 1.1rem; color: var(--accent); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 2px solid var(--accent-soft); width: 100%; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .full { grid-column: 1 / -1; }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } form { padding: 18px; } }
+
+    .field label.title { display: block; font-weight: 600; margin-bottom: 6px; font-size: .95rem; }
+    .field label.title .num { display: inline-block; min-width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: .75rem; margin-right: 6px; }
+    .req { color: var(--error); }
+    .hint { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+    .error-msg { font-size: .8rem; color: var(--error); margin-top: 4px; display: none; }
+    .field.invalid .error-msg { display: block; }
+    .field.invalid input, .field.invalid select, .field.invalid textarea { border-color: var(--error); }
+
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=url], input[type=number], select, textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font: inherit; background: #fff; color: var(--text); transition: border-color .15s, box-shadow .15s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    textarea { resize: vertical; min-height: 110px; }
+    select[multiple] { min-height: 130px; }
+
+    .options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .options label { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; user-select: none; }
+    .options label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+    .options.cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+
+    .inline { display: flex; gap: 10px; }
+    .inline select { max-width: 110px; }
+
+    .range-row { display: flex; align-items: center; gap: 12px; }
+    .range-row input { flex: 1; accent-color: var(--accent); }
+    .range-val { min-width: 70px; text-align: center; font-weight: 700; background: var(--accent-soft); color: var(--accent); border-radius: 6px; padding: 4px 8px; }
+
+    .counter { font-size: .8rem; color: var(--muted); text-align: right; margin-top: 4px; }
+
+    .consent { display: flex; gap: 10px; align-items: flex-start; padding: 14px; background: var(--accent-soft); border-radius: 8px; }
+    .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 10px; }
+    button { font: inherit; padding: 11px 22px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+    #result { display: none; margin-top: 24px; background: #0f172a; color: #e2e8f0; padding: 18px; border-radius: 10px; white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: .85rem; }
+    .success { display: none; margin-top: 20px; padding: 14px; border-radius: 8px; background: #dcfce7; color: var(--ok); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Job Application Form</h1>
+      <p>Please fill in all required fields marked with <span class="req">*</span>.</p>
+    </header>
+
+    <div class="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 of 15 fields completed</div>
+    </div>
+
+    <form id="appForm" novalidate>
+      <!-- Section 1: Personal -->
+      <fieldset>
+        <legend>Personal Information</legend>
+        <div class="grid">
+          <div class="field" data-track>
+            <label class="title" for="fullName"><span class="num">1</span>Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Jane Doe" required minlength="3" />
+            <div class="error-msg">Please enter your full name (min 3 characters).</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="email"><span class="num">2</span>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            <div class="error-msg">Please enter a valid email address.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="phone"><span class="num">3</span>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 555 123 4567" required pattern="^\+?[0-9\s\-()]{7,20}$" />
+            <div class="hint">Include country code.</div>
+            <div class="error-msg">Please enter a valid phone number.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="dob"><span class="num">4</span>Date of Birth <span class="req">*</span></label>
+            <input type="date" id="dob" name="dob" required />
+            <div class="error-msg">You must be at least 18 years old.</div>
+          </div>
+
+          <div class="field full" data-track>
+            <label class="title"><span class="num">5</span>Gender <span class="req">*</span></label>
+            <div class="options">
+              <label><input type="radio" name="gender" value="male" required /> Male</label>
+              <label><input type="radio" name="gender" value="female" /> Female</label>
+              <label><input type="radio" name="gender" value="non-binary" /> Non-binary</label>
+              <label><input type="radio" name="gender" value="prefer-not" /> Prefer not to say</label>
+            </div>
+            <div class="error-msg">Please select an option.</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 2: Location -->
+      <fieldset>
+        <legend>Location</legend>
+        <div class="grid">
+          <div class="field" data-track>
+            <label class="title" for="country"><span class="num">6</span>Country <span class="req">*</span></label>
+            <select id="country" name="country" required>
+              <option value="">-- Select a country --</option>
+              <option value="US">United States</option>
+              <option value="UK">United Kingdom</option>
+              <option value="CA">Canada</option>
+              <option value="PK">Pakistan</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="DE">Germany</option>
+            </select>
+            <div class="error-msg">Please select your country.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="city"><span class="num">7</span>City <span class="req">*</span></label>
+            <select id="city" name="city" required disabled>
+              <option value="">-- Select a country first --</option>
+            </select>
+            <div class="error-msg">Please select your city.</div>
+          </div>
+
+          <div class="field full" data-track>
+            <label class="title" for="address"><span class="num">8</span>Street Address <span class="req">*</span></label>
+            <input type="text" id="address" name="address" placeholder="House #, Street, Area, Postal Code" required minlength="5" />
+            <div class="error-msg">Please enter your street address.</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Section 3: Professional -->
+      <fieldset>
+        <legend>Professional Details</legend>
+        <div class="grid">
+          <div class="field" data-track>
+            <label class="title" for="role"><span class="num">9</span>Position Applying For <span class="req">*</span></label>
+            <select id="role" name="role" required>
+              <option value="">-- Select a position --</option>
+              <optgroup label="Engineering">
+                <option value="frontend">Frontend Developer</option>
+                <option value="backend">Backend Developer</option>
+                <option value="fullstack">Full-Stack Developer</option>
+                <option value="devops">DevOps Engineer</option>
+              </optgroup>
+              <optgroup label="Design">
+                <option value="uiux">UI/UX Designer</option>
+                <option value="graphic">Graphic Designer</option>
+              </optgroup>
+              <optgroup label="Business">
+                <option value="pm">Product Manager</option>
+                <option value="sales">Sales Executive</option>
+                <option value="hr">HR Specialist</option>
+              </optgroup>
+            </select>
+            <div class="error-msg">Please select a position.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="experience"><span class="num">10</span>Years of Experience <span class="req">*</span></label>
+            <div class="range-row">
+              <input type="range" id="experience" name="experience" min="0" max="30" value="0" />
+              <span class="range-val" id="expVal">0 yrs</span>
+            </div>
+            <div class="hint">Drag to select (0–30 years).</div>
+          </div>
+
+          <div class="field full" data-track>
+            <label class="title"><span class="num">11</span>Skills <span class="req">*</span> <span class="hint">(select at least 2)</span></label>
+            <div class="options cols" id="skillsGroup">
+              <label><input type="checkbox" name="skills" value="HTML/CSS" /> HTML / CSS</label>
+              <label><input type="checkbox" name="skills" value="JavaScript" /> JavaScript</label>
+              <label><input type="checkbox" name="skills" value="TypeScript" /> TypeScript</label>
+              <label><input type="checkbox" name="skills" value="React" /> React</label>
+              <label><input type="checkbox" name="skills" value="Node.js" /> Node.js</label>
+              <label><input type="checkbox" name="skills" value="Python" /> Python</label>
+              <label><input type="checkbox" name="skills" value="SQL" /> SQL</label>
+              <label><input type="checkbox" name="skills" value="Docker" /> Docker</label>
+              <label><input type="checkbox" name="skills" value="AWS" /> AWS</label>
+              <label><input type="checkbox" name="skills" value="Figma" /> Figma</label>
+            </div>
+            <div class="error-msg">Please select at least 2 skills.</div>
+          </div>
+
+          <div class="field full" data-track>
+            <label class="title"><span class="num">12</span>Preferred Work Mode <span class="req">*</span></label>
+            <div class="options">
+              <label><input type="radio" name="workMode" value="remote" required /> Remote</label>
+              <label><input type="radio" name="workMode" value="hybrid" /> Hybrid</label>
+              <label><input type="radio" name="workMode" value="onsite" /> On-site</label>
+            </div>
+            <div class="error-msg">Please select a work mode.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="salary"><span class="num">13</span>Expected Monthly Salary <span class="req">*</span></label>
+            <div class="inline">
+              <select id="currency" name="currency" aria-label="Currency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="PKR">PKR</option>
+                <option value="AED">AED</option>
+              </select>
+              <input type="number" id="salary" name="salary" placeholder="e.g. 3000" min="0" step="100" required />
+            </div>
+            <div class="error-msg">Please enter a valid salary amount.</div>
+          </div>
+
+          <div class="field" data-track>
+            <label class="title" for="languages"><span class="num">14</span>Languages Spoken <span class="req">*</span></label>
+            <select id="languages" name="languages" multiple required>
+              <option value="English">English</option>
+              <option value="Urdu">Urdu</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+              <option value="Chinese">Chinese</option>
+            </select>
+            <div class="hint">Hold Ctrl / Cmd to select multiple.</div>
+            <div class="error-msg">Please select at least one language.</div>
+          </div>
+
+          <div class="field full" data-track>
+            <label class="title" for="coverLetter"><span class="num">15</span>Cover Letter <span class="req">*</span></label>
+            <textarea id="coverLetter" name="coverLetter" maxlength="1000" minlength="50" required placeholder="Tell us why you're a great fit for this role..."></textarea>
+            <div class="counter"><span id="charCount">0</span> / 1000 characters (min 50)</div>
+            <div class="error-msg">Cover letter must be at least 50 characters.</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="field" id="consentField">
+        <div class="consent">
+          <input type="checkbox" id="consent" name="consent" required />
+          <label for="consent">I confirm the information provided is accurate and I agree to the processing of my data for recruitment purposes. <span class="req">*</span></label>
+        </div>
+        <div class="error-msg">You must accept to continue.</div>
+      </div>
+
+      <div class="actions">
+        <button type="reset" class="btn-ghost">Reset</button>
+        <button type="submit" class="btn-primary">Submit Application</button>
+      </div>
+
+      <div class="success" id="successMsg">✔ Application submitted successfully!</div>
+      <pre id="result"></pre>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('appForm');
+    const citiesByCountry = {
+      US: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'San Francisco'],
+      UK: ['London', 'Manchester', 'Birmingham', 'Edinburgh'],
+      CA: ['Toronto', 'Vancouver', 'Montreal', 'Calgary'],
+      PK: ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad'],
+      AE: ['Dubai', 'Abu Dhabi', 'Sharjah'],
+      DE: ['Berlin', 'Munich', 'Hamburg', 'Frankfurt'],
+    };
+
+    // Dependent dropdown: country -> city
+    const country = document.getElementById('country');
+    const city = document.getElementById('city');
+    country.addEventListener('change', () => {
+      const list = citiesByCountry[country.value] || [];
+      city.innerHTML = list.length
+        ? '<option value="">-- Select a city --</option>' + list.map(c => `<option value="${c}">${c}</option>`).join('')
+        : '<option value="">-- Select a country first --</option>';
+      city.disabled = !list.length;
+      updateProgress();
+    });
+
+    // Range display
+    const exp = document.getElementById('experience');
+    const expVal = document.getElementById('expVal');
+    let expTouched = false;
+    exp.addEventListener('input', () => {
+      expTouched = true;
+      expVal.textContent = exp.value + (exp.value === '1' ? ' yr' : ' yrs');
+      updateProgress();
+    });
+
+    // Character counter
+    const cover = document.getElementById('coverLetter');
+    const charCount = document.getElementById('charCount');
+    cover.addEventListener('input', () => { charCount.textContent = cover.value.length; });
+
+    // Per-field validation rules
+    function isValid(field) {
+      const name = field.querySelector('input, select, textarea')?.name;
+      switch (name) {
+        case 'dob': {
+          const v = form.dob.value;
+          if (!v) return false;
+          const d = new Date(v), now = new Date();
+          const age = now.getFullYear() - d.getFullYear() - (now < new Date(now.getFullYear(), d.getMonth(), d.getDate()) ? 1 : 0);
+          return age >= 18 && age <= 100;
+        }
+        case 'gender':
+        case 'workMode':
+          return !!form.querySelector(`input[name="${name}"]:checked`);
+        case 'skills':
+          return form.querySelectorAll('input[name="skills"]:checked').length >= 2;
+        case 'experience':
+          return expTouched;
+        case 'languages':
+          return form.languages.selectedOptions.length > 0;
+        case 'currency':
+          return form.salary.value !== '' && form.salary.checkValidity();
+        default: {
+          const el = field.querySelector('input, select, textarea');
+          return el.value.trim() !== '' && el.checkValidity();
+        }
+      }
+    }
+
+    const tracked = [...document.querySelectorAll('[data-track]')];
+    function updateProgress() {
+      const done = tracked.filter(isValid).length;
+      document.getElementById('progressFill').style.width = (done / tracked.length * 100) + '%';
+      document.getElementById('progressLabel').textContent = `${done} of ${tracked.length} fields completed`;
+    }
+
+    form.addEventListener('input', e => {
+      updateProgress();
+      const field = e.target.closest('.field');
+      if (field && field.classList.contains('invalid') && (field.id === 'consentField' ? form.consent.checked : isValid(field))) {
+        field.classList.remove('invalid');
+      }
+    });
+    form.addEventListener('change', updateProgress);
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let firstInvalid = null;
+      tracked.forEach(f => {
+        // Range is optional for validation (0 years is valid); only enforce others
+        const ok = f.querySelector('#experience') ? true : isValid(f);
+        f.classList.toggle('invalid', !ok);
+        if (!ok && !firstInvalid) firstInvalid = f;
+      });
+      const consentField = document.getElementById('consentField');
+      consentField.classList.toggle('invalid', !form.consent.checked);
+      if (!form.consent.checked && !firstInvalid) firstInvalid = consentField;
+
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
+        return;
+      }
+
+      const data = {
+        fullName: form.fullName.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim(),
+        dob: form.dob.value,
+        gender: form.querySelector('input[name="gender"]:checked').value,
+        country: country.options[country.selectedIndex].text,
+        city: city.value,
+        address: form.address.value.trim(),
+        role: form.role.options[form.role.selectedIndex].text,
+        experienceYears: Number(exp.value),
+        skills: [...form.querySelectorAll('input[name="skills"]:checked')].map(c => c.value),
+        workMode: form.querySelector('input[name="workMode"]:checked').value,
+        expectedSalary: `${form.currency.value} ${form.salary.value}`,
+        languages: [...form.languages.selectedOptions].map(o => o.value),
+        coverLetter: cover.value.trim(),
+      };
+      document.getElementById('successMsg').style.display = 'block';
+      const result = document.getElementById('result');
+      result.textContent = JSON.stringify(data, null, 2);
+      result.style.display = 'block';
+      result.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    form.addEventListener('reset', () => {
+      setTimeout(() => {
+        city.innerHTML = '<option value="">-- Select a country first --</option>';
+        city.disabled = true;
+        expTouched = false;
+        expVal.textContent = '0 yrs';
+        charCount.textContent = '0';
+        document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
+        updateProgress();
+      });
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>
