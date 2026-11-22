@@ -19,6 +19,23 @@ const TARGET = String.raw`function(payload) {
     e.dispatchEvent(new Event('change',{bubbles:true}));
     return {selected:true,value:e.value};
   }
+  // Native date/time inputs and sliders ignore typed text, so set the value
+  // directly and fire the events a user edit would.
+  if (action.kind==='fill' && e.tagName==='INPUT' &&
+      ['date','time','datetime-local','month','week','range'].includes(e.type)) {
+    const before=e.value, text=String(payload.text??'').trim();
+    const wanted=e.type==='range' ? String(parseFloat(text)) : text;
+    const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;
+    setter.call(e,wanted);
+    const kept=e.type==='range' ? wanted!=='NaN' && Number(e.value)===Number(wanted) : e.value===wanted;
+    if (!kept) {
+      setter.call(e,before);
+      return {rejected:true,type:e.type,min:e.min,max:e.max};
+    }
+    e.dispatchEvent(new Event('input',{bubbles:true}));
+    e.dispatchEvent(new Event('change',{bubbles:true}));
+    return {filled:true,value:e.value};
+  }
   return {x,y};
 }`;
 
@@ -39,7 +56,11 @@ export default async function run(ctx, args = {}) {
   if (!["click", "fill", "select"].includes(action.kind) || !Number.isInteger(action.node)) {
     throw new Error("jev_act rejected an unsupported action");
   }
-  const payload = { action, pageKey: args.pageKey, guard: args.guard };
+  if (action.kind === "fill") {
+    const text = args.text;
+    if (typeof text !== "string" || !text || text.length > 2000) throw new Error("jev_act rejected invalid text");
+  }
+  const payload = { action, pageKey: args.pageKey, guard: args.guard, text: args.text };
   const { result, exceptionDetails } = await send(ctx.tabId, "Runtime.evaluate", {
     expression: `(${TARGET})(${JSON.stringify(payload)})`,
     returnByValue: true,
@@ -50,6 +71,14 @@ export default async function run(ctx, args = {}) {
   const target = result?.value;
   if (!target || target.stale) throw new Error("Stale page: observe again before acting");
   if (action.kind === "select") return { executed: action.id, value: target.value };
+  if (target.filled) return { executed: action.id, value: target.value };
+  if (target.rejected) {
+    const expected = target.type === "range"
+      ? `a number from ${target.min || 0} to ${target.max || 100}`
+      : { date: "YYYY-MM-DD", time: "HH:MM", "datetime-local": "YYYY-MM-DDTHH:MM",
+          month: "YYYY-MM", week: "YYYY-Www" }[target.type];
+    throw new Error(`The ${target.type} field did not accept ${JSON.stringify(args.text)}; expected ${expected}`);
+  }
 
   for (const type of ["mousePressed", "mouseReleased"]) {
     await send(ctx.tabId, "Input.dispatchMouseEvent", {
@@ -58,7 +87,6 @@ export default async function run(ctx, args = {}) {
   }
   if (action.kind === "fill") {
     const text = args.text;
-    if (typeof text !== "string" || !text || text.length > 2000) throw new Error("jev_act rejected invalid text");
     const modifier = navigator.platform?.includes("Mac") ? 4 : 2;
     await send(ctx.tabId, "Input.dispatchKeyEvent", {
       type: "keyDown", key: "a", code: "KeyA", modifiers: modifier, commands: ["selectAll"],

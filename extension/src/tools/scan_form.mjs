@@ -19,7 +19,7 @@ async function scanFrame(
   const marker = "data-twenty-form-fill-ref";
   const supportedInputTypes = new Set([
     "text", "email", "tel", "url", "number", "date", "time",
-    "datetime-local", "month", "week", "search",
+    "datetime-local", "month", "week", "search", "range",
   ]);
   const comboState = element => {
     let ancestor = element.parentElement;
@@ -111,6 +111,8 @@ async function scanFrame(
           selectPlaceholderPattern.test(text(option.textContent))) return "";
     }
     if (element.isContentEditable) return text(element.innerText);
+    // A slider always has a value; one still at its default is unfilled.
+    if (element.type === "range" && element.value === element.defaultValue) return "";
     return text(element.value);
   };
   const signatureFor = field => JSON.stringify([

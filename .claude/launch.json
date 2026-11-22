@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "declaration-form",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "p1/frontend", "run", "dev", "--", "-p", "3005"],
+      "port": 3005
+    }
+  ]
+}

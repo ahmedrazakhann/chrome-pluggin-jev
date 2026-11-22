@@ -98,6 +98,9 @@ async function applyFrame(
     }
     return element.isContentEditable ? text(element.innerText) : text(element.value);
   };
+  // Matches scan_form: a slider still at its default value counts as empty.
+  const readBefore = element =>
+    element.type === "range" && element.value === element.defaultValue ? "" : read(element);
   const write = (element, value) => {
     const view = element.ownerDocument.defaultView;
     if (element.isContentEditable) {
@@ -177,7 +180,7 @@ async function applyFrame(
       results.push({ fieldId: assignment.fieldId, status: "skipped", reason: "field unavailable" });
       continue;
     }
-    if (read(element) !== String(assignment.beforeValue || "").trim() || read(element)) {
+    if (readBefore(element) !== String(assignment.beforeValue || "").trim() || readBefore(element)) {
       results.push({ fieldId: assignment.fieldId, status: "stale", reason: "field value changed" });
       continue;
     }
