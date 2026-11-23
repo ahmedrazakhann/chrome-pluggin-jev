@@ -1,0 +1,16 @@
+{
+  "First name": "Ahmad",
+  "Last name": "Raza",
+  "Date of birth": "1995-04-12",
+  "Gender": "Male",
+  "Nationality": "Pakistani",
+  "Email": "ahmad@example.com",
+  "Phone": "+971 50 123 4567",
+  "Address line 1": "Al Wasl Road, Villa 12",
+  "City": "Dubai",
+  "State / Emirate": "Dubai",
+  "Postal code": "00000",
+  "Country": "United Arab Emirates",
+  "Company": "Example Trading LLC",
+  "Job title": "Operations Manager"
+}

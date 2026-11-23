@@ -112,6 +112,7 @@ class ExtensionBrowser:
         self.session = session
         self.tab_id = tab_id
 
+    #  send commands to chrome extentions and receive their results.
     async def _call(self, action: str, args: dict[str, Any] | None = None) -> Any:
         payload = dict(args or {})
         if self.tab_id is not None:
@@ -124,6 +125,7 @@ class ExtensionBrowser:
             user_id=self.user_id,
         )
 
+    # determines which browser tab and website to use
     async def prepare(self, goal: str, target_url: str | None = None) -> None:
         if target_url:
             result = await self._call("navigate", {"url": target_url})
@@ -185,6 +187,7 @@ class ExtensionBrowser:
         if isinstance(result, dict) and isinstance(result.get("tabId"), int):
             self.tab_id = result["tabId"]
 
+    # understands what's currently visible on the webpage
     async def observe(self, goal: str) -> dict[str, Any]:
         page = await self._call("jev_observe")
         if not isinstance(page, dict) or not isinstance(page.get("actions"), list):
@@ -226,7 +229,8 @@ class ExtensionBrowser:
                 }
             )
         return page
-
+   
+    # executes the selected browser action
     async def act(
         self,
         action: dict[str, Any],

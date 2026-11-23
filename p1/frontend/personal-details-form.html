@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Applicant Registration</title>
+    <style>
+      :root {
+        --page: #f4f5f7;
+        --card: #ffffff;
+        --ink: #1d2433;
+        --muted: #667085;
+        --line: #d0d5dd;
+        --primary: #1f4fd1;
+        --danger: #c0352b;
+        --success: #2f7a3a;
+        --radius: 6px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, "Segoe UI", sans-serif; }
+      main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+      h1 { margin: 0; font-size: 26px; }
+      .intro { margin: 6px 0 24px; color: var(--muted); }
+      fieldset { min-width: 0; margin: 0 0 20px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+      legend { padding: 0 6px; font-weight: 700; font-size: 16px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 14px 18px; }
+      .full { grid-column: 1 / -1; }
+      label, .group-label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+      .req { color: var(--danger); }
+      input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+        width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; color: var(--ink); font: inherit;
+      }
+      input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgb(31 79 209 / 15%); }
+      textarea { min-height: 90px; resize: vertical; }
+      .options { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+      .options label, .check { display: inline-flex; align-items: center; gap: 7px; margin: 0; font-weight: 400; font-size: 14px; }
+      .hint { margin-top: 4px; color: var(--muted); font-size: 12px; }
+      .error { margin-top: 4px; color: var(--danger); font-size: 12px; }
+      [aria-invalid="true"] { border-color: var(--danger) !important; }
+      .actions { display: flex; gap: 10px; }
+      button { padding: 11px 22px; border: 1px solid var(--primary); border-radius: var(--radius); background: var(--primary); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+      button.secondary { background: #fff; color: var(--primary); }
+      #result { margin-top: 20px; padding: 16px; border: 1px solid var(--success); border-radius: var(--radius); background: #eef7ef; }
+      #result h2 { margin: 0 0 8px; font-size: 17px; color: var(--success); }
+      #result pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Applicant Registration</h1>
+      <p class="intro">Fill in your details below. Fields marked <span class="req">*</span> are required. Nothing is sent anywhere; submitting shows a summary on this page.</p>
+
+      <form id="registration" novalidate>
+        <fieldset>
+          <legend>Personal details</legend>
+          <div class="grid">
+            <div>
+              <label for="title">Title</label>
+              <select id="title" name="title">
+                <option value="">Select</option>
+                <option>Mr</option>
+                <option>Ms</option>
+                <option>Mrs</option>
+                <option>Dr</option>
+              </select>
+            </div>
+            <div>
+              <label for="firstName">First name <span class="req">*</span></label>
+              <input id="firstName" name="firstName" type="text" required />
+            </div>
+            <div>
+              <label for="middleName">Middle name</label>
+              <input id="middleName" name="middleName" type="text" />
+            </div>
+            <div>
+              <label for="lastName">Last name <span class="req">*</span></label>
+              <input id="lastName" name="lastName" type="text" required />
+            </div>
+            <div>
+              <label for="dob">Date of birth <span class="req">*</span></label>
+              <input id="dob" name="dob" type="date" required />
+            </div>
+            <div>
+              <label for="nationality">Nationality <span class="req">*</span></label>
+              <select id="nationality" name="nationality" required>
+                <option value="">Select</option>
+                <option>Emirati</option>
+                <option>Pakistani</option>
+                <option>Indian</option>
+                <option>Bangladeshi</option>
+                <option>Filipino</option>
+                <option>Egyptian</option>
+                <option>Saudi</option>
+                <option>British</option>
+                <option>American</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="full">
+              <span class="group-label" id="genderLabel">Gender <span class="req">*</span></span>
+              <div class="options" role="radiogroup" aria-labelledby="genderLabel">
+                <label><input type="radio" name="gender" value="Male" required /> Male</label>
+                <label><input type="radio" name="gender" value="Female" /> Female</label>
+                <label><input type="radio" name="gender" value="Other" /> Other</label>
+                <label><input type="radio" name="gender" value="Prefer not to say" /> Prefer not to say</label>
+              </div>
+            </div>
+            <div>
+              <label for="maritalStatus">Marital status</label>
+              <select id="maritalStatus" name="maritalStatus">
+                <option value="">Select</option>
+                <option>Single</option>
+                <option>Married</option>
+                <option>Divorced</option>
+                <option>Widowed</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Contact information</legend>
+          <div class="grid">
+            <div>
+              <label for="email">Email address <span class="req">*</span></label>
+              <input id="email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div>
+              <label for="confirmEmail">Confirm email address <span class="req">*</span></label>
+              <input id="confirmEmail" name="confirmEmail" type="email" required />
+            </div>
+            <div>
+              <label for="mobile">Mobile number <span class="req">*</span></label>
+              <input id="mobile" name="mobile" type="tel" required placeholder="+971 50 123 4567" />
+            </div>
+            <div>
+              <label for="altPhone">Alternate phone</label>
+              <input id="altPhone" name="altPhone" type="tel" />
+            </div>
+            <div class="full">
+              <span class="group-label" id="contactLabel">Preferred contact method</span>
+              <div class="options" role="radiogroup" aria-labelledby="contactLabel">
+                <label><input type="radio" name="contactMethod" value="Email" /> Email</label>
+                <label><input type="radio" name="contactMethod" value="Phone" /> Phone</label>
+                <label><input type="radio" name="contactMethod" value="WhatsApp" /> WhatsApp</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Home address</legend>
+          <div class="grid">
+            <div class="full">
+              <label for="street">Street address <span class="req">*</span></label>
+              <input id="street" name="street" type="text" required autocomplete="address-line1" />
+            </div>
+            <div class="full">
+              <label for="apartment">Apartment, suite, building (optional)</label>
+              <input id="apartment" name="apartment" type="text" autocomplete="address-line2" />
+            </div>
+            <div>
+              <label for="city">City <span class="req">*</span></label>
+              <input id="city" name="city" type="text" required />
+            </div>
+            <div>
+              <label for="state">State / Province / Emirate</label>
+              <input id="state" name="state" type="text" />
+            </div>
+            <div>
+              <label for="zip">ZIP / Postal code</label>
+              <input id="zip" name="zip" type="text" />
+            </div>
+            <div>
+              <label for="country">Country <span class="req">*</span></label>
+              <select id="country" name="country" required>
+                <option value="">Select</option>
+                <option>United Arab Emirates</option>
+                <option>Pakistan</option>
+                <option>India</option>
+                <option>Bangladesh</option>
+                <option>Philippines</option>
+                <option>Egypt</option>
+                <option>Saudi Arabia</option>
+                <option>United Kingdom</option>
+                <option>United States</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="yearsAtAddress">Years at this address</label>
+              <input id="yearsAtAddress" name="yearsAtAddress" type="number" min="0" max="80" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Employment</legend>
+          <div class="grid">
+            <div>
+              <label for="employer">Current employer</label>
+              <input id="employer" name="employer" type="text" autocomplete="organization" />
+            </div>
+            <div>
+              <label for="jobTitle">Job title</label>
+              <input id="jobTitle" name="jobTitle" type="text" autocomplete="organization-title" />
+            </div>
+            <div>
+              <label for="employmentType">Employment type</label>
+              <select id="employmentType" name="employmentType">
+                <option value="">Select</option>
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Contract</option>
+                <option>Self-employed</option>
+                <option>Unemployed</option>
+                <option>Student</option>
+              </select>
+            </div>
+            <div>
+              <label for="experience">Years of experience</label>
+              <input id="experience" name="experience" type="number" min="0" max="60" />
+            </div>
+            <div>
+              <label for="salary">Monthly salary (AED)</label>
+              <input id="salary" name="salary" type="number" min="0" step="100" />
+            </div>
+            <div>
+              <label for="startDate">Available to start from</label>
+              <input id="startDate" name="startDate" type="date" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Emergency contact</legend>
+          <div class="grid">
+            <div>
+              <label for="emergencyName">Full name</label>
+              <input id="emergencyName" name="emergencyName" type="text" />
+            </div>
+            <div>
+              <label for="emergencyRelation">Relationship</label>
+              <select id="emergencyRelation" name="emergencyRelation">
+                <option value="">Select</option>
+                <option>Parent</option>
+                <option>Spouse</option>
+                <option>Sibling</option>
+                <option>Friend</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="emergencyPhone">Phone number</label>
+              <input id="emergencyPhone" name="emergencyPhone" type="tel" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional information</legend>
+          <div class="grid">
+            <div>
+              <label for="language">Preferred language</label>
+              <select id="language" name="language">
+                <option value="">Select</option>
+                <option>English</option>
+                <option>Arabic</option>
+                <option>Urdu</option>
+                <option>Hindi</option>
+              </select>
+            </div>
+            <div>
+              <label for="referral">How did you hear about us?</label>
+              <select id="referral" name="referral">
+                <option value="">Select</option>
+                <option>Search engine</option>
+                <option>Social media</option>
+                <option>Friend or colleague</option>
+                <option>Advertisement</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="full">
+              <span class="group-label">Interests</span>
+              <div class="options">
+                <label><input type="checkbox" name="interests" value="Technology" /> Technology</label>
+                <label><input type="checkbox" name="interests" value="Finance" /> Finance</label>
+                <label><input type="checkbox" name="interests" value="Healthcare" /> Healthcare</label>
+                <label><input type="checkbox" name="interests" value="Logistics" /> Logistics</label>
+                <label><input type="checkbox" name="interests" value="Education" /> Education</label>
+              </div>
+            </div>
+            <div class="full">
+              <label for="comments">Comments</label>
+              <textarea id="comments" name="comments" maxlength="500" placeholder="Anything else we should know?"></textarea>
+              <p class="hint">Up to 500 characters.</p>
+            </div>
+            <div class="full">
+              <label class="check"><input type="checkbox" name="newsletter" value="yes" /> Send me the monthly newsletter</label>
+            </div>
+            <div class="full">
+              <label class="check"><input id="terms" type="checkbox" name="terms" value="accepted" required /> I confirm the information above is correct <span class="req">*</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit">Submit</button>
+          <button type="reset" class="secondary">Reset</button>
+        </div>
+      </form>
+
+      <section id="result" hidden aria-live="polite">
+        <h2>Submitted (not sent anywhere)</h2>
+        <pre id="resultData"></pre>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById("registration");
+      const result = document.getElementById("result");
+      const resultData = document.getElementById("resultData");
+
+      const messages = {
+        valueMissing: "This field is required.",
+        typeMismatch: "Enter a valid email address.",
+        rangeOverflow: "The number is too large.",
+        rangeUnderflow: "The number cannot be negative.",
+      };
+
+      function setError(field, message) {
+        const holder = field.closest(".options")?.parentElement || field.parentElement;
+        holder.querySelector(".error")?.remove();
+        const group = field.type === "radio" ? form.querySelectorAll(`[name="${field.name}"]`) : [field];
+        group.forEach((item) => item.removeAttribute("aria-invalid"));
+        if (!message) return;
+        group.forEach((item) => item.setAttribute("aria-invalid", "true"));
+        const error = document.createElement("p");
+        error.className = "error";
+        error.textContent = message;
+        holder.append(error);
+      }
+
+      function validate(field) {
+        let message = "";
+        const state = field.validity;
+        for (const key of Object.keys(messages)) if (state[key]) message = messages[key];
+        if (!message && field.id === "confirmEmail" && field.value.trim() !== form.email.value.trim()) message = "Email addresses do not match.";
+        if (!message && field.type === "tel" && field.value.trim() && !/^\+?[0-9 ()-]{7,20}$/.test(field.value.trim())) message = "Enter a valid phone number.";
+        if (!message && field.id === "dob" && field.value) {
+          const age = (Date.now() - new Date(field.value)) / (365.25 * 24 * 3600 * 1000);
+          if (age < 18) message = "You must be at least 18 years old.";
+          else if (age > 100) message = "Check the date of birth.";
+        }
+        setError(field, message);
+        return !message;
+      }
+
+      form.addEventListener("change", (event) => {
+        if (event.target.matches("input, select, textarea")) validate(event.target);
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const fields = [...form.elements].filter((field) => field.matches("input, select, textarea"));
+        const seenRadio = new Set();
+        let firstInvalid = null;
+        for (const field of fields) {
+          if (field.type === "radio") {
+            if (seenRadio.has(field.name)) continue;
+            seenRadio.add(field.name);
+          }
+          if (!validate(field) && !firstInvalid) firstInvalid = field;
+        }
+        if (firstInvalid) {
+          firstInvalid.focus();
+          result.hidden = true;
+          return;
+        }
+        const data = {};
+        for (const [key, value] of new FormData(form)) {
+          if (!value) continue;
+          data[key] = key in data ? [].concat(data[key], value) : value;
+        }
+        resultData.textContent = JSON.stringify(data, null, 2);
+        result.hidden = false;
+        result.scrollIntoView({ behavior: "smooth" });
+      });
+
+      form.addEventListener("reset", () => {
+        form.querySelectorAll(".error").forEach((error) => error.remove());
+        form.querySelectorAll("[aria-invalid]").forEach((field) => field.removeAttribute("aria-invalid"));
+        result.hidden = true;
+      });
+    </script>
+  </body>
+</html>

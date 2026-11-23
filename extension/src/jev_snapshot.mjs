@@ -54,8 +54,15 @@ export const JEV_SNAPSHOT = String.raw`(() => {
     if (e.tagName!=='INPUT') return '';
     if (e.type==='range') return 'slider, a number from '+(e.min||'0')+' to '+(e.max||'100')+
       (e.step && e.step!=='1' ? ' in steps of '+e.step : '');
-    return e.type in valueFormats ? e.type+', format '+valueFormats[e.type] : '';
+    if (e.type in valueFormats) return e.type+', format '+valueFormats[e.type];
+    // Text fields that show their format as a placeholder, e.g. DD-MM-YYYY or HH:MM.
+    const placeholder=(e.getAttribute('placeholder')||'').trim();
+    return /^[DMYHS]+([-\/. :][DMYHS]+)+$/i.test(placeholder) ? 'format '+placeholder : '';
   };
+  // While a modal popup is open the page behind it cannot be used, so only the
+  // topmost one (opened last, so last in the DOM) is observed.
+  const root=[...document.querySelectorAll('[aria-modal="true"],dialog:modal')]
+    .filter(e=>e.getClientRects().length && !e.closest('[inert]')).pop() || document.body;
   cache.pageKey=()=>[performance.timeOrigin,location.href,scrollX,scrollY,innerWidth,innerHeight,
     [...document.querySelectorAll('input,textarea,select')].filter(safe)
       .map(e=>[identity(e),e.value,e.checked,e.selectedIndex,e.disabled,e.readOnly])];
@@ -68,7 +75,7 @@ export const JEV_SNAPSHOT = String.raw`(() => {
       e.getAttribute('href'),scope?.innerText?.slice(0,6000)||''];
   };
   const actions=[];
-  for (const e of document.querySelectorAll(selector)) {
+  for (const e of root.querySelectorAll(selector)) {
     if (!safe(e) || !visible(e) || e.matches(':disabled') || e.closest('[aria-disabled="true"]')) continue;
     const r=e.getBoundingClientRect(), x=r.x+r.width/2, y=r.y+r.height/2, rname=role(e);
     if (!rname || r.width<=0 || r.height<=0 || x<0 || y<0 || x>=innerWidth || y>=innerHeight) continue;
@@ -97,7 +104,7 @@ export const JEV_SNAPSHOT = String.raw`(() => {
       if (editable && !hint) actions.push({...base,kind:'click',value,label:'Open '+base.label});
     }
   }
-  const words=[], walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const words=[], walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   const range=document.createRange(); let node,length=0;
   while ((node=walker.nextNode()) && length<6000) {
     const value=node.textContent.trim(), parent=node.parentElement;

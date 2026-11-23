@@ -1,0 +1,49 @@
+{
+  "Personal details": {
+    "Title": "Mr",
+    "First name": "Ahmad",
+    "Middle name": "Raza",
+    "Last name": "Khan",
+    "Date of birth": "1995-04-12",
+    "Nationality": "Pakistani",
+    "Gender": "Male",
+    "Marital status": "Married"
+  },
+  "Contact information": {
+    "Email address": "ahmad.khan@example.com",
+    "Confirm email address": "ahmad.khan@example.com",
+    "Mobile number": "+971 50 123 4567",
+    "Alternate phone": "+971 4 345 6789",
+    "Preferred contact method": "WhatsApp"
+  },
+  "Home address": {
+    "Street address": "Al Wasl Road, Villa 12",
+    "Apartment, suite, building": "Building B, Apartment 304",
+    "City": "Dubai",
+    "State / Province / Emirate": "Dubai",
+    "ZIP / Postal code": "00000",
+    "Country": "United Arab Emirates",
+    "Years at this address": 4
+  },
+  "Employment": {
+    "Current employer": "Example Trading LLC",
+    "Job title": "Operations Manager",
+    "Employment type": "Full-time",
+    "Years of experience": 8,
+    "Monthly salary (AED)": 18000,
+    "Available to start from": "2027-01-15"
+  },
+  "Emergency contact": {
+    "Full name": "Sara Khan",
+    "Relationship": "Spouse",
+    "Phone number": "+971 55 765 4321"
+  },
+  "Additional information": {
+    "Preferred language": "English",
+    "How did you hear about us?": "Friend or colleague",
+    "Interests": ["Technology", "Logistics"],
+    "Comments": "Available for interviews on weekdays after 4 PM.",
+    "Send me the monthly newsletter": true,
+    "I confirm the information above is correct": true
+  }
+}

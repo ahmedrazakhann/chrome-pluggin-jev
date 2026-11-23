@@ -7,6 +7,68 @@ const out = document.getElementById("out");
 const connect = document.getElementById("connect");
 const connectionDot = document.getElementById("connectionDot");
 const connectionStatus = document.getElementById("connectionStatus");
+const detailsFile = document.getElementById("detailsFile");
+const detailsStatus = document.getElementById("detailsStatus");
+const removeDetails = document.getElementById("removeDetails");
+
+// My details: a JSON object the user uploads, kept only in this extension's
+// localStorage and sent with every task.
+const DETAILS_KEY = "twenty_saved_details";
+const MAX_DETAILS_BYTES = 100_000;
+
+function loadDetails() {
+  try {
+    return JSON.parse(localStorage.getItem(DETAILS_KEY));
+  } catch {
+    return null;
+  }
+}
+
+function renderDetails(message, kind = "") {
+  const details = loadDetails();
+  removeDetails.hidden = !details;
+  detailsStatus.className = `note ${kind}`;
+  if (message) detailsStatus.textContent = message;
+  else if (details) {
+    const keys = Object.keys(details);
+    detailsStatus.textContent = `${keys.length} field(s) loaded and sent with every task: ${keys.join(", ")}`;
+  } else detailsStatus.textContent = "No JSON uploaded.";
+}
+
+document.getElementById("uploadDetails").addEventListener("click", () => detailsFile.click());
+
+detailsFile.addEventListener("change", async () => {
+  const file = detailsFile.files[0];
+  detailsFile.value = "";
+  if (!file) return;
+  if (file.size > MAX_DETAILS_BYTES) return renderDetails("That file is too large (100 KB maximum).", "err");
+  let details;
+  try {
+    details = JSON.parse(await file.text());
+  } catch {
+    return renderDetails(`${file.name} is not valid JSON.`, "err");
+  }
+  if (!details || typeof details !== "object" || Array.isArray(details) || !Object.keys(details).length) {
+    return renderDetails('The JSON must be an object with at least one field, like {"First name": "Ahmad"}.', "err");
+  }
+  try {
+    localStorage.setItem(DETAILS_KEY, JSON.stringify(details));
+  } catch {
+    return renderDetails("Could not save: browser storage is unavailable.", "err");
+  }
+  renderDetails();
+});
+
+removeDetails.addEventListener("click", () => {
+  localStorage.removeItem(DETAILS_KEY);
+  renderDetails("Removed.", "ok");
+});
+
+renderDetails();
+
+// Earlier versions kept a details form in chrome.storage and localStorage.
+chrome.storage.local.remove(["user_info", "use_user_info"]);
+localStorage.removeItem("twenty_user_info");
 
 chrome.storage.local.get(["portal_url", "agent_profile", "plugin_token"], (stored) => {
   if (stored.portal_url) portalUrl.value = stored.portal_url;
@@ -108,6 +170,7 @@ send.addEventListener("click", async () => {
         // Ordinary instructions may contain JSON-like text.
       }
     }
+    const savedDetails = loadDetails();
     const response = await fetch(`${baseUrl}/api/chrome_plugin/jobs`, {
       method: "POST",
       headers: { "content-type": "application/json", "X-Chrome-Plugin-Token": token },
@@ -115,6 +178,7 @@ send.addEventListener("click", async () => {
         ...taskBody,
         profile: profile.value.trim() || taskBody.profile || undefined,
         session: taskBody.session || `sidepanel-${Date.now()}`,
+        my_saved_details: savedDetails || undefined,
       }),
     });
     const job = await readJson(response);
