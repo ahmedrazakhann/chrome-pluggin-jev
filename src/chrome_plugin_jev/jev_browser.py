@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import re
 from typing import Any
 from urllib.parse import quote_plus
 from urllib.parse import urlparse
 
 from .bridge import BridgeToolError
+from .logs import clip
+
+logger = logging.getLogger(__name__)
 
 
 URL_PATTERN = re.compile(r"https?://[^\s<>'\"`]+", re.IGNORECASE)
@@ -128,23 +132,27 @@ class ExtensionBrowser:
     # determines which browser tab and website to use
     async def prepare(self, goal: str, target_url: str | None = None) -> None:
         if target_url:
+            logger.info("Start: opening the job's target URL %s", clip(target_url, 120))
             result = await self._call("navigate", {"url": target_url})
             if isinstance(result, dict) and isinstance(result.get("tabId"), int):
                 self.tab_id = result["tabId"]
             return
         navigation_url = requested_navigation_url(goal)
         if navigation_url:
+            logger.info("Start: goal names a site, opening %s", clip(navigation_url, 120))
             result = await self._call("navigate", {"url": navigation_url})
             if isinstance(result, dict) and isinstance(result.get("tabId"), int):
                 self.tab_id = result["tabId"]
             return
         search_url = google_search_url(goal)
         if search_url:
+            logger.info("Start: goal is a Google search, opening %s", clip(search_url, 120))
             result = await self._call("navigate", {"url": search_url})
             if isinstance(result, dict) and isinstance(result.get("tabId"), int):
                 self.tab_id = result["tabId"]
             return
         if self.tab_id is not None:
+            logger.info("Start: using the given tab %s", self.tab_id)
             return
 
         def _http_tabs(payload: Any) -> list[dict[str, Any]]:
@@ -172,6 +180,7 @@ class ExtensionBrowser:
             if selected is None:
                 selected = next(iter(candidates), None)
         if selected is not None:
+            logger.info("Start: no site in the goal, using the open tab %s", clip(selected.get("url", ""), 120))
             result = await self._call(
                 "find_tab", {"url": selected["url"], "active": True}
             )
@@ -180,9 +189,11 @@ class ExtensionBrowser:
             return
         urls = explicit_urls(goal)
         if not urls:
+            logger.warning("Start: no usable web tab is open and the goal has no link")
             raise RuntimeError(
                 "No ordinary web tab is available. Open a page or include an explicit http(s) URL."
             )
+        logger.info("Start: no usable web tab, opening the goal's link %s in a new tab", clip(urls[0], 120))
         result = await self._call("navigate", {"url": urls[0], "newTab": True})
         if isinstance(result, dict) and isinstance(result.get("tabId"), int):
             self.tab_id = result["tabId"]

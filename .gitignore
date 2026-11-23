@@ -1,2 +1,4 @@
 .env*
 extension.zip
+__pycache__/
+*.py[cod]

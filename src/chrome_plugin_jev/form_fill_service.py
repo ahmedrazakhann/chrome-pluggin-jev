@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import logging
 import os
+import time
 from typing import Any
 from urllib.parse import urlparse
 
@@ -11,6 +13,9 @@ from .form_dropdown import fill_dropdown
 from .form_fill import FormFillError, flatten_record
 from .party_lookup import fill_party, party_request
 from .jev_fallback import fallback_reason
+from .logs import clip, since
+
+logger = logging.getLogger(__name__)
 
 
 def _origin(value: Any) -> str | None:
@@ -51,10 +56,40 @@ class FormFillService:
         confidence_threshold: float = 0.75,
         max_rounds: int = 5,
     ) -> dict[str, Any]:
+        started = time.perf_counter()
+        logger.info("Form fill start: tab %s, up to %d round(s), confidence >= %.2f", tab_id, max_rounds, confidence_threshold)
+        try:
+            result = await self._run(
+                record=record, profile=profile, tab_id=tab_id,
+                confidence_threshold=confidence_threshold, max_rounds=max_rounds,
+            )
+        except Exception as error:
+            logger.warning("Form fill failed after %d ms: %s", since(started), error)
+            raise
+        fallback = result.get("fallback") or {}
+        log = logger.info if result.get("status") == "done" else logger.warning
+        log(
+            "Form fill finished: %s in %d ms | %s filled, %s skipped, %s failed | stop: %s%s",
+            result.get("status"), since(started), result.get("filled"), result.get("skipped"),
+            result.get("failed"), result.get("stopReason"),
+            f" | fallback {fallback.get('status') or fallback.get('reason')}" if fallback else "",
+        )
+        return result
+
+    async def _run(
+        self,
+        *,
+        record: dict[str, Any],
+        profile: str | None,
+        tab_id: int | None,
+        confidence_threshold: float,
+        max_rounds: int,
+    ) -> dict[str, Any]:
         candidates = flatten_record(record)
         if not candidates:
             raise FormFillError("record contains no fillable values")
         candidate_count = len(candidates)
+        logger.debug("Form fill: %d value(s) in the record to place", candidate_count)
         rounds: list[dict[str, Any]] = []
         total_filled = total_skipped = total_failed = 0
         attempted: set[str] = set()
@@ -78,6 +113,7 @@ class FormFillService:
             }
             if active_frame_policy:
                 scan_args["framePolicy"] = active_frame_policy
+            began = time.perf_counter()
             snapshot = await self.bridge.call_tool(
                 "scan_form",
                 scan_args,
@@ -88,6 +124,11 @@ class FormFillService:
                 snapshot.get("fields"), list
             ):
                 raise FormFillError("extension returned an invalid form snapshot")
+            logger.debug(
+                "Round %d: scanned the form in %d ms: %d field(s), %d already filled | %s",
+                round_number, since(began), len(snapshot["fields"]),
+                sum(1 for field in snapshot["fields"] if field.get("occupied")), _origin(snapshot.get("url")),
+            )
             last_snapshot = snapshot
             if expected_party_code:
                 expected_name, expected_code = expected_party_code
@@ -170,6 +211,7 @@ class FormFillService:
                     code_name = f"value({regime}erCode)"
                     code_field = next((field for field in snapshot["fields"] if field.get("name") == code_name), None)
                     if request and declaration_type and declaration_type.get("occupied") and code_field and not code_field.get("occupied"):
+                        began = time.perf_counter()
                         outcome = await fill_party(
                             bridge=self.bridge, matcher=self.matcher, snapshot=snapshot,
                             party=regime, requested=request, target_args=target_args,
@@ -177,6 +219,11 @@ class FormFillService:
                             confidence_threshold=confidence_threshold,
                         )
                         rounds.append({"round": round_number, "lookup": outcome})
+                        logger.info(
+                            "Round %d: %s search for %r -> %s in %d ms%s",
+                            round_number, regime, clip(request.get("name", ""), 60), outcome.get("status"), since(began),
+                            f" (code {outcome.get('code')})" if outcome.get("code") else f" ({outcome.get('reason')})" if outcome.get("reason") else "",
+                        )
                         if outcome.get("status") == "needs_review":
                             stop_reason = "party_match_needs_review"
                             break
@@ -200,6 +247,7 @@ class FormFillService:
                 not in attempted
             ]
             if not empty_fields:
+                logger.debug("Round %d: no empty fields left to fill", round_number)
                 stop_reason = (
                     "frame_policy_mismatch"
                     if snapshot.get("framePolicy", {}).get("status") == "mismatch"
@@ -224,12 +272,29 @@ class FormFillService:
             model_snapshot["frameOrigins"] = page_urls[1:]
             if skill:
                 model_snapshot["domainSkill"] = skill.as_model_context()
+            began = time.perf_counter()
             mapping = await self.matcher.match(
                 candidates=candidates,
                 snapshot=model_snapshot,
                 confidence_threshold=confidence_threshold,
             )
             total_skipped += len(mapping.skipped)
+            labels = {field["fieldId"]: field.get("label") or field.get("name") or field["fieldId"] for field in empty_fields}
+            logger.info(
+                "Round %d: Jev matched %d of %d empty field(s) in %d ms",
+                round_number, len(mapping.assignments), len(empty_fields), since(began),
+            )
+            for item in mapping.assignments:
+                logger.debug(
+                    "Round %d:   %r <- %s = %r (confidence %.2f)",
+                    round_number, clip(labels.get(item["fieldId"], item["fieldId"]), 50),
+                    item.get("recordPath"), clip(item.get("value"), 60), item.get("confidence") or 0,
+                )
+            for item in mapping.skipped:
+                logger.debug(
+                    "Round %d:   skipped %r: %s", round_number,
+                    clip(labels.get(item.get("fieldId"), item.get("fieldId")), 50), item.get("reason"),
+                )
             round_result: dict[str, Any] = {
                 "round": round_number,
                 "snapshotId": snapshot.get("snapshotId"),
@@ -262,6 +327,7 @@ class FormFillService:
                 attempted.add(
                     field.get("fingerprint", field["fieldId"] + field.get("label", ""))
                 )
+                began = time.perf_counter()
                 outcome = await fill_dropdown(
                     bridge=self.bridge,
                     matcher=self.matcher,
@@ -272,6 +338,10 @@ class FormFillService:
                     profile=profile,
                     timeout=command_timeout,
                     confidence_threshold=confidence_threshold,
+                )
+                logger.info(
+                    "Round %d: search dropdown %r -> %s in %d ms",
+                    round_number, clip(field.get("label", ""), 50), outcome.get("status"), since(began),
                 )
                 round_result["assignments"] = [interactive]
                 round_result["apply"] = {
@@ -296,6 +366,7 @@ class FormFillService:
                 applied_assignments = mapping.assignments
             round_result["assignments"] = applied_assignments
 
+            began = time.perf_counter()
             apply_result = await self.bridge.call_tool(
                 "apply_fill_plan",
                 {
@@ -312,6 +383,15 @@ class FormFillService:
                 raise FormFillError("extension returned an invalid fill result")
             round_result["apply"] = apply_result
             rounds.append(round_result)
+            problems = [item for item in apply_result.get("results", []) if item.get("status") != "filled"]
+            logger.info(
+                "Round %d: wrote %s field(s) in %d ms%s",
+                round_number, apply_result.get("filled", 0), since(began),
+                " | not written: " + "; ".join(
+                    f"{clip(labels.get(item.get('fieldId'), item.get('fieldId')), 40)!r} ({item.get('status')}: {item.get('reason')})"
+                    for item in problems
+                ) if problems else "",
+            )
             if apply_result.get("status") == "stale":
                 stop_reason = "stale_snapshot_retry"
                 continue
@@ -418,6 +498,8 @@ class FormFillService:
                     "trigger": reason,
                 }
             else:
+                logger.info("Form fill handing over to the Jev agent (reason: %s)", reason)
+                began = time.perf_counter()
                 fallback = await self.fallback.run(
                     skill=skill,
                     record=record,
@@ -425,6 +507,9 @@ class FormFillService:
                     profile=profile,
                     reason=reason,
                     page_urls=page_urls,
+                )
+                logger.info(
+                    "Jev agent fallback: %s, %d field(s) filled in %d ms", fallback.status, fallback.filled, since(began)
                 )
                 result["fallback"] = {**fallback.as_dict(), "trigger": reason}
                 result["filled"] += fallback.filled

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 import sys
 import hashlib
@@ -23,6 +24,38 @@ REPOSITORY_ROOT = SERVICE_SRC.parents[2]
 load_dotenv(REPOSITORY_ROOT / ".env")
 if str(SERVICE_SRC) not in sys.path:
     sys.path.insert(0, str(SERVICE_SRC))
+
+
+def configure_logging() -> None:
+    """Send the chrome_plugin_jev logs to the console, and to JEV_LOG_FILE if set."""
+
+    logger = logging.getLogger("chrome_plugin_jev")
+    if logger.handlers:  # already configured (e.g. uvicorn --reload re-import)
+        return
+    logger.setLevel(os.getenv("JEV_LOG_LEVEL", "INFO").strip().upper() or "INFO")
+    logger.propagate = False
+    formatter = logging.Formatter("%(asctime)s %(levelname)-7s [%(name)s] %(message)s", "%H:%M:%S")
+    handlers: list[logging.Handler] = [logging.StreamHandler()]
+    log_file = os.getenv("JEV_LOG_FILE", "").strip()
+    if log_file:
+        path = Path(log_file).expanduser()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        handlers.append(logging.FileHandler(path, encoding="utf-8"))
+    for handler in handlers:
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    logging.getLogger("uvicorn.access").addFilter(_HideJobPolling())
+
+
+class _HideJobPolling(logging.Filter):
+    """Drop uvicorn's access line for the side panel's once-a-second job status check."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        args = record.args if isinstance(record.args, tuple) else ()
+        return not (len(args) >= 5 and args[1] == "GET" and str(args[2]).startswith("/api/chrome_plugin/jobs/") and args[4] == 200)
+
+
+configure_logging()
 
 from chrome_plugin_jev.router import router as bridge_router  # noqa: E402
 

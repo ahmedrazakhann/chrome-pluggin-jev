@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
+import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -11,6 +13,9 @@ from uuid import uuid4
 
 from .bridge import BridgeError, bridge_manager
 from .jev_agent import JevBrowserAgent
+from .logs import clip, since
+
+logger = logging.getLogger(__name__)
 
 
 JobStatus = str
@@ -123,8 +128,13 @@ def _commands_for(request: dict[str, Any]) -> list[dict[str, Any]]:
 
 async def run_job(job: Job) -> None:
     await job_store.update(job.id, status="running")
+    started = time.perf_counter()
     try:
         commands = _commands_for(job.request)
+        logger.info(
+            "Job %s started (%s): %r", job.id, f"{len(commands)} direct command(s)" if commands else "Jev agent",
+            clip(job.request.get("instruction", ""), 160),
+        )
         if not commands:
             result = await JevBrowserAgent(
                 bridge_manager, user_id=job.user_id
@@ -144,11 +154,13 @@ async def run_job(job: Job) -> None:
                     "steps": list(result.steps),
                 },
             )
+            logger.info("Job %s finished: %s in %d ms - %s", job.id, result.status, since(started), clip(result.text, 160))
             return
         results = []
         for command in commands:
             action = command.get("action")
             args = command.get("args") if isinstance(command.get("args"), dict) else {}
+            logger.debug("Job %s: running command %s", job.id, action)
             result = await bridge_manager.call_tool(
                 action,
                 args,
@@ -160,11 +172,14 @@ async def run_job(job: Job) -> None:
         needs_human = any(isinstance(result, dict) and result.get("status") == "needs_human" for result in results)
         status = "needs_human" if needs_human else "done"
         await job_store.update(job.id, status=status, result={"status": status, "results": results})
+        logger.info("Job %s finished: %s in %d ms (%d command(s))", job.id, status, since(started), len(results))
     except BridgeError as error:
         message = str(error)
         status = "needs_human" if "human" in message.lower() else "failed"
+        logger.warning("Job %s %s after %d ms: browser bridge error: %s", job.id, status, since(started), message)
         await job_store.update(job.id, status=status, error=message, result={"status": status, "notes": message})
     except Exception as error:  # pragma: no cover - defensive boundary for background tasks
+        logger.exception("Job %s failed after %d ms: %s", job.id, since(started), error)
         await job_store.update(job.id, status="failed", error=str(error), result={"status": "failed", "notes": str(error)})
 
 

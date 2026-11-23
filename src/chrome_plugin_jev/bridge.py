@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -17,6 +19,10 @@ from uuid import uuid4
 
 from fastapi import WebSocket
 from starlette.websockets import WebSocketDisconnect
+
+from .logs import since
+
+logger = logging.getLogger(__name__)
 
 
 class BridgeError(RuntimeError):
@@ -72,6 +78,7 @@ class BridgeManager:
             self._connections[key] = connection
         if previous is not None and previous is not connection:
             await self._close_connection(previous, "replaced by a newer extension connection")
+        logger.debug("Chrome extension connected (user %s, profile %r)", connection.user_id, connection.profile)
         return connection
 
     async def unregister(self, connection: BridgeConnection) -> None:
@@ -79,6 +86,12 @@ class BridgeManager:
             key = (connection.user_id, connection.profile)
             if self._connections.get(key) is connection:
                 self._connections.pop(key, None)
+        # The extension reconnects routinely; it only matters when calls were in flight.
+        logger.log(
+            logging.WARNING if connection.pending else logging.DEBUG,
+            "Chrome extension disconnected (user %s, profile %r, %d call(s) still waiting)",
+            connection.user_id, connection.profile, len(connection.pending),
+        )
         error = BridgeUnavailable("Chrome extension disconnected")
         for future in list(connection.pending.values()):
             if not future.done():
@@ -121,6 +134,7 @@ class BridgeManager:
             raise BridgeUnavailable(f"No Chrome extension is connected{wanted}")
 
         request_id = str(uuid4())
+        started = time.perf_counter()
         loop = asyncio.get_running_loop()
         future: asyncio.Future[Any] = loop.create_future()
         connection.pending[request_id] = future
@@ -139,9 +153,17 @@ class BridgeManager:
             except Exception as error:
                 raise BridgeUnavailable("Chrome extension connection is no longer available") from error
             try:
-                return await asyncio.wait_for(future, timeout=timeout)
+                result = await asyncio.wait_for(future, timeout=timeout)
             except asyncio.TimeoutError as error:
+                logger.warning("Extension tool %s timed out after %d ms", action, since(started))
                 raise BridgeTimeout(f"Chrome extension timed out after {timeout:.0f}s") from error
+            except BridgeToolError as error:
+                logger.debug("Extension tool %s failed after %d ms: %s", action, since(started), error)
+                raise
+            elapsed = since(started)
+            # Every tool call at DEBUG; slow ones at INFO so they stand out.
+            logger.log(logging.INFO if elapsed >= 3000 else logging.DEBUG, "Extension tool %s took %d ms", action, elapsed)
+            return result
         finally:
             connection.pending.pop(request_id, None)
 
