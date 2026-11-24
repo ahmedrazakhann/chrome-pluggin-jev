@@ -5,120 +5,460 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Twenty Browser Assistant</title>
     <style>
-      :root { --background: #ffffff; --foreground: #0c0c09; --card: #ffffff; --secondary: #f4f4f0; --muted: #7c7c67; --primary: #021439; --accent: #d4af37; --border: #e8e8e3; --input: #e8e8e3; --danger: #b42318; --success: #3a6b35; --radius: 4px; }
-      * { box-sizing: border-box; }
-      body { margin: 0; min-width: 280px; background: var(--background); color: var(--foreground); font: 13px/1.5 "DM Sans", "Segoe UI", system-ui, sans-serif; }
-      .shell { padding: 20px 16px 24px; }
-      .brand { display: flex; align-items: center; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-      .brand img { width: 28px; height: 28px; }
-      .brand-copy { display: grid; gap: 1px; }
-      .brand-name { color: var(--primary); font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
-      .brand-kicker { color: var(--muted); font-size: 11px; }
-      .hero { padding: 22px 0 18px; }
-      h1 { margin: 0; color: var(--primary); font-size: 22px; line-height: 1.15; letter-spacing: -.035em; }
-      .intro { max-width: 32em; margin: 7px 0 0; color: var(--muted); }
-      .section { margin-top: 16px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
-      .section-title { margin: 0 0 10px; color: var(--primary); font-size: 12px; font-weight: 700; letter-spacing: .01em; }
-      label { display: block; margin: 12px 0 5px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-      label:first-of-type { margin-top: 0; }
-      input, textarea { width: 100%; border: 1px solid var(--input); border-radius: var(--radius); padding: 9px 10px; background: var(--background); color: var(--foreground); font: inherit; outline: none; transition: border-color .15s, box-shadow .15s; }
-      input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgb(2 20 57 / 12%); }
-      input::placeholder, textarea::placeholder { color: #a1a193; }
-      textarea { min-height: 180px; resize: vertical; font-family: "DM Mono", ui-monospace, monospace; font-size: 12px; }
-      button { width: 100%; margin-top: 12px; padding: 10px 12px; border: 1px solid transparent; border-radius: var(--radius); background: var(--primary); color: #fff; font: inherit; font-weight: 700; cursor: pointer; transition: background .15s, transform .15s; }
-      button:hover:not(:disabled) { background: #10295d; }
-      button:active:not(:disabled) { transform: translateY(1px); }
-      button:disabled { opacity: .55; cursor: wait; }
-      #connect { margin-top: 12px; background: var(--secondary); color: var(--primary); border-color: var(--border); }
-      #connect:hover:not(:disabled) { background: #ececd9; }
-      #out { min-height: 4em; margin: 16px 0 0; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--secondary); color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.5 "DM Mono", ui-monospace, monospace; }
-      #out.ok { color: var(--success); }
-      #out.err { color: var(--danger); }
-      .connection { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; color: var(--muted); font-size: 12px; }
-      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 3px rgb(180 35 24 / 10%); }
-      .dot.on { background: var(--success); box-shadow: 0 0 0 3px rgb(58 107 53 / 12%); }
-      .accent-rule { width: 32px; height: 3px; margin-top: 12px; border-radius: 2px; background: var(--accent); }
-      .note { margin: 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
-      .note.ok { color: var(--success); }
-      .note.err { color: var(--danger); }
-      .details-text { min-height: 90px; }
-      .actions { display: flex; gap: 8px; }
-      .actions button.secondary { background: var(--secondary); color: var(--primary); border-color: var(--border); }
-      .actions button.secondary:hover:not(:disabled) { background: #ececd9; }
-      .tabs { display: flex; gap: 4px; margin-top: 14px; border-bottom: 1px solid var(--border); }
-      .tabs button { width: auto; margin: 0 0 -1px; padding: 8px 14px; background: none; color: var(--muted); border: 0; border-bottom: 2px solid transparent; border-radius: 0; }
-      .tabs button:hover:not(:disabled) { background: none; color: var(--primary); }
-      .tabs button.active { color: var(--primary); border-bottom-color: var(--accent); }
-      [hidden] { display: none !important; }
-      .sample { padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 8px; }
-      .sample-head { display: flex; gap: 8px; align-items: baseline; }
-      .sample-id { color: var(--muted); font-weight: 700; }
-      .sample-url { flex: 1; overflow-wrap: anywhere; color: var(--primary); font-weight: 700; }
-      .sample pre { margin: 8px 0 0; max-height: 110px; overflow: auto; padding: 8px; background: var(--secondary); border-radius: var(--radius); font: 12px/1.4 "DM Mono", ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
-      .sample .actions button { margin-top: 8px; padding: 6px 10px; }
-      .sample .actions button.danger { color: var(--danger); }
-      .actions button.primary-btn { background: var(--primary); color: #fff; }
-      .samples-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 10px; }
-      .samples-table th { padding: 6px; text-align: left; color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
-      .samples-table td { padding: 6px; vertical-align: top; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
-      .samples-table th:nth-child(1), .samples-table td:nth-child(1) { width: 34px; color: var(--muted); }
-      .samples-table th:nth-child(2), .samples-table td:nth-child(2), .samples-table th:nth-child(3), .samples-table td:nth-child(3) { width: 27%; color: var(--primary); font-weight: 700; }
-      .samples-table pre { margin: 0; max-height: 110px; overflow: auto; font: 11px/1.4 "DM Mono", ui-monospace, monospace; white-space: pre-wrap; }
-      .samples-table .download-json { width: 100%; margin: 0; padding: 6px 8px; background: var(--secondary); color: var(--primary); border-color: var(--border); font-size: 12px; }
-      .samples-table .download-json:hover:not(:disabled) { background: #ececd9; }
-      .samples-table .empty { text-align: center; color: var(--muted); }
+      :root {
+        --background: #ffffff;
+        --foreground: #0c0c09;
+        --card: #ffffff;
+        --secondary: #f4f4f0;
+        --muted: #7c7c67;
+        --primary: #021439;
+        --accent: #d4af37;
+        --border: #e8e8e3;
+        --input: #e8e8e3;
+        --danger: #b42318;
+        --success: #3a6b35;
+        --radius: 4px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-width: 280px;
+        background: var(--background);
+        color: var(--foreground);
+        font:
+          13px/1.5 "DM Sans",
+          "Segoe UI",
+          system-ui,
+          sans-serif;
+      }
+      .shell {
+        padding: 20px 16px 24px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .brand img {
+        width: 28px;
+        height: 28px;
+      }
+      .brand-copy {
+        display: grid;
+        gap: 1px;
+      }
+      .brand-name {
+        color: var(--primary);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .brand-kicker {
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .hero {
+        padding: 22px 0 18px;
+      }
+      h1 {
+        margin: 0;
+        color: var(--primary);
+        font-size: 22px;
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+      }
+      .intro {
+        max-width: 32em;
+        margin: 7px 0 0;
+        color: var(--muted);
+      }
+      .section {
+        margin-top: 16px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--card);
+      }
+      .section-title {
+        margin: 0 0 10px;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+      label {
+        display: block;
+        margin: 12px 0 5px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      label:first-of-type {
+        margin-top: 0;
+      }
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--input);
+        border-radius: var(--radius);
+        padding: 9px 10px;
+        background: var(--background);
+        color: var(--foreground);
+        font: inherit;
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      input:focus,
+      textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgb(2 20 57 / 12%);
+      }
+      input::placeholder,
+      textarea::placeholder {
+        color: #a1a193;
+      }
+      textarea {
+        min-height: 180px;
+        resize: vertical;
+        font-family: "DM Mono", ui-monospace, monospace;
+        font-size: 12px;
+      }
+      button {
+        width: 100%;
+        margin-top: 12px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        border-radius: var(--radius);
+        background: var(--primary);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      button:hover:not(:disabled) {
+        background: #10295d;
+      }
+      button:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: wait;
+      }
+      #connect {
+        margin-top: 12px;
+        background: var(--secondary);
+        color: var(--primary);
+        border-color: var(--border);
+      }
+      #connect:hover:not(:disabled) {
+        background: #ececd9;
+      }
+      #out {
+        min-height: 4em;
+        margin: 16px 0 0;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--secondary);
+        color: var(--muted);
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font:
+          12px/1.5 "DM Mono",
+          ui-monospace,
+          monospace;
+      }
+      #out.ok {
+        color: var(--success);
+      }
+      #out.err {
+        color: var(--danger);
+      }
+      .connection {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--danger);
+        box-shadow: 0 0 0 3px rgb(180 35 24 / 10%);
+      }
+      .dot.on {
+        background: var(--success);
+        box-shadow: 0 0 0 3px rgb(58 107 53 / 12%);
+      }
+      .accent-rule {
+        width: 32px;
+        height: 3px;
+        margin-top: 12px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+      .note {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+      .note.ok {
+        color: var(--success);
+      }
+      .note.err {
+        color: var(--danger);
+      }
+      .details-text {
+        min-height: 90px;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+      .actions button.secondary {
+        background: var(--secondary);
+        color: var(--primary);
+        border-color: var(--border);
+      }
+      .actions button.secondary:hover:not(:disabled) {
+        background: #ececd9;
+      }
+      .tabs {
+        display: flex;
+        gap: 4px;
+        margin-top: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .tabs button {
+        width: auto;
+        margin: 0 0 -1px;
+        padding: 8px 14px;
+        background: none;
+        color: var(--muted);
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+      }
+      .tabs button:hover:not(:disabled) {
+        background: none;
+        color: var(--primary);
+      }
+      .tabs button.active {
+        color: var(--primary);
+        border-bottom-color: var(--accent);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      .sample {
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-top: 8px;
+      }
+      .sample-head {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .sample-id {
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .sample-url {
+        flex: 1;
+        overflow-wrap: anywhere;
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .sample pre {
+        margin: 8px 0 0;
+        max-height: 110px;
+        overflow: auto;
+        padding: 8px;
+        background: var(--secondary);
+        border-radius: var(--radius);
+        font:
+          12px/1.4 "DM Mono",
+          ui-monospace,
+          monospace;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .sample .actions button {
+        margin-top: 8px;
+        padding: 6px 10px;
+      }
+      .sample .actions button.danger {
+        color: var(--danger);
+      }
+      .actions button.primary-btn {
+        background: var(--primary);
+        color: #fff;
+      }
+      .samples-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin-top: 10px;
+      }
+      .samples-table th {
+        padding: 6px;
+        text-align: left;
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--border);
+      }
+      .samples-table td {
+        padding: 6px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+        overflow-wrap: anywhere;
+      }
+      .samples-table th:nth-child(1),
+      .samples-table td:nth-child(1) {
+        width: 34px;
+        color: var(--muted);
+      }
+      .samples-table th:nth-child(2),
+      .samples-table td:nth-child(2),
+      .samples-table th:nth-child(3),
+      .samples-table td:nth-child(3) {
+        width: 27%;
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .samples-table pre {
+        margin: 0;
+        max-height: 110px;
+        overflow: auto;
+        font:
+          11px/1.4 "DM Mono",
+          ui-monospace,
+          monospace;
+        white-space: pre-wrap;
+      }
+      .samples-table .download-json {
+        width: 100%;
+        margin: 0;
+        padding: 6px 8px;
+        background: var(--secondary);
+        color: var(--primary);
+        border-color: var(--border);
+        font-size: 12px;
+      }
+      .samples-table .download-json:hover:not(:disabled) {
+        background: #ececd9;
+      }
+      .samples-table .empty {
+        text-align: center;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
     <main class="shell">
       <header class="brand">
         <img src="brand/twenty-mark-navy.svg" alt="Twenty" />
-        <div class="brand-copy"><span class="brand-name">Twenty</span><span class="brand-kicker">Browser Assistant</span></div>
+        <div class="brand-copy">
+          <span class="brand-name">Twenty</span
+          ><span class="brand-kicker">Browser Assistant</span>
+        </div>
       </header>
       <section class="hero">
         <h1>Browser agent</h1>
-        <p class="intro">Connect your workspace and run an automation task in another tab.</p>
+        <p class="intro">
+          Connect your workspace and run an automation task in another tab.
+        </p>
         <div class="accent-rule"></div>
       </section>
       <nav class="tabs" role="tablist">
-        <button id="tabMain" type="button" role="tab" class="active">Task</button>
+        <button id="tabMain" type="button" role="tab" class="active">
+          Task
+        </button>
         <button id="tabSettings" type="button" role="tab">Settings</button>
       </nav>
       <div id="paneMain">
-      <section class="section" aria-labelledby="connection-title">
-        <h2 id="connection-title" class="section-title">Connection</h2>
-        <label for="portalUrl">Portal API</label>
-        <input id="portalUrl" value="http://127.0.0.1:8110" />
-        <label for="pluginToken">Pairing token</label>
-        <input id="pluginToken" type="password" autocomplete="off" placeholder="Token from portal settings" />
-        <div class="connection"><span id="connectionDot" class="dot"></span><span id="connectionStatus">Disconnected</span></div>
-        <button id="connect">Connect backend</button>
-      </section>
-      <section class="section" aria-labelledby="details-title">
-        <h2 id="details-title" class="section-title">My details</h2>
-        <p id="detailsStatus" class="note" role="status">No JSON saved.</p>
-        <textarea id="detailsText" class="details-text" spellcheck="false" placeholder='Paste JSON here, e.g. {"First name": "Ahmad"}'></textarea>
-        <div class="actions">
-          <button id="saveDetails" type="button">Save</button>
-          <button id="removeDetails" type="button" class="secondary" hidden>Remove</button>
-        </div>
-      </section>
-      <section class="section" aria-labelledby="task-title">
-        <h2 id="task-title" class="section-title">New task</h2>
-        <label for="profile">Chrome profile <span>(optional)</span></label>
-        <input id="profile" placeholder="Work" />
-        <label for="instruction">Task and copied data</label>
-        <textarea id="instruction" placeholder="Describe a browser task, or paste JSON with an action or commands array."></textarea>
-        <button id="send">Run task</button>
-      </section>
-      <pre id="out">Ready.</pre>
+        <section class="section" aria-labelledby="connection-title">
+          <h2 id="connection-title" class="section-title">Connection</h2>
+          <label for="portalUrl">Portal API</label>
+          <input id="portalUrl" value="http://127.0.0.1:8110" />
+          <label for="pluginToken">Pairing token</label>
+          <input
+            id="pluginToken"
+            type="password"
+            autocomplete="off"
+            placeholder="Token from portal settings"
+          />
+          <div class="connection">
+            <span id="connectionDot" class="dot"></span
+            ><span id="connectionStatus">Disconnected</span>
+          </div>
+          <button id="connect">Connect backend</button>
+        </section>
+        <section class="section" aria-labelledby="details-title">
+          <h2 id="details-title" class="section-title">My details</h2>
+          <p id="detailsStatus" class="note" role="status">No JSON saved.</p>
+          <textarea
+            id="detailsText"
+            class="details-text"
+            spellcheck="false"
+            placeholder='Paste JSON here, e.g. {"First name": "Ahmad"}'
+          ></textarea>
+          <div class="actions">
+            <button id="saveDetails" type="button">Save</button>
+            <button id="removeDetails" type="button" class="secondary" hidden>
+              Remove
+            </button>
+          </div>
+          <button id="fillAgent" type="button">Run agent to fill form</button>
+        </section>
+        <section class="section" aria-labelledby="task-title">
+          <h2 id="task-title" class="section-title">New task</h2>
+          <label for="profile">Chrome profile <span>(optional)</span></label>
+          <input id="profile" placeholder="Work" />
+          <label for="instruction">Task and copied data</label>
+          <textarea
+            id="instruction"
+            placeholder="Describe a browser task, or paste JSON with an action or commands array."
+          ></textarea>
+          <button id="send">Run task</button>
+        </section>
+        <pre id="out">Ready.</pre>
       </div>
       <div id="paneSettings" hidden>
         <section class="section" aria-labelledby="samples-title">
-          <h2 id="samples-title" class="section-title">Sample JSON per website</h2>
+          <h2 id="samples-title" class="section-title">
+            Sample JSON per website
+          </h2>
           <p class="note">Read-only list of sample JSON for each website.</p>
           <table class="samples-table">
-            <thead><tr><th>ID</th><th>Name</th><th>Website URL</th><th>Sample JSON</th></tr></thead>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Website URL</th>
+                <th>Sample JSON</th>
+              </tr>
+            </thead>
             <tbody id="samples"></tbody>
           </table>
         </section>

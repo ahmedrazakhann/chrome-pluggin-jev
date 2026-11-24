@@ -275,3 +275,24 @@ async function loadSamples() {
 }
 
 document.getElementById("tabSettings").addEventListener("click", loadSamples);
+
+// Run agent to fill form: runs the same flow as "Run task" with a hardcoded instruction.
+// The saved "My details" JSON is sent along with it, as with every task.
+const FILL_FORM_TASK =
+  "Fill in the form on the current page using the values in my saved details, then submit it. " +
+  "Match each field to the closest saved detail by its label. Leave any field blank when no saved detail fits, " +
+  "never invent values, and confirm the submission succeeded before finishing.";
+
+document.getElementById("fillAgent").addEventListener("click", () => {
+  if (send.disabled) return;
+  if (!loadDetails()) {
+    out.className = "err";
+    out.textContent = "Save your details (My details) first, so the agent has values to fill in.";
+    return;
+  }
+  // The Run task handler reads the textarea synchronously, so swap the text in for that click.
+  const typed = instruction.value;
+  instruction.value = FILL_FORM_TASK;
+  send.click();
+  instruction.value = typed;
+});

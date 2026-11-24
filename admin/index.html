@@ -6,77 +6,363 @@
     <title>Form Sample Registry</title>
     <style>
       :root {
-        --navy: #021439; --navy-2: #0b2a5e; --gold: #d4af37; --ink: #1b1f2a; --muted: #5d6475;
-        --line: #d9dde6; --page: #eef1f6; --card: #fff; --stripe: #f6f8fb; --hover: #eaf0fa;
-        --danger: #b42318; --ok: #1e6b3a; --radius: 3px;
+        --navy: #021439;
+        --navy-2: #0b2a5e;
+        --gold: #d4af37;
+        --ink: #1b1f2a;
+        --muted: #5d6475;
+        --line: #d9dde6;
+        --page: #eef1f6;
+        --card: #fff;
+        --stripe: #f6f8fb;
+        --hover: #eaf0fa;
+        --danger: #b42318;
+        --ok: #1e6b3a;
+        --radius: 3px;
       }
-      * { box-sizing: border-box; }
-      body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 "Segoe UI", "DM Sans", system-ui, sans-serif; }
-      .topbar { background: var(--navy); color: #fff; border-bottom: 4px solid var(--gold); }
-      .topbar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
-      .seal { width: 38px; height: 38px; border: 2px solid var(--gold); border-radius: 50%; display: grid; place-items: center; color: var(--gold); font-weight: 700; font-size: 15px; }
-      .topbar h1 { margin: 0; font-size: 18px; letter-spacing: .02em; }
-      .topbar small { display: block; color: #b8c3de; font-size: 12px; }
-      .crumbs { background: #fff; border-bottom: 1px solid var(--line); }
-      .crumbs div { max-width: 1280px; margin: 0 auto; padding: 8px 24px; color: var(--muted); font-size: 12px; }
-      .crumbs b { color: var(--navy); }
-      main { max-width: 1280px; margin: 0 auto; padding: 24px; }
-      .panel { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--navy-2); border-radius: var(--radius); box-shadow: 0 1px 3px rgb(2 20 57 / 8%); }
-      .panel-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); }
-      .panel-head h2 { margin: 0; font-size: 15px; color: var(--navy); text-transform: uppercase; letter-spacing: .05em; }
-      .tools { display: flex; gap: 10px; align-items: center; }
-      .count { color: var(--muted); font-size: 12px; }
-      input[type="search"] { width: 260px; max-width: 100%; padding: 7px 10px; border: 1px solid #b9c0cf; border-radius: var(--radius); font: inherit; }
-      input[type="search"]:focus { outline: 2px solid var(--navy-2); outline-offset: -1px; }
-      .table-wrap { overflow-x: auto; }
-      table { width: 100%; border-collapse: collapse; min-width: 880px; }
-      thead th { position: sticky; top: 0; background: var(--navy); color: #fff; text-align: left; padding: 10px 14px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; border-right: 1px solid #1c3566; }
-      thead th:last-child { border-right: 0; }
-      tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-      tbody tr:nth-child(even) { background: var(--stripe); }
-      tbody tr:hover { background: var(--hover); }
-      td.id { width: 60px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
-      td.name { width: 220px; font-weight: 600; color: var(--navy); }
-      td.desc { color: var(--muted); max-width: 300px; }
-      td.web a { color: #0b4ea2; text-decoration: none; overflow-wrap: anywhere; }
-      td.web a:hover { text-decoration: underline; }
-      td.json { max-width: 280px; }
-      .json-preview { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 4px 8px; background: #f0f2f7; border: 1px solid var(--line); border-radius: var(--radius); font: 12px "DM Mono", ui-monospace, Consolas, monospace; color: #34405a; }
-      .json-meta { margin-top: 3px; font-size: 11px; color: var(--muted); }
-      td.act { width: 100px; text-align: center; }
-      button { font: inherit; cursor: pointer; border-radius: var(--radius); }
-      .push { padding: 6px 16px; background: var(--navy); color: #fff; border: 1px solid var(--navy); font-weight: 600; }
-      .push:hover { background: var(--navy-2); }
-      .push:focus-visible, .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-      .state { padding: 36px; text-align: center; color: var(--muted); }
-      .state.err { color: var(--danger); }
-      footer { padding: 10px 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-      .overlay { position: fixed; inset: 0; background: rgb(2 20 57 / 55%); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
-      .overlay.open { display: flex; }
-      .dialog { width: min(640px, 100%); max-height: 86vh; display: flex; flex-direction: column; background: #fff; border-top: 4px solid var(--gold); border-radius: var(--radius); box-shadow: 0 12px 40px rgb(0 0 0 / 30%); }
-      .dialog header { padding: 14px 18px; background: var(--navy); color: #fff; }
-      .dialog header h3 { margin: 0; font-size: 15px; }
-      .dialog header small { color: #b8c3de; }
-      .dialog pre { margin: 0; padding: 16px 18px; overflow: auto; flex: 1; background: #f6f8fb; font: 12.5px/1.55 "DM Mono", ui-monospace, Consolas, monospace; }
-      .dialog footer { display: flex; justify-content: flex-end; gap: 8px; align-items: center; background: #fff; }
-      .btn { padding: 7px 16px; border: 1px solid #b9c0cf; background: #fff; color: var(--navy); font-weight: 600; }
-      .btn:hover { background: var(--hover); }
-      .btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
-      .btn.primary:hover { background: var(--navy-2); }
-      .btn:disabled { opacity: .7; cursor: not-allowed; }
-      .spinner { display: inline-block; width: 12px; height: 12px; margin-right: 8px; vertical-align: -2px; border: 2px solid rgb(255 255 255 / 40%); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
-      @keyframes spin { to { transform: rotate(360deg); } }
-      #copied { margin-right: auto; color: var(--ok); font-size: 12px; font-weight: 600; }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--ink);
+        font:
+          14px/1.5 "Segoe UI",
+          "DM Sans",
+          system-ui,
+          sans-serif;
+      }
+      .topbar {
+        background: var(--navy);
+        color: #fff;
+        border-bottom: 4px solid var(--gold);
+      }
+      .topbar-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .seal {
+        width: 38px;
+        height: 38px;
+        border: 2px solid var(--gold);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .topbar h1 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0.02em;
+      }
+      .topbar small {
+        display: block;
+        color: #b8c3de;
+        font-size: 12px;
+      }
+      .crumbs {
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .crumbs div {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 8px 24px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .crumbs b {
+        color: var(--navy);
+      }
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--navy-2);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 3px rgb(2 20 57 / 8%);
+      }
+      .panel-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .panel-head h2 {
+        margin: 0;
+        font-size: 15px;
+        color: var(--navy);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .tools {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .count {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      input[type="search"] {
+        width: 260px;
+        max-width: 100%;
+        padding: 7px 10px;
+        border: 1px solid #b9c0cf;
+        border-radius: var(--radius);
+        font: inherit;
+      }
+      input[type="search"]:focus {
+        outline: 2px solid var(--navy-2);
+        outline-offset: -1px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 880px;
+      }
+      thead th {
+        position: sticky;
+        top: 0;
+        background: var(--navy);
+        color: #fff;
+        text-align: left;
+        padding: 10px 14px;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        border-right: 1px solid #1c3566;
+      }
+      thead th:last-child {
+        border-right: 0;
+      }
+      tbody td {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      tbody tr:nth-child(even) {
+        background: var(--stripe);
+      }
+      tbody tr:hover {
+        background: var(--hover);
+      }
+      td.id {
+        width: 60px;
+        font-weight: 700;
+        color: var(--navy);
+        font-variant-numeric: tabular-nums;
+      }
+      td.name {
+        width: 220px;
+        font-weight: 600;
+        color: var(--navy);
+      }
+      td.desc {
+        color: var(--muted);
+        max-width: 300px;
+      }
+      td.web a {
+        color: #0b4ea2;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+      }
+      td.web a:hover {
+        text-decoration: underline;
+      }
+      td.json {
+        max-width: 280px;
+      }
+      .json-preview {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 4px 8px;
+        background: #f0f2f7;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        font:
+          12px "DM Mono",
+          ui-monospace,
+          Consolas,
+          monospace;
+        color: #34405a;
+      }
+      .json-meta {
+        margin-top: 3px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      td.act {
+        width: 100px;
+        text-align: center;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border-radius: var(--radius);
+      }
+      .push {
+        padding: 6px 16px;
+        background: var(--navy);
+        color: #fff;
+        border: 1px solid var(--navy);
+        font-weight: 600;
+      }
+      .push:hover {
+        background: var(--navy-2);
+      }
+      .push:focus-visible,
+      .btn:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
+      .state {
+        padding: 36px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .state.err {
+        color: var(--danger);
+      }
+      footer {
+        padding: 10px 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgb(2 20 57 / 55%);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 10;
+      }
+      .overlay.open {
+        display: flex;
+      }
+      .dialog {
+        width: min(640px, 100%);
+        max-height: 86vh;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border-top: 4px solid var(--gold);
+        border-radius: var(--radius);
+        box-shadow: 0 12px 40px rgb(0 0 0 / 30%);
+      }
+      .dialog header {
+        padding: 14px 18px;
+        background: var(--navy);
+        color: #fff;
+      }
+      .dialog header h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .dialog header small {
+        color: #b8c3de;
+      }
+      .dialog pre {
+        margin: 0;
+        padding: 16px 18px;
+        overflow: auto;
+        flex: 1;
+        background: #f6f8fb;
+        font:
+          12.5px/1.55 "DM Mono",
+          ui-monospace,
+          Consolas,
+          monospace;
+      }
+      .dialog footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        align-items: center;
+        background: #fff;
+      }
+      .btn {
+        padding: 7px 16px;
+        border: 1px solid #b9c0cf;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 600;
+      }
+      .btn:hover {
+        background: var(--hover);
+      }
+      .btn.primary {
+        background: var(--navy);
+        color: #fff;
+        border-color: var(--navy);
+      }
+      .btn.primary:hover {
+        background: var(--navy-2);
+      }
+      .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      .spinner {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 8px;
+        vertical-align: -2px;
+        border: 2px solid rgb(255 255 255 / 40%);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #copied {
+        margin-right: auto;
+        color: var(--ok);
+        font-size: 12px;
+        font-weight: 600;
+      }
     </style>
   </head>
   <body>
     <header class="topbar">
       <div class="topbar-inner">
         <div class="seal" aria-hidden="true">T</div>
-        <div><h1>Form Sample Registry</h1><small>Sample JSON records for browser assistant forms</small></div>
+        <div>
+          <h1>Form Sample Registry</h1>
+          <small>Sample JSON records for browser assistant forms</small>
+        </div>
       </div>
     </header>
-    <nav class="crumbs" aria-label="Breadcrumb"><div>Home &rsaquo; Administration &rsaquo; <b>Form samples</b></div></nav>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <div>Home &rsaquo; Administration &rsaquo; <b>Form samples</b></div>
+    </nav>
 
     <main>
       <section class="panel" aria-labelledby="list-title">
@@ -84,29 +370,59 @@
           <h2 id="list-title">Registered forms</h2>
           <div class="tools">
             <span class="count" id="count" role="status"></span>
-            <input id="search" type="search" placeholder="Search name, description or website" aria-label="Search records" />
+            <input
+              id="search"
+              type="search"
+              placeholder="Search name, description or website"
+              aria-label="Search records"
+            />
           </div>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>ID</th><th>Name</th><th>Description</th><th>Website</th><th>JSON</th><th>Action</th></tr>
+              <tr>
+                <th>Record ID</th>
+                <th>Record Form Name</th>
+                <th>Description</th>
+                <th>Record Website</th>
+                <th>Record JSON Data</th>
+                <th>Action</th>
+              </tr>
             </thead>
-            <tbody id="rows"><tr><td colspan="6" class="state">Loading records...</td></tr></tbody>
+            <tbody id="rows">
+              <tr>
+                <td colspan="6" class="state">Loading records...</td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <footer>Data is read from <code>data.json</code>. Open shows the complete JSON of that row, which can be sent to the extension to be saved.</footer>
+        <footer>
+          Data is read from <code>data.json</code>. Open shows the complete JSON
+          of that row, which can be sent to the extension to be saved.
+        </footer>
       </section>
     </main>
 
-    <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <div
+      class="overlay"
+      id="overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dlgTitle"
+    >
       <div class="dialog">
-        <header><h3 id="dlgTitle"></h3><small id="dlgSub"></small></header>
+        <header>
+          <h3 id="dlgTitle"></h3>
+          <small id="dlgSub"></small>
+        </header>
         <pre id="dlgJson"></pre>
         <footer>
           <span id="copied" role="status"></span>
           <button class="btn" id="copyBtn" type="button">Copy JSON</button>
-          <button class="btn primary" id="sendBtn" type="button">Save via extension</button>
+          <button class="btn primary" id="sendBtn" type="button">
+            Save via extension
+          </button>
           <button class="btn primary" id="closeBtn" type="button">Close</button>
         </footer>
       </div>
@@ -130,20 +446,33 @@
 
       function render() {
         const q = searchEl.value.trim().toLowerCase();
-        const list = records.filter((r) => [r.id, r.name, r.description, r.website].join(" ").toLowerCase().includes(q));
+        const list = records.filter((r) =>
+          [r.id, r.name, r.description, r.website]
+            .join(" ")
+            .toLowerCase()
+            .includes(q),
+        );
         countEl.textContent = `${list.length} of ${records.length} record(s)`;
         if (!list.length) return stateRow("No records match your search.");
         rowsEl.textContent = "";
         for (const r of list) {
           const tr = rowsEl.insertRow();
-          const cell = (cls, text) => { const td = tr.insertCell(); td.className = cls; td.textContent = text; return td; };
+          const cell = (cls, text) => {
+            const td = tr.insertCell();
+            td.className = cls;
+            td.textContent = text;
+            return td;
+          };
           cell("id", r.id);
           cell("name", r.name);
           cell("desc", r.description);
           const web = tr.insertCell();
           web.className = "web";
           const a = document.createElement("a");
-          a.href = r.website; a.textContent = r.website; a.target = "_blank"; a.rel = "noopener noreferrer";
+          a.href = r.website;
+          a.textContent = r.website;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
           web.append(a);
           const jsonCell = tr.insertCell();
           jsonCell.className = "json";
@@ -157,7 +486,9 @@
           const act = tr.insertCell();
           act.className = "act";
           const btn = document.createElement("button");
-          btn.type = "button"; btn.className = "push"; btn.textContent = "Open";
+          btn.type = "button";
+          btn.className = "push";
+          btn.textContent = "Open";
           btn.addEventListener("click", () => openRecord(r));
           act.append(btn);
         }
@@ -166,8 +497,13 @@
       function openRecord(record) {
         current = record;
         document.getElementById("dlgTitle").textContent = record.name;
-        document.getElementById("dlgSub").textContent = `ID ${record.id} · ${record.website}`;
-        document.getElementById("dlgJson").textContent = JSON.stringify(record.json, null, 2);
+        document.getElementById("dlgSub").textContent =
+          `ID ${record.id} · ${record.website}`;
+        document.getElementById("dlgJson").textContent = JSON.stringify(
+          record.json,
+          null,
+          2,
+        );
         document.getElementById("copied").textContent = "";
         overlay.classList.add("open");
         document.getElementById("closeBtn").focus();
@@ -181,7 +517,8 @@
         const note = document.getElementById("copied");
         note.style.color = "";
         if (!window.chrome?.runtime?.sendMessage) {
-          note.textContent = "Open this page in Chrome with the extension installed.";
+          note.textContent =
+            "Open this page in Chrome with the extension installed.";
           return;
         }
         sendBtn.disabled = true;
@@ -193,19 +530,41 @@
           note.style.color = failed ? "var(--danger)" : "";
           note.textContent = text;
         };
-        chrome.runtime.sendMessage(EXTENSION_ID, { type: "SAVE_SETTING", name: current.name, website: current.website, json: current.json }, (reply) => {
-          const error = chrome.runtime.lastError?.message || (reply?.ok ? "" : reply?.error || "No response from extension");
-          done(error ? `Not saved: ${error}` : "Saved. It now appears in the extension Settings tab.", !!error);
-        });
+        chrome.runtime.sendMessage(
+          EXTENSION_ID,
+          {
+            type: "SAVE_SETTING",
+            name: current.name,
+            website: current.website,
+            json: current.json,
+          },
+          (reply) => {
+            const error =
+              chrome.runtime.lastError?.message ||
+              (reply?.ok ? "" : reply?.error || "No response from extension");
+            done(
+              error
+                ? `Not saved: ${error}`
+                : "Saved. It now appears in the extension Settings tab.",
+              !!error,
+            );
+          },
+        );
       });
 
       const close = () => overlay.classList.remove("open");
       document.getElementById("closeBtn").addEventListener("click", close);
-      overlay.addEventListener("click", (e) => { if (e.target === overlay) close(); });
-      document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) close();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
       document.getElementById("copyBtn").addEventListener("click", async () => {
         try {
-          await navigator.clipboard.writeText(JSON.stringify(current.json, null, 2));
+          await navigator.clipboard.writeText(
+            JSON.stringify(current.json, null, 2),
+          );
           document.getElementById("copied").textContent = "Copied to clipboard";
         } catch {
           document.getElementById("copied").textContent = "Copy failed";
@@ -214,9 +573,20 @@
       searchEl.addEventListener("input", render);
 
       fetch("data.json")
-        .then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-        .then((data) => { records = data; render(); })
-        .catch((e) => stateRow(`Could not load data.json: ${e.message}. Serve this folder over http (not file://).`, "err"));
+        .then((r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.json();
+        })
+        .then((data) => {
+          records = data;
+          render();
+        })
+        .catch((e) =>
+          stateRow(
+            `Could not load data.json: ${e.message}. Serve this folder over http (not file://).`,
+            "err",
+          ),
+        );
     </script>
   </body>
 </html>
