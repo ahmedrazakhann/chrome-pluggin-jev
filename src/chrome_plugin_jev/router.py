@@ -24,6 +24,7 @@ from .form_fill import (
     TypeSafeFormMatcher,
     create_form_fill_service,
 )
+from .extension_settings import SettingsUnavailable, list_extension_settings
 from .jobs import job_store, normalize_instruction, schedule_job
 
 router = APIRouter()
@@ -95,6 +96,14 @@ def get_extension_data(user: dict[str, Any] = Depends(verify_extension_user)) ->
         "last_sync": None,
         "sync_status": "ready",
     }
+
+
+@router.get("/settings")
+def get_settings(_: int = Depends(require_bridge_user)) -> dict[str, Any]:
+    try:
+        return {"settings": list_extension_settings()}
+    except SettingsUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
 
 
 @router.post("/sync")

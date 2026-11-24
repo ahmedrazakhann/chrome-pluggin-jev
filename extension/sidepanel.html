@@ -41,9 +41,32 @@
       .note { margin: 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
       .note.ok { color: var(--success); }
       .note.err { color: var(--danger); }
+      .details-text { min-height: 90px; }
       .actions { display: flex; gap: 8px; }
       .actions button.secondary { background: var(--secondary); color: var(--primary); border-color: var(--border); }
       .actions button.secondary:hover:not(:disabled) { background: #ececd9; }
+      .tabs { display: flex; gap: 4px; margin-top: 14px; border-bottom: 1px solid var(--border); }
+      .tabs button { width: auto; margin: 0 0 -1px; padding: 8px 14px; background: none; color: var(--muted); border: 0; border-bottom: 2px solid transparent; border-radius: 0; }
+      .tabs button:hover:not(:disabled) { background: none; color: var(--primary); }
+      .tabs button.active { color: var(--primary); border-bottom-color: var(--accent); }
+      [hidden] { display: none !important; }
+      .sample { padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 8px; }
+      .sample-head { display: flex; gap: 8px; align-items: baseline; }
+      .sample-id { color: var(--muted); font-weight: 700; }
+      .sample-url { flex: 1; overflow-wrap: anywhere; color: var(--primary); font-weight: 700; }
+      .sample pre { margin: 8px 0 0; max-height: 110px; overflow: auto; padding: 8px; background: var(--secondary); border-radius: var(--radius); font: 12px/1.4 "DM Mono", ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .sample .actions button { margin-top: 8px; padding: 6px 10px; }
+      .sample .actions button.danger { color: var(--danger); }
+      .actions button.primary-btn { background: var(--primary); color: #fff; }
+      .samples-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 10px; }
+      .samples-table th { padding: 6px; text-align: left; color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+      .samples-table td { padding: 6px; vertical-align: top; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+      .samples-table th:nth-child(1), .samples-table td:nth-child(1) { width: 34px; color: var(--muted); }
+      .samples-table th:nth-child(2), .samples-table td:nth-child(2) { width: 38%; color: var(--primary); font-weight: 700; }
+      .samples-table pre { margin: 0; max-height: 110px; overflow: auto; font: 11px/1.4 "DM Mono", ui-monospace, monospace; white-space: pre-wrap; }
+      .samples-table .download-json { width: 100%; margin: 0; padding: 6px 8px; background: var(--secondary); color: var(--primary); border-color: var(--border); font-size: 12px; }
+      .samples-table .download-json:hover:not(:disabled) { background: #ececd9; }
+      .samples-table .empty { text-align: center; color: var(--muted); }
     </style>
   </head>
   <body>
@@ -57,6 +80,11 @@
         <p class="intro">Connect your workspace and run an automation task in another tab.</p>
         <div class="accent-rule"></div>
       </section>
+      <nav class="tabs" role="tablist">
+        <button id="tabMain" type="button" role="tab" class="active">Task</button>
+        <button id="tabSettings" type="button" role="tab">Settings</button>
+      </nav>
+      <div id="paneMain">
       <section class="section" aria-labelledby="connection-title">
         <h2 id="connection-title" class="section-title">Connection</h2>
         <label for="portalUrl">Portal API</label>
@@ -68,10 +96,10 @@
       </section>
       <section class="section" aria-labelledby="details-title">
         <h2 id="details-title" class="section-title">My details</h2>
-        <p id="detailsStatus" class="note" role="status">No JSON uploaded.</p>
-        <input id="detailsFile" type="file" accept=".json,application/json" hidden />
+        <p id="detailsStatus" class="note" role="status">No JSON saved.</p>
+        <textarea id="detailsText" class="details-text" spellcheck="false" placeholder='Paste JSON here, e.g. {"First name": "Ahmad"}'></textarea>
         <div class="actions">
-          <button id="uploadDetails" type="button">Upload JSON</button>
+          <button id="saveDetails" type="button">Save</button>
           <button id="removeDetails" type="button" class="secondary" hidden>Remove</button>
         </div>
       </section>
@@ -84,6 +112,17 @@
         <button id="send">Run task</button>
       </section>
       <pre id="out">Ready.</pre>
+      </div>
+      <div id="paneSettings" hidden>
+        <section class="section" aria-labelledby="samples-title">
+          <h2 id="samples-title" class="section-title">Sample JSON per website</h2>
+          <p class="note">Read-only list of sample JSON for each website.</p>
+          <table class="samples-table">
+            <thead><tr><th>ID</th><th>Website URL</th><th>Sample JSON</th></tr></thead>
+            <tbody id="samples"></tbody>
+          </table>
+        </section>
+      </div>
     </main>
     <script src="sidepanel.js"></script>
   </body>

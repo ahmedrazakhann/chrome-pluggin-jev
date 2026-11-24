@@ -7,11 +7,11 @@ const out = document.getElementById("out");
 const connect = document.getElementById("connect");
 const connectionDot = document.getElementById("connectionDot");
 const connectionStatus = document.getElementById("connectionStatus");
-const detailsFile = document.getElementById("detailsFile");
+const detailsText = document.getElementById("detailsText");
 const detailsStatus = document.getElementById("detailsStatus");
 const removeDetails = document.getElementById("removeDetails");
 
-// My details: a JSON object the user uploads, kept only in this extension's
+// My details: a JSON object the user pastes, kept only in this extension's
 // localStorage and sent with every task.
 const DETAILS_KEY = "twenty_saved_details";
 const MAX_DETAILS_BYTES = 100_000;
@@ -32,21 +32,18 @@ function renderDetails(message, kind = "") {
   else if (details) {
     const keys = Object.keys(details);
     detailsStatus.textContent = `${keys.length} field(s) loaded and sent with every task: ${keys.join(", ")}`;
-  } else detailsStatus.textContent = "No JSON uploaded.";
+  } else detailsStatus.textContent = "No JSON saved.";
 }
 
-document.getElementById("uploadDetails").addEventListener("click", () => detailsFile.click());
-
-detailsFile.addEventListener("change", async () => {
-  const file = detailsFile.files[0];
-  detailsFile.value = "";
-  if (!file) return;
-  if (file.size > MAX_DETAILS_BYTES) return renderDetails("That file is too large (100 KB maximum).", "err");
+document.getElementById("saveDetails").addEventListener("click", () => {
+  const raw = detailsText.value.trim();
+  if (!raw) return renderDetails("Paste some JSON first.", "err");
+  if (raw.length > MAX_DETAILS_BYTES) return renderDetails("That JSON is too large (100 KB maximum).", "err");
   let details;
   try {
-    details = JSON.parse(await file.text());
+    details = JSON.parse(raw);
   } catch {
-    return renderDetails(`${file.name} is not valid JSON.`, "err");
+    return renderDetails("That is not valid JSON.", "err");
   }
   if (!details || typeof details !== "object" || Array.isArray(details) || !Object.keys(details).length) {
     return renderDetails('The JSON must be an object with at least one field, like {"First name": "Ahmad"}.', "err");
@@ -56,14 +53,21 @@ detailsFile.addEventListener("change", async () => {
   } catch {
     return renderDetails("Could not save: browser storage is unavailable.", "err");
   }
+  detailsText.value = JSON.stringify(details, null, 2);
   renderDetails();
 });
 
 removeDetails.addEventListener("click", () => {
   localStorage.removeItem(DETAILS_KEY);
+  detailsText.value = "";
   renderDetails("Removed.", "ok");
 });
 
+
+{
+  const saved = loadDetails();
+  if (saved) detailsText.value = JSON.stringify(saved, null, 2);
+}
 renderDetails();
 
 // Earlier versions kept a details form in chrome.storage and localStorage.
@@ -194,3 +198,72 @@ send.addEventListener("click", async () => {
     send.disabled = false;
   }
 });
+
+// Tabs
+const panes = { Main: document.getElementById("paneMain"), Settings: document.getElementById("paneSettings") };
+for (const name of Object.keys(panes)) {
+  document.getElementById(`tab${name}`).addEventListener("click", () => {
+    for (const [n, pane] of Object.entries(panes)) {
+      pane.hidden = n !== name;
+      document.getElementById(`tab${n}`).classList.toggle("active", n === name);
+    }
+  });
+}
+
+// Settings tab: read-only list of sample JSON per website, loaded from the backend
+const samplesEl = document.getElementById("samples");
+
+function renderSamples(rows, message) {
+  samplesEl.textContent = "";
+  if (!rows.length) {
+    const td = samplesEl.insertRow().insertCell();
+    td.colSpan = 3;
+    td.className = "empty";
+    td.textContent = message || "No samples yet.";
+    return;
+  }
+  for (const row of rows) {
+    const tr = samplesEl.insertRow();
+    tr.insertCell().textContent = row.id;
+    tr.insertCell().textContent = row.website_url || "";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "download-json";
+    button.textContent = "Download JSON";
+    button.disabled = !row.sample_json;
+    button.addEventListener("click", () => downloadSample(row));
+    tr.insertCell().append(button);
+  }
+}
+
+function downloadSample(row) {
+  let host = "site";
+  try {
+    host = new URL(row.website_url).hostname.replace(/[^a-z0-9.-]/gi, "_");
+  } catch {
+    // Not a valid URL; keep the generic name.
+  }
+  const stamp = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(row.sample_json, null, 2)], { type: "application/json" }));
+  link.download = `sample-${row.id}-${host}-${stamp}.json`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+async function loadSamples() {
+  renderSamples([], "Loading...");
+  try {
+    const baseUrl = portalUrl.value.trim().replace(/\/$/, "");
+    const token = pluginToken.value.trim();
+    if (!token) return renderSamples([], "Enter the pairing token in the Task tab first.");
+    const response = await fetch(`${baseUrl}/api/chrome_plugin/settings`, { headers: { "X-Chrome-Plugin-Token": token } });
+    const body = await readJson(response);
+    if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
+    renderSamples(body.settings || []);
+  } catch (error) {
+    renderSamples([], `Could not load samples: ${error.message}`);
+  }
+}
+
+document.getElementById("tabSettings").addEventListener("click", loadSamples);
