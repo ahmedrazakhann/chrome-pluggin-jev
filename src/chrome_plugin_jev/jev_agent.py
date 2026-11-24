@@ -101,9 +101,13 @@ class JevBrowserAgent:
         history: list[dict[str, Any]] = []
         model_calls = 0
         stale_in_a_row = 0
-        # Fields the text helper had no value for. They stay out of Jev's
-        # choices so it moves on instead of picking the same field again.
+        # Fields the text helper had no value for. All their options stay out of
+        # Jev's choices so it moves on instead of picking the same field again.
         skipped_fields: set[int] = set()
+        # The field whose Search button opened the current popup. Several fields
+        # can share one popup ("Search Port" serves three port fields), so its
+        # labels name that field too: "Search Port [for Port of Discharge] › Name".
+        lookup_for: str | None = None
 
         while len(history) < self.max_steps and model_calls < self.max_steps * 2:
             try:
@@ -112,7 +116,19 @@ class JevBrowserAgent:
                         **page,
                         "actions": [
                             item for item in page["actions"]
-                            if not (item.get("kind") == "fill" and item.get("node") in skipped_fields)
+                            if item.get("node") not in skipped_fields
+                        ],
+                    }
+                in_popup = any(" › " in str(item.get("label", "")) for item in page["actions"])
+                if not in_popup:
+                    lookup_for = None
+                elif lookup_for:
+                    page = {
+                        **page,
+                        "actions": [
+                            {**item, "label": str(item["label"]).replace(" › ", f" [for {lookup_for}] › ", 1)}
+                            if " › " in str(item.get("label", "")) and "[for " not in str(item["label"]) else item
+                            for item in page["actions"]
                         ],
                     }
                 began = time.perf_counter()
@@ -221,7 +237,10 @@ class JevBrowserAgent:
                             skipped_fields.add(action["node"])
                         history.append({
                             "step": len(history) + 1,
-                            "action": f"Skipped {label} (the goal has no value for it)",
+                            "action": (
+                                f"Skipped {label}: the goal has no value to type there. If the goal names "
+                                "the item instead of giving its code, use this field's Search button."
+                            ),
                             "kind": "skip",
                             "choice": selected,
                             "operation": decision.get("operation"),
@@ -233,23 +252,15 @@ class JevBrowserAgent:
                             "url": page.get("url"),
                             "elapsed_ms": since(started),
                         })
-                        repeated = history[-3:]
-                        if len(repeated) == 3 and all(
-                            item["page_changed"] is False and item["kind"] != "wait" for item in repeated
-                        ):
-                            return finish(JevAgentResult(
-                                session_id=session_id,
-                                status="needs_human",
-                                text="Stopped after three browser actions made no observable progress.",
-                                steps=tuple(history),
-                                page=page,
-                            ))
                         continue
                     text_ms = track("text helper", began)
 
                 began = time.perf_counter()
                 await browser.act(action, page, text=value)
                 stale_in_a_row = 0
+                label = str(action.get("label", ""))
+                if action.get("kind") == "click" and label.startswith("Search ") and " › " not in label:
+                    lookup_for = label.removeprefix("Search ").strip()
                 act_ms = track("browser actions", began)
                 step = {
                     "step": len(history) + 1,
@@ -284,7 +295,8 @@ class JevBrowserAgent:
                     "page changed" if step["page_changed"] else "page did NOT change",
                 )
 
-                repeated = history[-3:]
+                # Skips are decisions, not page actions, so they don't count here.
+                repeated = [item for item in history if item["kind"] != "skip"][-3:]
                 if (
                     len(repeated) == 3
                     and all(

@@ -2419,3 +2419,830 @@ chrome_plugin_jev.jev_model.JevProviderError: Text helper returned no valid fiel
 20:16:33 INFO    [chrome_plugin_jev.jev_agent] Step 25: CLICK "Open Cargo Handler's Code : *" (confidence 0.61) | Jev 1051 ms, browser 6 ms | page did NOT change
 20:16:33 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 25 action(s) in 38465 ms | Stopped after three browser actions made no observable progress. | page reads 26x/269 ms, Jev 26x/25642 ms, text helper 8x/11641 ms, browser actions 24x/897 ms
 20:16:33 INFO    [chrome_plugin_jev.jobs] Job ad55796d-cfdd-4754-845e-92c5f14b2cde finished: needs_human in 38466 ms - Stopped after three browser actions made no observable progress.
+20:28:10 INFO    [chrome_plugin_jev.jobs] Job fbf3b615-2503-4901-aa1d-97509388f26b started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:28:10 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:28:13 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.90) | Jev 1244 ms, text 1571 ms, browser 27 ms | page changed
+20:28:14 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Open Exporter's Code : *" (confidence 0.77) | Jev 932 ms, browser 20 ms | page did NOT change
+20:28:15 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK "Search Exporter's Code" (confidence 0.78) | Jev 871 ms, browser 37 ms | page changed
+20:28:16 INFO    [chrome_plugin_jev.jev_agent] Step 4: WAIT 'Wait for the page to update' (confidence 0.37, unsure: next BLOCKED 0.25, SCROLL_DOWN 0.22) | Jev 787 ms, browser 151 ms | page changed
+20:28:18 INFO    [chrome_plugin_jev.jev_agent] Step 5: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 909 ms, text 1427 ms, browser 28 ms | page changed
+20:28:19 INFO    [chrome_plugin_jev.jev_agent] Step 6: SELECT 'Country : → India' (confidence 0.52) | Jev 923 ms, browser 5 ms | page changed
+20:28:20 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search' (confidence 0.99) | Jev 874 ms, browser 17 ms | page changed
+20:28:21 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK 'Select IN-EXP-20431' (confidence 1.00) | Jev 829 ms, browser 22 ms | page changed
+20:28:22 INFO    [chrome_plugin_jev.jev_agent] Step 9: CLICK "Open Importer's Code : *" (confidence 0.50) | Jev 848 ms, browser 9 ms | page did NOT change
+20:28:24 INFO    [chrome_plugin_jev.jev_agent] Step 10: TYPE_TEXT "Importer's Code : *" = 'IN-EXP-20431' (confidence 0.52) | Jev 1057 ms, text 1402 ms, browser 20 ms | page changed
+20:28:25 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer's Code" (confidence 0.63) | Jev 838 ms, browser 36 ms | page changed
+20:28:26 INFO    [chrome_plugin_jev.jev_agent] Step 12: WAIT 'Wait for the page to update' (confidence 0.76) | Jev 780 ms, browser 151 ms | page changed
+20:28:29 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.81) | Jev 1068 ms, text 1691 ms, browser 18 ms | page changed
+20:28:30 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search' (confidence 0.60) | Jev 1201 ms, browser 17 ms | page changed
+20:28:32 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Select AE-1048821' (confidence 0.98) | Jev 1349 ms, browser 19 ms | page changed
+20:28:33 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK 'Open Notify Party Code :' (confidence 0.58) | Jev 1019 ms, browser 9 ms | page did NOT change
+20:28:35 WARNING [chrome_plugin_jev.jev_agent] Step 17: no value for 'Notify Party Code :', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+20:28:36 INFO    [chrome_plugin_jev.jev_agent] Step 18: CLICK 'Search Notify Party Code' (confidence 0.90) | Jev 968 ms, browser 29 ms | page changed
+20:28:37 INFO    [chrome_plugin_jev.jev_agent] Step 19: WAIT 'Wait for the page to update' (confidence 0.44, unsure: next BLOCKED 0.23, SCROLL_DOWN 0.19) | Jev 787 ms, browser 151 ms | page changed
+20:28:40 INFO    [chrome_plugin_jev.jev_agent] Step 20: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.87) | Jev 829 ms, text 2264 ms, browser 33 ms | page changed
+20:28:41 INFO    [chrome_plugin_jev.jev_agent] Step 21: CLICK 'Search' (confidence 0.97) | Jev 1239 ms, browser 16 ms | page changed
+20:28:43 INFO    [chrome_plugin_jev.jev_agent] Step 22: CLICK 'Select AE-2004517' (confidence 1.00) | Jev 1456 ms, browser 23 ms | page changed
+20:28:44 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK "Search Cargo Handler's Code" (confidence 0.70) | Jev 1155 ms, browser 19 ms | page changed
+20:28:45 INFO    [chrome_plugin_jev.jev_agent] Step 24: WAIT 'Wait for the page to update' (confidence 0.75) | Jev 955 ms, browser 151 ms | page changed
+20:28:48 INFO    [chrome_plugin_jev.jev_agent] Step 25: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.93) | Jev 1167 ms, text 1442 ms, browser 86 ms | page changed
+20:28:49 INFO    [chrome_plugin_jev.jev_agent] Step 26: CLICK 'Search' (confidence 0.63) | Jev 1238 ms, browser 17 ms | page changed
+20:28:52 INFO    [chrome_plugin_jev.jev_agent] Step 27: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.61) | Jev 1081 ms, text 1733 ms, browser 13 ms | page did NOT change
+20:28:54 INFO    [chrome_plugin_jev.jev_agent] Step 28: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.71) | Jev 954 ms, text 1715 ms, browser 10 ms | page did NOT change
+20:28:55 INFO    [chrome_plugin_jev.jev_agent] Step 29: CLICK 'Close dialog' (confidence 0.26, unsure: next BLOCKED 0.27, TYPE_TEXT 0.26) | Jev 897 ms, browser 15 ms | page changed
+20:28:57 INFO    [chrome_plugin_jev.jev_agent] Step 30: CLICK "Search Cargo Handler's Code" (confidence 0.30, unsure: next TYPE_TEXT 0.32, SELECT 0.23) | Jev 1169 ms, browser 19 ms | page changed
+20:28:58 INFO    [chrome_plugin_jev.jev_agent] Step 31: WAIT 'Wait for the page to update' (confidence 0.68) | Jev 1084 ms, browser 151 ms | page changed
+20:29:01 INFO    [chrome_plugin_jev.jev_agent] Step 32: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.78) | Jev 1729 ms, text 1379 ms, browser 19 ms | page changed
+20:29:02 INFO    [chrome_plugin_jev.jev_agent] Step 33: CLICK 'Search' (confidence 0.84) | Jev 950 ms, browser 16 ms | page changed
+20:29:03 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 33 action(s) in 52665 ms | Jev could not find a safe observed action to continue. | page reads 34x/311 ms, Jev 34x/35035 ms, text helper 10x/15953 ms, browser actions 32x/1354 ms
+20:29:03 INFO    [chrome_plugin_jev.jobs] Job fbf3b615-2503-4901-aa1d-97509388f26b finished: needs_human in 52666 ms - Jev could not find a safe observed action to continue.
+20:34:15 INFO    [chrome_plugin_jev.jobs] Job 3a4e6aef-463b-4bdc-8d46-6802351f428e started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:34:15 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3810/
+20:34:18 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.90) | Jev 1440 ms, text 1575 ms, browser 32 ms | page changed
+20:34:19 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Open Exporter's Code : *" (confidence 0.74) | Jev 1282 ms, browser 20 ms | page did NOT change
+20:34:20 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK "Search Exporter's Code" (confidence 0.58) | Jev 1076 ms, browser 31 ms | page changed
+20:34:21 INFO    [chrome_plugin_jev.jev_agent] Step 4: WAIT 'Wait for the page to update' (confidence 0.32, unsure: next BLOCKED 0.28, SCROLL_DOWN 0.23) | Jev 865 ms, browser 151 ms | page changed
+20:34:23 INFO    [chrome_plugin_jev.jev_agent] Step 5: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.93) | Jev 871 ms, text 1385 ms, browser 15 ms | page changed
+20:34:25 INFO    [chrome_plugin_jev.jev_agent] Step 6: SELECT 'Country : → India' (confidence 0.52) | Jev 1290 ms, browser 5 ms | page changed
+20:34:26 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search' (confidence 0.99) | Jev 1071 ms, browser 17 ms | page changed
+20:34:27 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK 'Select IN-EXP-20431' (confidence 1.00) | Jev 1455 ms, browser 24 ms | page changed
+20:34:30 WARNING [chrome_plugin_jev.jev_agent] Step 9: no value for "Importer's Code : *", skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+20:34:31 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK "Search Importer's Code" (confidence 0.90) | Jev 1237 ms, browser 18 ms | page changed
+20:34:33 INFO    [chrome_plugin_jev.jev_agent] Step 11: WAIT 'Wait for the page to update' (confidence 0.63) | Jev 893 ms, browser 151 ms | page changed
+20:34:36 INFO    [chrome_plugin_jev.jev_agent] Step 12: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.94) | Jev 1636 ms, text 1529 ms, browser 16 ms | page changed
+20:34:37 INFO    [chrome_plugin_jev.jev_agent] Step 13: CLICK 'Search' (confidence 0.54) | Jev 1157 ms, browser 16 ms | page changed
+20:34:38 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Select AE-1048821' (confidence 0.99) | Jev 1096 ms, browser 32 ms | page changed
+20:34:39 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party Code' (confidence 0.69) | Jev 1023 ms, browser 18 ms | page changed
+20:34:40 INFO    [chrome_plugin_jev.jev_agent] Step 16: WAIT 'Wait for the page to update' (confidence 0.77) | Jev 868 ms, browser 151 ms | page changed
+20:34:43 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.91) | Jev 1465 ms, text 1640 ms, browser 19 ms | page changed
+20:34:46 INFO    [chrome_plugin_jev.jev_agent] Step 18: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.55) | Jev 1098 ms, text 1435 ms, browser 13 ms | page did NOT change
+20:34:49 INFO    [chrome_plugin_jev.jev_agent] Step 19: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.49, unsure: next CLICK 0.37, BLOCKED 0.06) | Jev 1310 ms, text 1555 ms, browser 10 ms | page did NOT change
+20:34:51 INFO    [chrome_plugin_jev.jev_agent] Step 20: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.54) | Jev 1152 ms, text 1329 ms, browser 9 ms | page did NOT change
+20:34:51 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 20 action(s) in 36491 ms | Stopped after three browser actions made no observable progress. | page reads 20x/167 ms, Jev 20x/23476 ms, text helper 8x/12088 ms, browser actions 19x/748 ms
+20:34:51 INFO    [chrome_plugin_jev.jobs] Job 3a4e6aef-463b-4bdc-8d46-6802351f428e finished: needs_human in 36491 ms - Stopped after three browser actions made no observable progress.
+20:35:22 INFO    [chrome_plugin_jev.jobs] Job 1429e81f-1f88-42e4-bef5-4a50b9ba44b8 started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:35:22 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3810/
+20:35:24 INFO    [chrome_plugin_jev.jev_agent] Step 1: CLICK 'Search' (confidence 0.55) | Jev 1395 ms, browser 15 ms | page changed
+20:35:25 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK 'Close dialog' (confidence 0.38, unsure: next TYPE_TEXT 0.27, BLOCKED 0.20) | Jev 1170 ms, browser 13 ms | page changed
+20:35:26 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK 'Open Notify Party Code :' (confidence 0.31, unsure: next SELECT 0.31, TYPE_TEXT 0.23) | Jev 1127 ms, browser 10 ms | page did NOT change
+20:35:27 INFO    [chrome_plugin_jev.jev_agent] Step 4: CLICK 'Open Notify Party Code :' (confidence 0.37, unsure: next TYPE_TEXT 0.27, SELECT 0.22) | Jev 1215 ms, browser 5 ms | page did NOT change
+20:35:28 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK 'Open Notify Party Code :' (confidence 0.46, unsure: next SELECT 0.22, TYPE_TEXT 0.20) | Jev 1062 ms, browser 4 ms | page did NOT change
+20:35:28 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 5 action(s) in 6079 ms | Stopped after three browser actions made no observable progress. | page reads 6x/58 ms, Jev 5x/5969 ms, browser actions 5x/47 ms
+20:35:28 INFO    [chrome_plugin_jev.jobs] Job 1429e81f-1f88-42e4-bef5-4a50b9ba44b8 finished: needs_human in 6080 ms - Stopped after three browser actions made no observable progress.
+20:42:48 INFO    [chrome_plugin_jev.jobs] Job ec30c9cb-52db-4306-95b9-8c6cc3952e88 started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:42:48 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3810/
+20:42:53 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.87) | Jev 1429 ms, text 2890 ms, browser 38 ms | page changed
+20:42:54 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.75) | Jev 1170 ms, browser 35 ms | page changed
+20:42:55 INFO    [chrome_plugin_jev.jev_agent] Step 3: WAIT 'Wait for the page to update' (confidence 0.51) | Jev 1190 ms, browser 151 ms | page changed
+20:42:58 INFO    [chrome_plugin_jev.jev_agent] Step 4: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.92) | Jev 973 ms, text 1937 ms, browser 17 ms | page changed
+20:43:00 INFO    [chrome_plugin_jev.jev_agent] Step 5: SELECT 'Country : → India' (confidence 0.50) | Jev 1357 ms, browser 5 ms | page changed
+20:43:01 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK 'Search' (confidence 0.99) | Jev 940 ms, browser 19 ms | page changed
+20:43:02 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Select IN-EXP-20431' (confidence 1.00) | Jev 910 ms, browser 23 ms | page changed
+20:43:02 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK "Search Importer's Code" (confidence 0.47, unsure: next TYPE_TEXT 0.23, BLOCKED 0.14) | Jev 858 ms, browser 18 ms | page changed
+20:43:04 INFO    [chrome_plugin_jev.jev_agent] Step 9: WAIT 'Wait for the page to update' (confidence 0.29, unsure: next BLOCKED 0.40, SCROLL_DOWN 0.13) | Jev 1040 ms, browser 151 ms | page changed
+20:43:06 INFO    [chrome_plugin_jev.jev_agent] Step 10: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.93) | Jev 909 ms, text 1394 ms, browser 18 ms | page changed
+20:43:09 INFO    [chrome_plugin_jev.jev_agent] Step 11: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.87) | Jev 1399 ms, text 1526 ms, browser 16 ms | page did NOT change
+20:43:13 INFO    [chrome_plugin_jev.jev_agent] Step 12: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.93) | Jev 1154 ms, text 2914 ms, browser 10 ms | page did NOT change
+20:43:14 INFO    [chrome_plugin_jev.jev_agent] Step 13: CLICK 'Search' (confidence 0.74) | Jev 1028 ms, browser 13 ms | page changed
+20:43:15 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Close' (confidence 0.46, unsure: next TYPE_TEXT 0.24, BLOCKED 0.21) | Jev 1098 ms, browser 14 ms | page changed
+20:43:18 WARNING [chrome_plugin_jev.jev_agent] Step 15: no value for "Importer's Code : *", skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+20:43:19 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Importer's Code" (confidence 0.85) | Jev 1093 ms, browser 20 ms | page changed
+20:43:20 INFO    [chrome_plugin_jev.jev_agent] Step 17: WAIT 'Wait for the page to update' (confidence 0.63) | Jev 933 ms, browser 151 ms | page changed
+20:43:23 INFO    [chrome_plugin_jev.jev_agent] Step 18: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.84) | Jev 1151 ms, text 1527 ms, browser 29 ms | page changed
+20:43:24 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK 'Search' (confidence 0.76) | Jev 961 ms, browser 16 ms | page changed
+20:43:25 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK 'Close dialog' (confidence 0.39, unsure: next BLOCKED 0.32, TYPE_TEXT 0.15) | Jev 906 ms, browser 13 ms | page changed
+20:43:26 INFO    [chrome_plugin_jev.jev_agent] Step 21: CLICK "Search Importer's Code" (confidence 0.68) | Jev 944 ms, browser 17 ms | page changed
+20:43:27 INFO    [chrome_plugin_jev.jev_agent] Step 22: WAIT 'Wait for the page to update' (confidence 0.55) | Jev 951 ms, browser 151 ms | page changed
+20:43:36 INFO    [chrome_plugin_jev.jev_agent] Step 23: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.85) | Jev 7261 ms, text 1642 ms, browser 17 ms | page changed
+20:43:38 INFO    [chrome_plugin_jev.jev_agent] Step 24: CLICK 'Search' (confidence 0.90) | Jev 1614 ms, browser 17 ms | page changed
+20:43:39 INFO    [chrome_plugin_jev.jev_agent] Step 25: CLICK 'Close dialog' (confidence 0.49, unsure: next BLOCKED 0.26, TYPE_TEXT 0.15) | Jev 1715 ms, browser 12 ms | page changed
+20:43:41 INFO    [chrome_plugin_jev.jev_agent] Step 26: CLICK "Search Importer's Code" (confidence 0.59) | Jev 1910 ms, browser 16 ms | page changed
+20:43:42 INFO    [chrome_plugin_jev.jev_agent] Step 27: WAIT 'Wait for the page to update' (confidence 0.64) | Jev 957 ms, browser 151 ms | page changed
+20:43:45 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: a field value changed; observe again before acting
+20:43:48 INFO    [chrome_plugin_jev.jev_agent] Step 28: CLICK "Search Importer's Code" (confidence 0.41, unsure: next TYPE_TEXT 0.29, SELECT 0.15) | Jev 2210 ms, browser 21 ms | page changed
+20:43:50 INFO    [chrome_plugin_jev.jev_agent] Step 29: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.81) | Jev 1175 ms, text 1327 ms, browser 18 ms | page changed
+20:43:51 INFO    [chrome_plugin_jev.jev_agent] Step 30: CLICK 'Search' (confidence 0.74) | Jev 948 ms, browser 14 ms | page changed
+20:43:52 INFO    [chrome_plugin_jev.jev_agent] Step 31: CLICK 'Close dialog' (confidence 0.39, unsure: next BLOCKED 0.23, TYPE_TEXT 0.19) | Jev 979 ms, browser 13 ms | page changed
+20:43:53 INFO    [chrome_plugin_jev.jev_agent] Step 32: CLICK "Search Importer's Code" (confidence 0.36, unsure: next TYPE_TEXT 0.25, SELECT 0.22) | Jev 1002 ms, browser 24 ms | page changed
+20:43:54 INFO    [chrome_plugin_jev.jev_agent] Step 33: WAIT 'Wait for the page to update' (confidence 0.43, unsure: next BLOCKED 0.31, SCROLL_DOWN 0.12) | Jev 917 ms, browser 151 ms | page changed
+20:43:56 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: page was reloaded since it was read; observe again before acting
+20:43:57 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 33 action(s) in 68490 ms | Jev could not find a safe observed action to continue. | page reads 36x/364 ms, Jev 36x/46979 ms, text helper 11x/19740 ms, browser actions 32x/1379 ms
+20:43:57 INFO    [chrome_plugin_jev.jobs] Job ec30c9cb-52db-4306-95b9-8c6cc3952e88 finished: needs_human in 68491 ms - Jev could not find a safe observed action to continue.
+20:44:43 INFO    [chrome_plugin_jev.jobs] Job 101ea870-8842-4cca-bd2a-e639f1843499 started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:44:43 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:44:44 INFO    [chrome_plugin_jev.jev_agent] Step 1: SELECT 'Cargo Channel (Inbound) : * → Air' (confidence 0.75) | Jev 1337 ms, browser 11 ms | page changed
+20:44:47 INFO    [chrome_plugin_jev.jev_agent] Step 2: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.93) | Jev 1114 ms, text 1558 ms, browser 22 ms | page changed
+20:44:48 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK "Search Exporter's Code" (confidence 0.68) | Jev 1267 ms, browser 40 ms | page changed
+20:44:50 INFO    [chrome_plugin_jev.jev_agent] Step 4: WAIT 'Wait for the page to update' (confidence 0.57) | Jev 1049 ms, browser 151 ms | page changed
+20:44:52 INFO    [chrome_plugin_jev.jev_agent] Step 5: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 1047 ms, text 1321 ms, browser 16 ms | page changed
+20:44:53 INFO    [chrome_plugin_jev.jev_agent] Step 6: SELECT 'Country : → India' (confidence 0.54) | Jev 1418 ms, browser 5 ms | page changed
+20:44:55 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search' (confidence 0.99) | Jev 1303 ms, browser 17 ms | page changed
+20:44:56 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK 'Select IN-EXP-20431' (confidence 1.00) | Jev 982 ms, browser 22 ms | page changed
+20:44:57 INFO    [chrome_plugin_jev.jev_agent] Step 9: CLICK "Search Importer's Code" (confidence 0.55) | Jev 1580 ms, browser 17 ms | page changed
+20:44:58 INFO    [chrome_plugin_jev.jev_agent] Step 10: WAIT 'Wait for the page to update' (confidence 0.71) | Jev 846 ms, browser 151 ms | page changed
+20:45:01 INFO    [chrome_plugin_jev.jev_agent] Step 11: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.97) | Jev 1100 ms, text 1776 ms, browser 18 ms | page changed
+20:45:04 INFO    [chrome_plugin_jev.jev_agent] Step 12: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.89) | Jev 961 ms, text 1365 ms, browser 14 ms | page did NOT change
+20:45:08 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.93) | Jev 2124 ms, text 2048 ms, browser 23 ms | page did NOT change
+20:45:09 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search' (confidence 0.68) | Jev 1301 ms, browser 14 ms | page changed
+20:45:10 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Close' (confidence 0.38, unsure: next BLOCKED 0.28, TYPE_TEXT 0.26) | Jev 1198 ms, browser 17 ms | page changed
+20:45:13 WARNING [chrome_plugin_jev.jev_agent] Step 16: no value for "Importer's Code : *", skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+20:45:15 INFO    [chrome_plugin_jev.jev_agent] Step 17: CLICK "Search Importer's Code" (confidence 0.85) | Jev 1421 ms, browser 19 ms | page changed
+20:45:16 INFO    [chrome_plugin_jev.jev_agent] Step 18: WAIT 'Wait for the page to update' (confidence 0.55) | Jev 1108 ms, browser 151 ms | page changed
+20:48:32 INFO    [chrome_plugin_jev.jobs] Job 5832d128-7ac4-4bb4-9333-ab199f8f7523 started (Jev agent): 'Fill this complete form and submit. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local fro…'
+20:48:32 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:48:35 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.89) | Jev 1665 ms, text 1702 ms, browser 27 ms | page changed
+20:48:36 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Open Exporter's Code : *" (confidence 0.66) | Jev 1013 ms, browser 20 ms | page did NOT change
+20:48:37 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK "Search Exporter's Code" (confidence 0.70) | Jev 929 ms, browser 47 ms | page changed
+20:48:38 INFO    [chrome_plugin_jev.jev_agent] Step 4: WAIT 'Wait for the page to update' (confidence 0.44, unsure: next BLOCKED 0.26, SCROLL_DOWN 0.17) | Jev 790 ms, browser 151 ms | page changed
+20:48:41 INFO    [chrome_plugin_jev.jev_agent] Step 5: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 909 ms, text 1714 ms, browser 29 ms | page changed
+20:48:42 INFO    [chrome_plugin_jev.jev_agent] Step 6: SELECT 'Country : → India' (confidence 0.52) | Jev 1114 ms, browser 5 ms | page changed
+20:48:43 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search' (confidence 0.99) | Jev 1428 ms, browser 51 ms | page changed
+20:48:45 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK 'Select IN-EXP-20431' (confidence 1.00) | Jev 1162 ms, browser 24 ms | page changed
+20:48:46 INFO    [chrome_plugin_jev.jev_agent] Step 9: CLICK "Open Importer's Code : *" (confidence 0.55) | Jev 1093 ms, browser 8 ms | page did NOT change
+20:48:48 WARNING [chrome_plugin_jev.jev_agent] Step 10: no value for "Importer's Code : *", skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+20:48:49 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer's Code" (confidence 0.88) | Jev 939 ms, browser 34 ms | page changed
+20:48:50 INFO    [chrome_plugin_jev.jev_agent] Step 12: WAIT 'Wait for the page to update' (confidence 0.61) | Jev 761 ms, browser 151 ms | page changed
+20:48:53 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.92) | Jev 947 ms, text 1612 ms, browser 16 ms | page changed
+20:48:54 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search' (confidence 0.60) | Jev 1217 ms, browser 16 ms | page changed
+20:48:55 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Select AE-1048821' (confidence 0.99) | Jev 1116 ms, browser 21 ms | page changed
+20:48:56 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK 'Search Notify Party Code' (confidence 0.71) | Jev 1169 ms, browser 17 ms | page changed
+20:48:57 INFO    [chrome_plugin_jev.jev_agent] Step 17: WAIT 'Wait for the page to update' (confidence 0.65) | Jev 985 ms, browser 151 ms | page changed
+20:49:00 INFO    [chrome_plugin_jev.jev_agent] Step 18: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.94) | Jev 1041 ms, text 1683 ms, browser 17 ms | page changed
+20:49:01 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK 'Search' (confidence 0.99) | Jev 1207 ms, browser 17 ms | page changed
+20:49:03 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK 'Select AE-2004517' (confidence 1.00) | Jev 1169 ms, browser 21 ms | page changed
+20:49:04 INFO    [chrome_plugin_jev.jev_agent] Step 21: CLICK "Search Cargo Handler's Code" (confidence 0.70) | Jev 1074 ms, browser 17 ms | page changed
+20:49:05 INFO    [chrome_plugin_jev.jev_agent] Step 22: WAIT 'Wait for the page to update' (confidence 0.41, unsure: next BLOCKED 0.29, SCROLL_DOWN 0.15) | Jev 846 ms, browser 151 ms | page changed
+20:49:07 INFO    [chrome_plugin_jev.jev_agent] Step 23: TYPE_TEXT 'Name :' = 'Swift Clearing' (confidence 0.97) | Jev 828 ms, text 1456 ms, browser 20 ms | page changed
+20:49:09 INFO    [chrome_plugin_jev.jev_agent] Step 24: CLICK 'Search' (confidence 0.75) | Jev 2139 ms, browser 18 ms | page changed
+20:49:13 INFO    [chrome_plugin_jev.jev_agent] Step 25: TYPE_TEXT 'Name :' = 'Swift Clearing' (confidence 0.60) | Jev 1616 ms, text 2059 ms, browser 28 ms | page changed
+20:49:16 INFO    [chrome_plugin_jev.jev_agent] Step 26: TYPE_TEXT 'Name :' = 'Clearing & Forwarding' (confidence 0.57) | Jev 1582 ms, text 1538 ms, browser 15 ms | page changed
+20:49:17 INFO    [chrome_plugin_jev.jev_agent] Step 27: CLICK 'Search' (confidence 0.71) | Jev 1111 ms, browser 14 ms | page did NOT change
+20:49:20 INFO    [chrome_plugin_jev.jev_agent] Step 28: TYPE_TEXT 'Name :' = 'Swift Clearing' (confidence 0.48, unsure: next BLOCKED 0.19, CLICK 0.17) | Jev 1281 ms, text 1452 ms, browser 14 ms | page changed
+20:49:21 INFO    [chrome_plugin_jev.jev_agent] Step 29: CLICK 'Search' (confidence 0.37, unsure: next BLOCKED 0.27, TYPE_TEXT 0.20) | Jev 1210 ms, browser 9 ms | page did NOT change
+20:49:24 INFO    [chrome_plugin_jev.jev_agent] Step 30: TYPE_TEXT 'Name :' = 'Swift Clearing' (confidence 0.27, unsure: next BLOCKED 0.32, CLICK 0.19) | Jev 1514 ms, text 1536 ms, browser 14 ms | page did NOT change
+20:49:25 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 30 action(s) in 53594 ms | Jev could not find a safe observed action to continue. | page reads 31x/260 ms, Jev 31x/35923 ms, text helper 10x/16273 ms, browser actions 29x/1123 ms
+20:49:25 INFO    [chrome_plugin_jev.jobs] Job 5832d128-7ac4-4bb4-9333-ab199f8f7523 finished: needs_human in 53594 ms - Jev could not find a safe observed action to continue.
+20:52:06 INFO    [chrome_plugin_jev.jobs] Job 7c59e08b-6f5d-41b6-af4e-ff7db55e8839 started (Jev agent): 'Fill and submit this form. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "…'
+20:52:06 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:52:10 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: window resized; observe again before acting
+20:52:13 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.84) | Jev 1167 ms, text 1925 ms, browser 55 ms | page changed
+20:52:14 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.71) | Jev 1643 ms, browser 32 ms | page changed
+20:52:15 INFO    [chrome_plugin_jev.jev_agent] Step 3: WAIT 'Wait for the page to update' (confidence 0.51) | Jev 911 ms, browser 151 ms | page changed
+20:52:18 INFO    [chrome_plugin_jev.jev_agent] Step 4: TYPE_TEXT 'Search Exporter › Name :' = 'Kerala Spices Export House' (confidence 0.95) | Jev 932 ms, text 1474 ms, browser 17 ms | page changed
+20:52:19 INFO    [chrome_plugin_jev.jev_agent] Step 5: SELECT 'Search Exporter › Country : → India' (confidence 0.53) | Jev 1068 ms, browser 5 ms | page changed
+20:52:20 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK 'Search Exporter › Search' (confidence 0.99) | Jev 1214 ms, browser 14 ms | page changed
+20:52:21 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search Exporter › Select IN-EXP-20431' (confidence 1.00) | Jev 1015 ms, browser 21 ms | page changed
+20:52:22 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK "Search Importer's Code" (confidence 0.46, unsure: next BLOCKED 0.22, TYPE_TEXT 0.16) | Jev 1111 ms, browser 15 ms | page changed
+20:52:23 INFO    [chrome_plugin_jev.jev_agent] Step 9: WAIT 'Wait for the page to update' (confidence 0.68) | Jev 938 ms, browser 151 ms | page did NOT change
+20:52:24 INFO    [chrome_plugin_jev.jev_agent] Step 10: WAIT 'Wait for the page to update' (confidence 0.31, unsure: next SCROLL_DOWN 0.29, BLOCKED 0.23) | Jev 796 ms, browser 151 ms | page did NOT change
+20:52:25 INFO    [chrome_plugin_jev.jev_agent] Step 11: WAIT 'Wait for the page to update' (confidence 0.36, unsure: next SCROLL_DOWN 0.24, BLOCKED 0.24) | Jev 848 ms, browser 151 ms | page did NOT change
+20:52:27 INFO    [chrome_plugin_jev.jev_agent] Step 12: WAIT 'Wait for the page to update' (confidence 0.25, unsure: next SCROLL_DOWN 0.28, BLOCKED 0.28) | Jev 1030 ms, browser 151 ms | page did NOT change
+20:52:28 INFO    [chrome_plugin_jev.jev_agent] Step 13: WAIT 'Wait for the page to update' (confidence 0.32, unsure: next BLOCKED 0.27, SCROLL_DOWN 0.24) | Jev 870 ms, browser 151 ms | page did NOT change
+20:52:29 INFO    [chrome_plugin_jev.jev_agent] Step 14: WAIT 'Wait for the page to update' (confidence 0.33, unsure: next BLOCKED 0.28, SCROLL_DOWN 0.22) | Jev 899 ms, browser 151 ms | page did NOT change
+20:52:30 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 14 action(s) in 23457 ms | Jev could not find a safe observed action to continue. | page reads 17x/105 ms, Jev 16x/16807 ms, text helper 3x/5316 ms, browser actions 14x/1216 ms
+20:52:30 INFO    [chrome_plugin_jev.jobs] Job 7c59e08b-6f5d-41b6-af4e-ff7db55e8839 finished: needs_human in 23458 ms - Jev could not find a safe observed action to continue.
+20:53:02 INFO    [chrome_plugin_jev.jobs] Job 3513ab8c-9602-416b-b036-b038184fb5e3 started (Jev agent): 'Fill and submit this form. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "…'
+20:53:02 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:53:05 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.87) | Jev 1257 ms, text 1638 ms, browser 26 ms | page changed
+20:53:06 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.74) | Jev 1192 ms, browser 61 ms | page changed
+20:53:07 INFO    [chrome_plugin_jev.jev_agent] Step 3: WAIT 'Wait for the page to update' (confidence 0.35, unsure: next SCROLL_DOWN 0.24, BLOCKED 0.24) | Jev 862 ms, browser 151 ms | page changed
+20:53:10 INFO    [chrome_plugin_jev.jev_agent] Step 4: TYPE_TEXT 'Search Exporter › Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 899 ms, text 1486 ms, browser 12 ms | page changed
+20:53:11 INFO    [chrome_plugin_jev.jev_agent] Step 5: SELECT 'Search Exporter › Country : → India' (confidence 0.66) | Jev 1191 ms, browser 5 ms | page changed
+20:53:12 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK 'Search Exporter › Search' (confidence 1.00) | Jev 1209 ms, browser 14 ms | page changed
+20:53:13 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK 'Search Exporter › Select IN-EXP-20431' (confidence 1.00) | Jev 1105 ms, browser 21 ms | page changed
+20:53:14 INFO    [chrome_plugin_jev.jev_agent] Step 8: CLICK "Search Importer's Code" (confidence 0.51) | Jev 961 ms, browser 17 ms | page changed
+20:53:16 INFO    [chrome_plugin_jev.jev_agent] Step 9: WAIT 'Wait for the page to update' (confidence 0.67) | Jev 1285 ms, browser 151 ms | page did NOT change
+20:53:17 INFO    [chrome_plugin_jev.jev_agent] Step 10: WAIT 'Wait for the page to update' (confidence 0.37, unsure: next SCROLL_DOWN 0.28, BLOCKED 0.19) | Jev 770 ms, browser 151 ms | page did NOT change
+20:53:18 INFO    [chrome_plugin_jev.jev_agent] Step 11: WAIT 'Wait for the page to update' (confidence 0.40, unsure: next SCROLL_DOWN 0.27, BLOCKED 0.18) | Jev 864 ms, browser 151 ms | page did NOT change
+20:53:19 INFO    [chrome_plugin_jev.jev_agent] Step 12: WAIT 'Wait for the page to update' (confidence 0.28, unsure: next SCROLL_DOWN 0.28, BLOCKED 0.26) | Jev 859 ms, browser 151 ms | page did NOT change
+20:53:20 INFO    [chrome_plugin_jev.jev_agent] Step 13: WAIT 'Wait for the page to update' (confidence 0.31, unsure: next SCROLL_DOWN 0.28, BLOCKED 0.24) | Jev 951 ms, browser 151 ms | page did NOT change
+20:53:21 INFO    [chrome_plugin_jev.jev_agent] Step 14: WAIT 'Wait for the page to update' (confidence 0.20, unsure: next BLOCKED 0.34, SCROLL_DOWN 0.26) | Jev 1089 ms, browser 151 ms | page did NOT change
+20:53:22 INFO    [chrome_plugin_jev.jev_agent] Step 15: WAIT 'Wait for the page to update' (confidence 0.16, unsure: next BLOCKED 0.35, SCROLL_DOWN 0.27) | Jev 992 ms, browser 151 ms | page did NOT change
+20:53:23 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 15 action(s) in 21144 ms | Jev could not find a safe observed action to continue. | page reads 17x/102 ms, Jev 16x/16546 ms, text helper 2x/3124 ms, browser actions 15x/1364 ms
+20:53:23 INFO    [chrome_plugin_jev.jobs] Job 3513ab8c-9602-416b-b036-b038184fb5e3 finished: needs_human in 21144 ms - Jev could not find a safe observed action to continue.
+20:57:38 INFO    [chrome_plugin_jev.jobs] Job 4c79b10a-089d-46e2-9e41-cd86985f45bc started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+20:57:38 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab https://drive.google.com/drive/folders/1FwVfqcmidquxfHpkPkd56oIBZa11tlz7
+20:57:38 WARNING [chrome_plugin_jev.jobs] Job 4c79b10a-089d-46e2-9e41-cd86985f45bc failed after 10 ms: browser bridge error: Jev observation found no document body
+20:58:24 INFO    [chrome_plugin_jev.jobs] Job 12a4e967-91f2-4e3d-8d26-50d1a343210a started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+20:58:24 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:58:27 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: window resized; observe again before acting
+20:58:30 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (2 in a row): Stale page: page scrolled; observe again before acting
+20:58:33 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (3 in a row): Stale page: page scrolled; observe again before acting
+20:58:33 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 0 action(s) in 8766 ms | Stopped: the browser refused the next action 3 times in a row (page scrolled). | page reads 3x/29 ms, Jev 3x/3594 ms, text helper 3x/5126 ms
+20:58:33 INFO    [chrome_plugin_jev.jobs] Job 12a4e967-91f2-4e3d-8d26-50d1a343210a finished: needs_human in 8766 ms - Stopped: the browser refused the next action 3 times in a row (page scrolled).
+20:59:36 INFO    [chrome_plugin_jev.jobs] Job cb39d28a-59c8-4b58-a239-505ade3b7a57 started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+20:59:36 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+20:59:40 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.75) | Jev 1188 ms, text 2415 ms, browser 43 ms | page changed
+20:59:41 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.68) | Jev 930 ms, browser 36 ms | page changed
+20:59:43 INFO    [chrome_plugin_jev.jev_agent] Step 3: WAIT 'Wait for the page to update' (confidence 0.42, unsure: next SCROLL_DOWN 0.23, BLOCKED 0.21) | Jev 1647 ms, browser 151 ms | page changed
+20:59:45 INFO    [chrome_plugin_jev.jev_agent] Step 4: TYPE_TEXT 'Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 931 ms, text 1840 ms, browser 26 ms | page changed
+20:59:46 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK 'Search' (confidence 0.65) | Jev 922 ms, browser 19 ms | page changed
+20:59:47 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK 'Select IN-EXP-20431' (confidence 0.99) | Jev 831 ms, browser 23 ms | page changed
+20:59:48 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.51) | Jev 928 ms, browser 17 ms | page changed
+20:59:49 INFO    [chrome_plugin_jev.jev_agent] Step 8: WAIT 'Wait for the page to update' (confidence 0.65) | Jev 918 ms, browser 151 ms | page changed
+20:59:52 INFO    [chrome_plugin_jev.jev_agent] Step 9: TYPE_TEXT 'Name :' = 'Al Noor General Trading' (confidence 0.96) | Jev 1011 ms, text 1341 ms, browser 21 ms | page changed
+20:59:53 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK 'Search' (confidence 0.74) | Jev 1112 ms, browser 18 ms | page changed
+20:59:54 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK 'Select AE-1048821' (confidence 0.99) | Jev 1068 ms, browser 21 ms | page changed
+20:59:55 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.54) | Jev 853 ms, browser 19 ms | page changed
+20:59:56 INFO    [chrome_plugin_jev.jev_agent] Step 13: WAIT 'Wait for the page to update' (confidence 0.44, unsure: next BLOCKED 0.35, SCROLL_DOWN 0.08) | Jev 841 ms, browser 151 ms | page changed
+21:00:00 INFO    [chrome_plugin_jev.jev_agent] Step 14: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.97) | Jev 1128 ms, text 2668 ms, browser 19 ms | page changed
+21:00:01 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search' (confidence 0.96) | Jev 1301 ms, browser 18 ms | page changed
+21:00:02 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK 'Select AE-2004517' (confidence 1.00) | Jev 1001 ms, browser 21 ms | page changed
+21:00:03 INFO    [chrome_plugin_jev.jev_agent] Step 17: CLICK "Search Cargo Handler's Code" (confidence 0.75) | Jev 1040 ms, browser 17 ms | page changed
+21:00:04 INFO    [chrome_plugin_jev.jev_agent] Step 18: WAIT 'Wait for the page to update' (confidence 0.45, unsure: next BLOCKED 0.28, SCROLL_DOWN 0.14) | Jev 974 ms, browser 151 ms | page changed
+21:00:06 INFO    [chrome_plugin_jev.jev_agent] Step 19: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.96) | Jev 867 ms, text 1297 ms, browser 19 ms | page changed
+21:00:07 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK 'Search' (confidence 0.76) | Jev 928 ms, browser 17 ms | page changed
+21:00:10 INFO    [chrome_plugin_jev.jev_agent] Step 21: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.61) | Jev 909 ms, text 1452 ms, browser 12 ms | page did NOT change
+21:00:13 INFO    [chrome_plugin_jev.jev_agent] Step 22: TYPE_TEXT 'Name :' = 'Swift Clearing & Forwarding' (confidence 0.71) | Jev 1010 ms, text 1970 ms, browser 23 ms | page did NOT change
+21:00:14 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK 'Close dialog' (confidence 0.31, unsure: next BLOCKED 0.30, TYPE_TEXT 0.25) | Jev 949 ms, browser 16 ms | page changed
+21:00:15 INFO    [chrome_plugin_jev.jev_agent] Step 24: CLICK "Open Cargo Handler's Code : *" (confidence 0.49, unsure: next SELECT 0.22, TYPE_TEXT 0.15) | Jev 1025 ms, browser 8 ms | page did NOT change
+21:00:16 INFO    [chrome_plugin_jev.jev_agent] Step 25: CLICK "Search Cargo Handler's Code" (confidence 0.31, unsure: next TYPE_TEXT 0.32, SELECT 0.13) | Jev 1178 ms, browser 32 ms | page changed
+21:00:17 INFO    [chrome_plugin_jev.jev_agent] Step 26: WAIT 'Wait for the page to update' (confidence 0.75) | Jev 877 ms, browser 151 ms | page changed
+21:00:19 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: page was reloaded since it was read; observe again before acting
+21:00:23 WARNING [chrome_plugin_jev.jobs] Job cb39d28a-59c8-4b58-a239-505ade3b7a57 failed after 46386 ms: browser bridge error: No tab with given id 627452296.
+21:02:27 INFO    [chrome_plugin_jev.jobs] Job 69b989ca-953c-4076-8c15-5ab226f877d7 started (Jev agent): 'Fill and submit this form. { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "…'
+21:02:27 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:02:30 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.96) | Jev 1356 ms, text 1659 ms, browser 42 ms | page changed
+21:02:32 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.90) | Jev 950 ms, browser 43 ms | page changed
+21:02:34 INFO    [chrome_plugin_jev.jev_agent] Step 3: TYPE_TEXT 'Search Exporter › Name :' = 'Kerala Spices Export House' (confidence 0.94) | Jev 1065 ms, text 1602 ms, browser 14 ms | page changed
+21:02:35 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT 'Search Exporter › Country : → India' (confidence 0.63) | Jev 953 ms, browser 5 ms | page changed
+21:02:36 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK 'Search Exporter › Search' (confidence 0.99) | Jev 1217 ms, browser 18 ms | page changed
+21:02:37 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK 'Search Exporter › Select IN-EXP-20431' (confidence 1.00) | Jev 888 ms, browser 23 ms | page changed
+21:02:39 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.40, unsure: next BLOCKED 0.25, TYPE_TEXT 0.18) | Jev 1303 ms, browser 19 ms | page changed
+21:02:42 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT 'Search Importer › Name :' = 'Al Noor General Trading' (confidence 0.96) | Jev 1096 ms, text 1807 ms, browser 16 ms | page changed
+21:02:43 INFO    [chrome_plugin_jev.jev_agent] Step 9: SELECT 'Search Importer › Country : → United Arab Emirates' (confidence 0.53) | Jev 1026 ms, browser 4 ms | page changed
+21:02:44 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK 'Search Importer › Search' (confidence 1.00) | Jev 930 ms, browser 16 ms | page changed
+21:02:45 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK 'Search Importer › Select AE-1048821' (confidence 1.00) | Jev 944 ms, browser 23 ms | page changed
+21:02:46 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.51) | Jev 1009 ms, browser 18 ms | page changed
+21:02:48 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Search Notify Party › Name :' = 'Swift Clearing & Forwarding' (confidence 0.97) | Jev 994 ms, text 1404 ms, browser 24 ms | page changed
+21:02:49 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search Notify Party › Search' (confidence 0.75) | Jev 1128 ms, browser 16 ms | page changed
+21:02:50 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party › Select AE-2004517' (confidence 0.99) | Jev 1040 ms, browser 22 ms | page changed
+21:02:51 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Cargo Handler's Code" (confidence 0.90) | Jev 935 ms, browser 18 ms | page changed
+21:02:55 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT 'Search Cargo Handler › Name :' = 'Dubai Airport Cargo Terminal Operator' (confidence 0.92) | Jev 982 ms, text 2284 ms, browser 15 ms | page changed
+21:02:55 INFO    [chrome_plugin_jev.jev_agent] Step 18: CLICK 'Search Cargo Handler › Search' (confidence 0.51) | Jev 894 ms, browser 15 ms | page changed
+21:02:57 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK 'Search Cargo Handler › Select AE-3000112' (confidence 0.99) | Jev 1302 ms, browser 22 ms | page changed
+21:02:58 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK "Search Agent's Code" (confidence 0.64) | Jev 1611 ms, browser 20 ms | page changed
+21:03:01 INFO    [chrome_plugin_jev.jev_agent] Step 21: TYPE_TEXT 'Search Agent › Name :' = 'Emirates SkyCargo Agency' (confidence 0.98) | Jev 1322 ms, text 1623 ms, browser 26 ms | page changed
+21:03:02 INFO    [chrome_plugin_jev.jev_agent] Step 22: CLICK 'Search Agent › Search' (confidence 0.73) | Jev 1083 ms, browser 14 ms | page changed
+21:03:04 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK 'Search Agent › Select AE-4001108' (confidence 0.99) | Jev 1086 ms, browser 21 ms | page changed
+21:03:05 INFO    [chrome_plugin_jev.jev_agent] Step 24: SELECT 'Invoice : * → Attached - Original' (confidence 0.84) | Jev 1069 ms, browser 9 ms | page changed
+21:03:06 INFO    [chrome_plugin_jev.jev_agent] Step 25: SELECT 'AWB / BOL : * → Attached - Original' (confidence 0.98) | Jev 968 ms, browser 10 ms | page changed
+21:03:07 INFO    [chrome_plugin_jev.jev_agent] Step 26: SELECT 'Packing List : * → Attached - Copy' (confidence 0.96) | Jev 919 ms, browser 9 ms | page changed
+21:03:08 INFO    [chrome_plugin_jev.jev_agent] Step 27: SELECT 'Cert. of Origin : * → To Follow' (confidence 0.96) | Jev 900 ms, browser 8 ms | page changed
+21:03:09 INFO    [chrome_plugin_jev.jev_agent] Step 28: SCROLL_DOWN 'Scroll down' (confidence 0.36, unsure: next SELECT 0.14, TYPE_TEXT 0.14) | Jev 918 ms, browser 11 ms | page did NOT change
+21:03:09 INFO    [chrome_plugin_jev.jev_agent] Step 29: SCROLL_DOWN 'Scroll down' (confidence 0.25, unsure: next CLICK 0.26, TYPE_TEXT 0.13) | Jev 970 ms, browser 2 ms | page changed
+21:03:10 INFO    [chrome_plugin_jev.jev_agent] Step 30: CLICK 'Next' (confidence 0.65) | Jev 868 ms, browser 57 ms | page changed
+21:03:13 INFO    [chrome_plugin_jev.jev_agent] Step 31: TYPE_TEXT 'Scheduled Date : * (format DD-MM-YYYY)' = '20-12-2026' (confidence 0.69) | Jev 987 ms, text 1434 ms, browser 23 ms | page changed
+21:03:15 WARNING [chrome_plugin_jev.jev_agent] Step 32: no value for 'Carrier Registration No. : *', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+21:03:18 INFO    [chrome_plugin_jev.jev_agent] Step 33: TYPE_TEXT 'MAWB / BOL : *' = '17612345678' (confidence 0.48, unsure: next CLICK 0.42, BLOCKED 0.02) | Jev 1127 ms, text 1843 ms, browser 35 ms | page changed
+21:03:21 INFO    [chrome_plugin_jev.jev_agent] Step 34: TYPE_TEXT 'HAWB :' = 'HAWB-7781' (confidence 0.87) | Jev 1187 ms, text 1638 ms, browser 40 ms | page changed
+21:03:24 INFO    [chrome_plugin_jev.jev_agent] Step 35: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.91) | Jev 1290 ms, text 1743 ms, browser 34 ms | page changed
+21:03:28 WARNING [chrome_plugin_jev.jev_model] Model provider busy (HTTP 429), retrying in 0.5 s (attempt 2 of 3)
+21:03:30 INFO    [chrome_plugin_jev.jev_agent] Step 36: TYPE_TEXT 'Port of Load : *' = 'Kochi, India' (confidence 0.81) | Jev 1182 ms, text 4096 ms, browser 35 ms | page changed
+21:03:33 INFO    [chrome_plugin_jev.jev_agent] Step 37: TYPE_TEXT 'Port of Discharge : *' = 'Dubai International' (confidence 0.42, unsure: next CLICK 0.44, WAIT 0.04) | Jev 1492 ms, text 1641 ms, browser 55 ms | page changed
+21:03:34 INFO    [chrome_plugin_jev.jev_agent] Step 38: CLICK 'Search Carrier Registration No.' (confidence 0.79) | Jev 1223 ms, browser 26 ms | page changed
+21:03:35 INFO    [chrome_plugin_jev.jev_agent] Step 39: SELECT 'Search Carrier › Operator : → Emirates' (confidence 0.93) | Jev 1241 ms, browser 18 ms | page changed
+21:03:36 INFO    [chrome_plugin_jev.jev_agent] Step 40: CLICK 'Search Carrier › Search' (confidence 0.94) | Jev 920 ms, browser 30 ms | page changed
+21:03:38 INFO    [chrome_plugin_jev.jev_agent] Step 41: CLICK 'Search Carrier › Select EK0523' (confidence 1.00) | Jev 1098 ms, browser 22 ms | page changed
+21:03:39 INFO    [chrome_plugin_jev.jev_agent] Step 42: CLICK 'Search Original Load Port' (confidence 0.78) | Jev 1121 ms, browser 18 ms | page changed
+21:03:42 INFO    [chrome_plugin_jev.jev_agent] Step 43: TYPE_TEXT 'Search Port › Location Name :' = 'Dubai' (confidence 0.73) | Jev 1536 ms, text 1943 ms, browser 10 ms | page changed
+21:03:43 INFO    [chrome_plugin_jev.jev_agent] Step 44: SELECT 'Search Port › Country : → UNITED ARAB EMIRATES' (confidence 0.87) | Jev 1112 ms, browser 4 ms | page changed
+21:03:45 INFO    [chrome_plugin_jev.jev_agent] Step 45: CLICK 'Search Port › Search' (confidence 0.94) | Jev 1314 ms, browser 17 ms | page changed
+21:03:46 INFO    [chrome_plugin_jev.jev_agent] Step 46: CLICK 'Search Port › Select DXB' (confidence 0.99) | Jev 1118 ms, browser 22 ms | page changed
+21:03:47 INFO    [chrome_plugin_jev.jev_agent] Step 47: CLICK 'Search Port of Load' (confidence 0.53) | Jev 916 ms, browser 16 ms | page changed
+21:03:49 INFO    [chrome_plugin_jev.jev_agent] Step 48: TYPE_TEXT 'Search Port › Location Name :' = 'Kochi' (confidence 0.90) | Jev 1037 ms, text 1439 ms, browser 10 ms | page changed
+21:03:50 INFO    [chrome_plugin_jev.jev_agent] Step 49: SELECT 'Search Port › Country : → INDIA' (confidence 0.89) | Jev 946 ms, browser 4 ms | page changed
+21:03:51 INFO    [chrome_plugin_jev.jev_agent] Step 50: CLICK 'Search Port › Search' (confidence 1.00) | Jev 1171 ms, browser 15 ms | page changed
+21:03:52 INFO    [chrome_plugin_jev.jev_agent] Step 51: CLICK 'Search Port › Select COK' (confidence 1.00) | Jev 999 ms, browser 19 ms | page changed
+21:03:54 INFO    [chrome_plugin_jev.jev_agent] Step 52: CLICK 'Search Port of Discharge' (confidence 0.68) | Jev 1342 ms, browser 19 ms | page changed
+21:03:58 INFO    [chrome_plugin_jev.jev_agent] Step 53: TYPE_TEXT 'Search Port › Location Name :' = 'Dubai International' (confidence 0.91) | Jev 1095 ms, text 2868 ms, browser 10 ms | page changed
+21:03:59 INFO    [chrome_plugin_jev.jev_agent] Step 54: CLICK 'Search Port › Search' (confidence 0.81) | Jev 1114 ms, browser 14 ms | page changed
+21:04:00 INFO    [chrome_plugin_jev.jev_agent] Step 55: CLICK 'Search Port › Select DXB' (confidence 0.93) | Jev 895 ms, browser 20 ms | page changed
+21:04:01 INFO    [chrome_plugin_jev.jev_agent] Step 56: CLICK 'Search Carrier Registration No.' (confidence 0.43, unsure: next SCROLL_DOWN 0.19, TYPE_TEXT 0.12) | Jev 1305 ms, browser 17 ms | page changed
+21:04:02 INFO    [chrome_plugin_jev.jev_agent] Step 57: SELECT 'Search Carrier › Operator : → Emirates' (confidence 0.91) | Jev 1106 ms, browser 4 ms | page changed
+21:04:03 INFO    [chrome_plugin_jev.jev_agent] Step 58: CLICK 'Search Carrier › Search' (confidence 0.83) | Jev 1117 ms, browser 23 ms | page changed
+21:04:05 INFO    [chrome_plugin_jev.jev_agent] Step 59: CLICK 'Search Carrier › Select EK0523' (confidence 0.98) | Jev 1294 ms, browser 19 ms | page changed
+21:04:06 INFO    [chrome_plugin_jev.jev_agent] Step 60: SCROLL_DOWN 'Scroll down' (confidence 0.31, unsure: next DONE 0.17, CLICK 0.16) | Jev 1204 ms, browser 3 ms | page did NOT change
+21:04:07 INFO    [chrome_plugin_jev.jev_agent] Step 61: SCROLL_DOWN 'Scroll down' (confidence 0.30, unsure: next CLICK 0.19, TYPE_TEXT 0.15) | Jev 1218 ms, browser 2 ms | page changed
+21:04:10 INFO    [chrome_plugin_jev.jev_agent] Step 62: TYPE_TEXT 'Net Weight :' = '450' (confidence 0.75) | Jev 1223 ms, text 1742 ms, browser 28 ms | page changed
+21:04:11 INFO    [chrome_plugin_jev.jev_agent] Step 63: SELECT 'Net weight unit → Kilogram (KG)' (confidence 0.71) | Jev 1206 ms, browser 9 ms | page changed
+21:04:14 INFO    [chrome_plugin_jev.jev_agent] Step 64: TYPE_TEXT 'Volume :' = '2.4' (confidence 0.90) | Jev 1192 ms, text 1745 ms, browser 33 ms | page changed
+21:04:15 INFO    [chrome_plugin_jev.jev_agent] Step 65: SELECT 'Volume unit → Cubic Metre (CBM)' (confidence 0.54) | Jev 918 ms, browser 9 ms | page changed
+21:04:19 INFO    [chrome_plugin_jev.jev_agent] Step 66: TYPE_TEXT 'Gross Weight : *' = '480' (confidence 0.91) | Jev 1062 ms, text 2613 ms, browser 37 ms | page changed
+21:04:20 INFO    [chrome_plugin_jev.jev_agent] Step 67: SELECT 'Gross weight unit → Kilogram (KG)' (confidence 0.82) | Jev 1068 ms, browser 8 ms | page changed
+21:04:22 INFO    [chrome_plugin_jev.jev_agent] Step 68: SELECT 'Cargo Type : * → Perishable' (confidence 0.81) | Jev 1464 ms, browser 8 ms | page changed
+21:04:25 INFO    [chrome_plugin_jev.jev_agent] Step 69: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.41, unsure: next CLICK 0.44, DONE 0.04) | Jev 1423 ms, text 1635 ms, browser 36 ms | page changed
+21:04:26 INFO    [chrome_plugin_jev.jev_agent] Step 70: CLICK 'Search Original Load Port' (confidence 0.89) | Jev 1086 ms, browser 29 ms | page changed
+21:04:29 INFO    [chrome_plugin_jev.jev_agent] Step 71: TYPE_TEXT 'Search Port › Location Name :' = 'Dubai International' (confidence 0.43, unsure: next SELECT 0.45, CLICK 0.04) | Jev 1445 ms, text 1587 ms, browser 10 ms | page changed
+21:04:30 INFO    [chrome_plugin_jev.jev_agent] Step 72: SELECT 'Search Port › Country : → UNITED ARAB EMIRATES' (confidence 0.75) | Jev 1019 ms, browser 5 ms | page changed
+21:04:31 INFO    [chrome_plugin_jev.jev_agent] Step 73: CLICK 'Search Port › Search' (confidence 0.95) | Jev 1104 ms, browser 16 ms | page changed
+21:04:32 INFO    [chrome_plugin_jev.jev_agent] Step 74: CLICK 'Search Port › Select DXB' (confidence 0.99) | Jev 1061 ms, browser 22 ms | page changed
+21:04:33 INFO    [chrome_plugin_jev.jev_agent] Step 75: CLICK 'Search Port of Load' (confidence 0.62) | Jev 1062 ms, browser 16 ms | page changed
+21:04:36 INFO    [chrome_plugin_jev.jev_agent] Step 76: TYPE_TEXT 'Search Port › Location Name :' = 'Dubai International' (confidence 0.65) | Jev 1283 ms, text 1532 ms, browser 26 ms | page changed
+21:04:37 INFO    [chrome_plugin_jev.jev_agent] Step 77: SELECT 'Search Port › Country : → UNITED ARAB EMIRATES' (confidence 0.42, unsure: next CLICK 0.43, WAIT 0.06) | Jev 1169 ms, browser 4 ms | page changed
+21:04:39 INFO    [chrome_plugin_jev.jev_agent] Step 78: CLICK 'Search Port › Search' (confidence 0.99) | Jev 1453 ms, browser 14 ms | page changed
+21:04:40 INFO    [chrome_plugin_jev.jev_agent] Step 79: CLICK 'Search Port › Select DXB' (confidence 0.99) | Jev 905 ms, browser 20 ms | page changed
+21:04:41 INFO    [chrome_plugin_jev.jev_agent] Step 80: CLICK 'Search Port of Discharge' (confidence 0.68) | Jev 873 ms, browser 17 ms | page changed
+21:04:43 INFO    [chrome_plugin_jev.jev_agent] Step 81: TYPE_TEXT 'Search Port › Location Name :' = 'Kochi' (confidence 0.82) | Jev 923 ms, text 1519 ms, browser 10 ms | page changed
+21:04:44 INFO    [chrome_plugin_jev.jev_agent] Step 82: CLICK 'Search Port › Search' (confidence 0.75) | Jev 809 ms, browser 13 ms | page changed
+21:04:45 INFO    [chrome_plugin_jev.jev_agent] Step 83: SELECT 'Search Port › Country : → UNITED ARAB EMIRATES' (confidence 0.31, unsure: next BLOCKED 0.35, CLICK 0.12) | Jev 930 ms, browser 4 ms | page changed
+21:04:46 INFO    [chrome_plugin_jev.jev_agent] Step 84: CLICK 'Search Port › Search' (confidence 0.47, unsure: next BLOCKED 0.19, SELECT 0.17) | Jev 961 ms, browser 8 ms | page did NOT change
+21:04:47 INFO    [chrome_plugin_jev.jev_agent] Step 85: SELECT 'Search Port › Country : → [Please Select]' (confidence 0.21, unsure: next TYPE_TEXT 0.25, BLOCKED 0.23) | Jev 1017 ms, browser 4 ms | page changed
+21:04:48 INFO    [chrome_plugin_jev.jev_agent] Step 86: CLICK 'Search Port › Search' (confidence 0.52) | Jev 958 ms, browser 12 ms | page did NOT change
+21:04:49 INFO    [chrome_plugin_jev.jev_agent] Step 87: SELECT 'Search Port › Country : → UNITED ARAB EMIRATES' (confidence 0.25, unsure: next CLICK 0.28, BLOCKED 0.24) | Jev 1256 ms, browser 4 ms | page changed
+21:04:51 INFO    [chrome_plugin_jev.jev_agent] Step 88: CLICK 'Search Port › Search' (confidence 0.78) | Jev 1677 ms, browser 10 ms | page did NOT change
+21:04:54 INFO    [chrome_plugin_jev.jev_agent] Step 89: TYPE_TEXT 'Search Port › Location Name :' = 'Kochi' (confidence 0.30, unsure: next CLICK 0.31, BLOCKED 0.18) | Jev 1196 ms, text 2147 ms, browser 12 ms | page did NOT change
+21:04:58 INFO    [chrome_plugin_jev.jev_agent] Step 90: TYPE_TEXT 'Search Port › Location Name :' = 'Kochi' (confidence 0.36, unsure: next CLICK 0.41, BLOCKED 0.13) | Jev 1525 ms, text 2355 ms, browser 11 ms | page did NOT change
+21:04:58 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 90 action(s) in 150596 ms | Stopped after three browser actions made no observable progress. | page reads 90x/797 ms, Jev 90x/100646 ms, text helper 25x/47534 ms, browser actions 89x/1579 ms
+21:04:58 INFO    [chrome_plugin_jev.jobs] Job 69b989ca-953c-4076-8c15-5ab226f877d7 finished: needs_human in 150597 ms - Stopped after three browser actions made no observable progress.
+21:08:49 INFO    [chrome_plugin_jev.jobs] Job de0ab762-0952-4e6c-a3e8-f47fbd8509f1 started (Jev agent): 'fill and submit the form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "Ca…'
+21:08:49 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:08:50 WARNING [chrome_plugin_jev.jev_model] Model provider returned HTTP 402: Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits | 402
+21:08:50 ERROR   [chrome_plugin_jev.jobs] Job de0ab762-0952-4e6c-a3e8-f47fbd8509f1 failed after 910 ms: Model provider returned HTTP 402: Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits | 402; no browser action executed
+Traceback (most recent call last):
+  File "/home/experts/ExpertsCloud/chrome_plugin_jev/src/chrome_plugin_jev/jobs.py", line 139, in run_job
+    result = await JevBrowserAgent(
+             ^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/home/experts/ExpertsCloud/chrome_plugin_jev/src/chrome_plugin_jev/jev_agent.py", line 135, in run
+    decision = await self.model.choose(page, goal, history)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/experts/ExpertsCloud/chrome_plugin_jev/src/chrome_plugin_jev/jev_model.py", line 418, in choose
+    result = await self._post_json(provider.endpoint, provider.api_key, request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/experts/ExpertsCloud/chrome_plugin_jev/src/chrome_plugin_jev/jev_model.py", line 325, in _post_json
+    raise JevProviderError(
+    ...<2 lines>...
+    )
+chrome_plugin_jev.jev_model.JevProviderError: Model provider returned HTTP 402: Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits | 402; no browser action executed
+21:10:04 INFO    [chrome_plugin_jev.jobs] Job 44fa5f99-0374-44b7-9d76-f9e5d5d8f979 started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+21:10:04 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:10:07 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.94) | Jev 1406 ms, text 1590 ms, browser 43 ms | page changed
+21:10:08 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.83) | Jev 908 ms, browser 36 ms | page changed
+21:10:11 INFO    [chrome_plugin_jev.jev_agent] Step 3: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.92) | Jev 960 ms, text 1661 ms, browser 15 ms | page changed
+21:10:12 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.65) | Jev 999 ms, browser 5 ms | page changed
+21:10:13 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 0.99) | Jev 1116 ms, browser 17 ms | page changed
+21:10:14 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 1297 ms, browser 24 ms | page changed
+21:10:15 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.49, unsure: next BLOCKED 0.30, TYPE_TEXT 0.09) | Jev 983 ms, browser 18 ms | page changed
+21:10:18 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT "Search Importer [for Importer's Code] › Name :" = 'Al Noor General Trading' (confidence 0.92) | Jev 1223 ms, text 1849 ms, browser 18 ms | page changed
+21:10:19 INFO    [chrome_plugin_jev.jev_agent] Step 9: SELECT "Search Importer [for Importer's Code] › Country : → United …" (confidence 0.66) | Jev 968 ms, browser 5 ms | page changed
+21:10:20 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK "Search Importer [for Importer's Code] › Search" (confidence 1.00) | Jev 1120 ms, browser 16 ms | page changed
+21:10:21 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer [for Importer's Code] › Select AE-1048821" (confidence 1.00) | Jev 934 ms, browser 21 ms | page changed
+21:10:22 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.70) | Jev 1037 ms, browser 18 ms | page changed
+21:10:25 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Search Notify Party [for Notify Party Code] › Name :' = 'Swift Clearing & Forwarding' (confidence 0.94) | Jev 948 ms, text 1820 ms, browser 17 ms | page changed
+21:10:26 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search Notify Party [for Notify Party Code] › Search' (confidence 0.51) | Jev 1203 ms, browser 13 ms | page changed
+21:10:28 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party [for Notify Party Code] › Select AE-200…' (confidence 0.99) | Jev 1415 ms, browser 22 ms | page changed
+21:10:29 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Cargo Handler's Code" (confidence 0.86) | Jev 1302 ms, browser 19 ms | page changed
+21:10:32 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT "Search Cargo Handler [for Cargo Handler's Code] › Name :" = 'Dubai Airport Cargo Terminal Operator' (confidence 0.77) | Jev 1202 ms, text 1641 ms, browser 18 ms | page changed
+21:10:33 INFO    [chrome_plugin_jev.jev_agent] Step 18: SELECT "Search Cargo Handler [for Cargo Handler's Code] › Country :…" (confidence 0.47, unsure: next CLICK 0.45, TYPE_TEXT 0.01) | Jev 1297 ms, browser 5 ms | page changed
+21:10:37 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Search" (confidence 1.00) | Jev 3362 ms, browser 14 ms | page changed
+21:10:38 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Select AE…" (confidence 1.00) | Jev 1309 ms, browser 32 ms | page changed
+21:10:39 INFO    [chrome_plugin_jev.jev_agent] Step 21: SCROLL_DOWN 'Scroll down' (confidence 0.33, unsure: next TYPE_TEXT 0.23, CLICK 0.15) | Jev 977 ms, browser 2 ms | page changed
+21:10:40 INFO    [chrome_plugin_jev.jev_agent] Step 22: CLICK "Search Agent's Code" (confidence 0.51) | Jev 1097 ms, browser 19 ms | page changed
+21:10:43 INFO    [chrome_plugin_jev.jev_agent] Step 23: TYPE_TEXT "Search Agent [for Agent's Code] › Name :" = 'Emirates SkyCargo Agency' (confidence 0.93) | Jev 894 ms, text 1862 ms, browser 15 ms | page changed
+21:10:44 INFO    [chrome_plugin_jev.jev_agent] Step 24: SELECT "Search Agent [for Agent's Code] › Country : → United Arab E…" (confidence 0.63) | Jev 1207 ms, browser 4 ms | page changed
+21:10:45 INFO    [chrome_plugin_jev.jev_agent] Step 25: CLICK "Search Agent [for Agent's Code] › Search" (confidence 1.00) | Jev 1016 ms, browser 15 ms | page changed
+21:10:46 INFO    [chrome_plugin_jev.jev_agent] Step 26: CLICK "Search Agent [for Agent's Code] › Select AE-4001108" (confidence 1.00) | Jev 1297 ms, browser 22 ms | page changed
+21:10:48 INFO    [chrome_plugin_jev.jev_agent] Step 27: SELECT 'Invoice : * → Attached - Original' (confidence 0.85) | Jev 1044 ms, browser 8 ms | page changed
+21:10:49 INFO    [chrome_plugin_jev.jev_agent] Step 28: SELECT 'AWB / BOL : * → Attached - Original' (confidence 0.99) | Jev 967 ms, browser 8 ms | page changed
+21:10:49 INFO    [chrome_plugin_jev.jev_agent] Step 29: SELECT 'Packing List : * → Attached - Copy' (confidence 0.97) | Jev 857 ms, browser 8 ms | page changed
+21:10:50 INFO    [chrome_plugin_jev.jev_agent] Step 30: SELECT 'Cert. of Origin : * → To Follow' (confidence 0.97) | Jev 865 ms, browser 8 ms | page changed
+21:10:51 INFO    [chrome_plugin_jev.jev_agent] Step 31: CLICK 'Next' (confidence 0.47, unsure: next BLOCKED 0.16, TYPE_TEXT 0.12) | Jev 809 ms, browser 39 ms | page changed
+21:10:55 INFO    [chrome_plugin_jev.jev_agent] Step 32: TYPE_TEXT 'Scheduled Date : * (format DD-MM-YYYY)' = '20-12-2026' (confidence 0.64) | Jev 894 ms, text 2895 ms, browser 28 ms | page changed
+21:10:57 WARNING [chrome_plugin_jev.jev_agent] Step 33: no value for 'Carrier Registration No. : *', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+21:10:59 INFO    [chrome_plugin_jev.jev_agent] Step 34: CLICK 'Search Carrier Registration No.' (confidence 0.54) | Jev 1398 ms, browser 27 ms | page changed
+21:11:00 INFO    [chrome_plugin_jev.jev_agent] Step 35: SELECT 'Search Carrier [for Carrier Registration No.] › Operator : …' (confidence 0.81) | Jev 959 ms, browser 4 ms | page changed
+21:11:01 INFO    [chrome_plugin_jev.jev_agent] Step 36: CLICK 'Search Carrier [for Carrier Registration No.] › Search' (confidence 0.94) | Jev 965 ms, browser 16 ms | page changed
+21:11:02 INFO    [chrome_plugin_jev.jev_agent] Step 37: CLICK 'Search Carrier [for Carrier Registration No.] › Select EK05…' (confidence 1.00) | Jev 891 ms, browser 20 ms | page changed
+21:11:05 INFO    [chrome_plugin_jev.jev_agent] Step 38: TYPE_TEXT 'MAWB / BOL : *' = '17612345678' (confidence 0.91) | Jev 1108 ms, text 1835 ms, browser 24 ms | page changed
+21:11:07 INFO    [chrome_plugin_jev.jev_agent] Step 39: TYPE_TEXT 'HAWB :' = 'HAWB-7781' (confidence 0.95) | Jev 1249 ms, text 1494 ms, browser 30 ms | page changed
+21:11:10 INFO    [chrome_plugin_jev.jev_agent] Step 40: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.88) | Jev 1165 ms, text 1555 ms, browser 50 ms | page changed
+21:11:13 INFO    [chrome_plugin_jev.jev_agent] Step 41: TYPE_TEXT 'Port of Load : *' = 'Kochi, India' (confidence 0.60) | Jev 1162 ms, text 1857 ms, browser 35 ms | page changed
+21:11:17 INFO    [chrome_plugin_jev.jev_agent] Step 42: TYPE_TEXT 'Port of Discharge : *' = 'Dubai International' (confidence 0.48, unsure: next CLICK 0.43, WAIT 0.02) | Jev 1258 ms, text 2278 ms, browser 41 ms | page changed
+21:11:18 INFO    [chrome_plugin_jev.jev_agent] Step 43: CLICK 'Search Original Load Port' (confidence 0.44, unsure: next SCROLL_DOWN 0.19, WAIT 0.09) | Jev 1387 ms, browser 31 ms | page changed
+21:11:22 INFO    [chrome_plugin_jev.jev_agent] Step 44: TYPE_TEXT 'Search Port [for Original Load Port] › Location Name :' = 'Kochi' (confidence 0.39, unsure: next SELECT 0.41, CLICK 0.10) | Jev 1614 ms, text 1824 ms, browser 11 ms | page changed
+21:11:25 INFO    [chrome_plugin_jev.jev_agent] Step 45: SELECT 'Search Port [for Original Load Port] › Country : → INDIA' (confidence 0.89) | Jev 3762 ms, browser 4 ms | page changed
+21:11:27 INFO    [chrome_plugin_jev.jev_agent] Step 46: CLICK 'Search Port [for Original Load Port] › Search' (confidence 0.98) | Jev 1339 ms, browser 14 ms | page changed
+21:11:29 INFO    [chrome_plugin_jev.jev_agent] Step 47: CLICK 'Search Port [for Original Load Port] › Select COK' (confidence 1.00) | Jev 1710 ms, browser 21 ms | page changed
+21:11:30 INFO    [chrome_plugin_jev.jev_agent] Step 48: CLICK 'Search Port of Load' (confidence 0.60) | Jev 1048 ms, browser 30 ms | page changed
+21:11:32 INFO    [chrome_plugin_jev.jev_agent] Step 49: TYPE_TEXT 'Search Port [for Port of Load] › Location Name :' = 'Kochi' (confidence 0.83) | Jev 996 ms, text 1234 ms, browser 10 ms | page changed
+21:11:33 INFO    [chrome_plugin_jev.jev_agent] Step 50: SELECT 'Search Port [for Port of Load] › Country : → INDIA' (confidence 0.93) | Jev 998 ms, browser 4 ms | page changed
+21:11:34 INFO    [chrome_plugin_jev.jev_agent] Step 51: CLICK 'Search Port [for Port of Load] › Search' (confidence 1.00) | Jev 960 ms, browser 14 ms | page changed
+21:11:35 INFO    [chrome_plugin_jev.jev_agent] Step 52: CLICK 'Search Port [for Port of Load] › Select COK' (confidence 1.00) | Jev 1020 ms, browser 19 ms | page changed
+21:11:36 INFO    [chrome_plugin_jev.jev_agent] Step 53: CLICK 'Search Port of Discharge' (confidence 0.76) | Jev 1131 ms, browser 16 ms | page changed
+21:11:39 INFO    [chrome_plugin_jev.jev_agent] Step 54: TYPE_TEXT 'Search Port [for Port of Discharge] › Location Name :' = 'Dubai International' (confidence 0.74) | Jev 1292 ms, text 1389 ms, browser 10 ms | page changed
+21:11:40 INFO    [chrome_plugin_jev.jev_agent] Step 55: SELECT 'Search Port [for Port of Discharge] › Country : → UNITED AR…' (confidence 0.79) | Jev 1214 ms, browser 4 ms | page changed
+21:11:41 INFO    [chrome_plugin_jev.jev_agent] Step 56: CLICK 'Search Port [for Port of Discharge] › Search' (confidence 1.00) | Jev 1116 ms, browser 23 ms | page changed
+21:11:42 INFO    [chrome_plugin_jev.jev_agent] Step 57: CLICK 'Search Port [for Port of Discharge] › Select DXB' (confidence 1.00) | Jev 889 ms, browser 21 ms | page changed
+21:11:43 INFO    [chrome_plugin_jev.jev_agent] Step 58: SCROLL_DOWN 'Scroll down' (confidence 0.35, unsure: next CLICK 0.27, DONE 0.11) | Jev 1107 ms, browser 3 ms | page did NOT change
+21:11:44 INFO    [chrome_plugin_jev.jev_agent] Step 59: SCROLL_DOWN 'Scroll down' (confidence 0.24, unsure: next CLICK 0.27, BLOCKED 0.20) | Jev 928 ms, browser 2 ms | page changed
+21:11:47 INFO    [chrome_plugin_jev.jev_agent] Step 60: TYPE_TEXT 'Net Weight :' = '450' (confidence 0.86) | Jev 1102 ms, text 1303 ms, browser 52 ms | page changed
+21:11:48 INFO    [chrome_plugin_jev.jev_agent] Step 61: SELECT 'Net weight unit → Kilogram (KG)' (confidence 0.89) | Jev 1216 ms, browser 32 ms | page changed
+21:11:50 INFO    [chrome_plugin_jev.jev_agent] Step 62: TYPE_TEXT 'Volume :' = '2.4' (confidence 0.97) | Jev 1190 ms, text 1260 ms, browser 31 ms | page changed
+21:11:52 INFO    [chrome_plugin_jev.jev_agent] Step 63: SELECT 'Volume unit → Cubic Metre (CBM)' (confidence 0.85) | Jev 1771 ms, browser 7 ms | page changed
+21:11:54 INFO    [chrome_plugin_jev.jev_agent] Step 64: TYPE_TEXT 'Gross Weight : *' = '480' (confidence 0.97) | Jev 978 ms, text 1214 ms, browser 32 ms | page changed
+21:11:55 INFO    [chrome_plugin_jev.jev_agent] Step 65: SELECT 'Gross weight unit → Kilogram (KG)' (confidence 0.94) | Jev 982 ms, browser 8 ms | page changed
+21:11:56 INFO    [chrome_plugin_jev.jev_agent] Step 66: SELECT 'Cargo Type : * → Perishable' (confidence 0.95) | Jev 1000 ms, browser 7 ms | page changed
+21:11:57 INFO    [chrome_plugin_jev.jev_agent] Step 67: CLICK 'Next' (confidence 0.75) | Jev 910 ms, browser 42 ms | page changed
+21:11:58 INFO    [chrome_plugin_jev.jev_agent] Step 68: CLICK 'Add Invoice' (confidence 0.91) | Jev 840 ms, browser 23 ms | page changed
+21:12:00 INFO    [chrome_plugin_jev.jev_agent] Step 69: TYPE_TEXT 'Invoice No. : *' = 'INV-2026-0512' (confidence 0.97) | Jev 957 ms, text 1190 ms, browser 21 ms | page changed
+21:12:03 INFO    [chrome_plugin_jev.jev_agent] Step 70: TYPE_TEXT 'Invoice Date : * (format DD-MM-YYYY)' = '15-11-2026' (confidence 0.50) | Jev 918 ms, text 1383 ms, browser 35 ms | page changed
+21:12:04 INFO    [chrome_plugin_jev.jev_agent] Step 71: CLICK 'Same as Exporter' (confidence 0.67) | Jev 932 ms, browser 28 ms | page changed
+21:12:06 INFO    [chrome_plugin_jev.jev_agent] Step 72: TYPE_TEXT 'No. of Pages : *' = '2' (confidence 0.68) | Jev 924 ms, text 1315 ms, browser 24 ms | page changed
+21:12:07 INFO    [chrome_plugin_jev.jev_agent] Step 73: SELECT 'Terms of Delivery : * → CIF - Cost, Insurance and Freight' (confidence 0.95) | Jev 975 ms, browser 7 ms | page changed
+21:12:08 INFO    [chrome_plugin_jev.jev_agent] Step 74: SELECT 'Invoice Type : * → Commercial Invoice' (confidence 0.92) | Jev 1034 ms, browser 8 ms | page changed
+21:12:10 INFO    [chrome_plugin_jev.jev_agent] Step 75: TYPE_TEXT 'Insurance Cost : *' = '40' (confidence 0.83) | Jev 928 ms, text 1202 ms, browser 34 ms | page changed
+21:12:11 INFO    [chrome_plugin_jev.jev_agent] Step 76: SELECT 'Insurance currency → USD' (confidence 0.82) | Jev 1075 ms, browser 7 ms | page changed
+21:12:21 INFO    [chrome_plugin_jev.jev_agent] Step 77: TYPE_TEXT 'Freight Cost : *' = '260' (confidence 0.89) | Jev 989 ms, text 8223 ms, browser 48 ms | page changed
+21:12:22 INFO    [chrome_plugin_jev.jev_agent] Step 78: SELECT 'Freight currency → USD' (confidence 0.91) | Jev 1047 ms, browser 7 ms | page changed
+21:12:23 INFO    [chrome_plugin_jev.jev_agent] Step 79: SELECT 'Currency : * → USD - US Dollar' (confidence 0.93) | Jev 1410 ms, browser 7 ms | page changed
+21:12:26 INFO    [chrome_plugin_jev.jev_agent] Step 80: TYPE_TEXT 'Value : *' = '2000' (confidence 0.91) | Jev 1473 ms, text 1125 ms, browser 34 ms | page changed
+21:12:27 INFO    [chrome_plugin_jev.jev_agent] Step 81: SCROLL_DOWN 'Scroll down' (confidence 0.53) | Jev 1120 ms, browser 3 ms | page did NOT change
+21:12:29 INFO    [chrome_plugin_jev.jev_agent] Step 82: CLICK 'Same as Exporter' (confidence 0.61) | Jev 1984 ms, browser 31 ms | page changed
+21:12:30 INFO    [chrome_plugin_jev.jev_agent] Step 83: SELECT 'Payment Term : * → Letter of Credit' (confidence 0.90) | Jev 943 ms, browser 7 ms | page changed
+21:12:31 INFO    [chrome_plugin_jev.jev_agent] Step 84: CLICK 'Save & Add Line Item' (confidence 0.57) | Jev 919 ms, browser 37 ms | page changed
+21:12:32 INFO    [chrome_plugin_jev.jev_agent] Step 85: CLICK 'Line Items - Invoice INV-2026-0512 › Search HS Code' (confidence 0.91) | Jev 957 ms, browser 14 ms | page changed
+21:12:34 INFO    [chrome_plugin_jev.jev_agent] Step 86: TYPE_TEXT 'Search HS Code › Description :' = 'black pepper' (confidence 0.93) | Jev 788 ms, text 1417 ms, browser 12 ms | page changed
+21:12:35 INFO    [chrome_plugin_jev.jev_agent] Step 87: CLICK 'Search HS Code › Search' (confidence 0.99) | Jev 905 ms, browser 14 ms | page changed
+21:12:36 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 87 action(s) in 152059 ms | Jev could not find a safe observed action to continue. | page reads 88x/878 ms, Jev 88x/101915 ms, text helper 26x/47574 ms, browser actions 86x/1648 ms
+21:12:36 INFO    [chrome_plugin_jev.jobs] Job 44fa5f99-0374-44b7-9d76-f9e5d5d8f979 finished: needs_human in 152060 ms - Jev could not find a safe observed action to continue.
+21:18:06 INFO    [chrome_plugin_jev.jobs] Job 4c3e5f4c-8e50-4166-9b09-d6e411f9a13f started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+21:18:06 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:18:10 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT 'Search HS Code › Description :' = 'Cardamoms' (confidence 0.46, unsure: next BLOCKED 0.27, CLICK 0.16) | Jev 1535 ms, text 2153 ms, browser 29 ms | page changed
+21:18:11 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK 'Search HS Code › Search' (confidence 0.72) | Jev 984 ms, browser 15 ms | page changed
+21:18:12 INFO    [chrome_plugin_jev.jev_agent] Step 3: CLICK 'Search HS Code › Select 09083100' (confidence 1.00) | Jev 1004 ms, browser 18 ms | page changed
+21:18:13 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT 'Line Items - Invoice INV-2026-0512 › Country of Origin : * …' (confidence 0.97) | Jev 1202 ms, browser 7 ms | page changed
+21:18:16 INFO    [chrome_plugin_jev.jev_agent] Step 5: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Quantity : *' = '18' (confidence 0.93) | Jev 1072 ms, text 1545 ms, browser 21 ms | page changed
+21:18:17 INFO    [chrome_plugin_jev.jev_agent] Step 6: SELECT 'Line Items - Invoice INV-2026-0512 › Unit : * → Carton (CTN)' (confidence 0.95) | Jev 900 ms, browser 6 ms | page changed
+21:18:19 INFO    [chrome_plugin_jev.jev_agent] Step 7: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Value (USD) : *' = '2000' (confidence 0.99) | Jev 1005 ms, text 1520 ms, browser 24 ms | page changed
+21:18:22 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Net Weight (KG) : *' = '450' (confidence 1.00) | Jev 1330 ms, text 1541 ms, browser 28 ms | page changed
+21:18:25 INFO    [chrome_plugin_jev.jev_agent] Step 9: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Gross Weight (KG) : *' = '480' (confidence 0.99) | Jev 1031 ms, text 1501 ms, browser 25 ms | page changed
+21:18:26 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK 'Line Items - Invoice INV-2026-0512 › Add Line Item' (confidence 1.00) | Jev 1145 ms, browser 46 ms | page changed
+21:18:27 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK 'Line Items - Invoice INV-2026-0512 › Done' (confidence 0.60) | Jev 1220 ms, browser 12 ms | page changed
+21:18:28 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Next' (confidence 0.88) | Jev 885 ms, browser 19 ms | page changed
+21:18:30 INFO    [chrome_plugin_jev.jev_agent] Step 13: SELECT 'Payment mode for customs duty → CDR Account' (confidence 0.89) | Jev 1253 ms, browser 6 ms | page changed
+21:18:30 INFO    [chrome_plugin_jev.jev_agent] Step 14: SELECT 'Payment reference for customs duty → CDR-1002345 (Balance A…' (confidence 0.88) | Jev 880 ms, browser 5 ms | page changed
+21:18:32 INFO    [chrome_plugin_jev.jev_agent] Step 15: SELECT 'Payment mode for other charges → CDR Account' (confidence 0.84) | Jev 1050 ms, browser 6 ms | page changed
+21:18:33 INFO    [chrome_plugin_jev.jev_agent] Step 16: SELECT 'Payment reference for other charges → CDR-1002345 (Balance …' (confidence 0.93) | Jev 1040 ms, browser 6 ms | page changed
+21:18:34 INFO    [chrome_plugin_jev.jev_agent] Step 17: CLICK 'I, the undersigned, being authorized by AL NOOR GENERAL TRA…' (confidence 0.87) | Jev 1144 ms, browser 12 ms | page changed
+21:18:35 INFO    [chrome_plugin_jev.jev_agent] Step 18: SCROLL_DOWN 'Scroll down' (confidence 0.34, unsure: next BLOCKED 0.29, DONE 0.16) | Jev 1154 ms, browser 2 ms | page did NOT change
+21:18:36 INFO    [chrome_plugin_jev.jev_agent] Step 19: SCROLL_DOWN 'Scroll down' (confidence 0.36, unsure: next BLOCKED 0.24, SELECT 0.10) | Jev 975 ms, browser 2 ms | page changed
+21:18:37 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK 'Submit' (confidence 0.77) | Jev 929 ms, browser 19 ms | page changed
+21:18:38 INFO    [chrome_plugin_jev.jev_agent] Agent finished: done after 20 action(s) in 31487 ms | Task completed in 20 browser action(s). | page reads 22x/181 ms, Jev 21x/22727 ms, text helper 5x/8260 ms, browser actions 20x/308 ms
+21:18:38 INFO    [chrome_plugin_jev.jobs] Job 4c3e5f4c-8e50-4166-9b09-d6e411f9a13f finished: done in 31488 ms - Task completed in 20 browser action(s).
+21:21:52 INFO    [chrome_plugin_jev.jobs] Job 37eb0cd7-452c-4219-98c8-fead002d4171 started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+21:21:52 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:21:55 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.85) | Jev 1703 ms, text 1256 ms, browser 40 ms | page changed
+21:21:56 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.82) | Jev 1277 ms, browser 32 ms | page changed
+21:21:59 INFO    [chrome_plugin_jev.jev_agent] Step 3: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.93) | Jev 1183 ms, text 1440 ms, browser 14 ms | page changed
+21:22:00 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.68) | Jev 1101 ms, browser 5 ms | page changed
+21:22:01 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 1.00) | Jev 1217 ms, browser 21 ms | page changed
+21:22:03 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 2012 ms, browser 29 ms | page changed
+21:22:04 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.39, unsure: next BLOCKED 0.32, TYPE_TEXT 0.13) | Jev 1198 ms, browser 18 ms | page changed
+21:22:07 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT "Search Importer [for Importer's Code] › Name :" = 'Al Noor General Trading' (confidence 0.93) | Jev 1294 ms, text 1084 ms, browser 15 ms | page changed
+21:22:08 INFO    [chrome_plugin_jev.jev_agent] Step 9: SELECT "Search Importer [for Importer's Code] › Country : → United …" (confidence 0.73) | Jev 928 ms, browser 4 ms | page changed
+21:22:09 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK "Search Importer [for Importer's Code] › Search" (confidence 1.00) | Jev 893 ms, browser 11 ms | page changed
+21:22:10 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer [for Importer's Code] › Select AE-1048821" (confidence 1.00) | Jev 974 ms, browser 22 ms | page changed
+21:22:11 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.75) | Jev 910 ms, browser 18 ms | page changed
+21:22:13 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Search Notify Party [for Notify Party Code] › Name :' = 'Swift Clearing & Forwarding' (confidence 0.95) | Jev 934 ms, text 1285 ms, browser 17 ms | page changed
+21:22:14 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search Notify Party [for Notify Party Code] › Search' (confidence 0.76) | Jev 1018 ms, browser 15 ms | page changed
+21:22:15 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party [for Notify Party Code] › Select AE-200…' (confidence 0.99) | Jev 1534 ms, browser 23 ms | page changed
+21:22:17 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Cargo Handler's Code" (confidence 0.85) | Jev 1296 ms, browser 18 ms | page changed
+21:22:21 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT "Search Cargo Handler [for Cargo Handler's Code] › Name :" = 'Dubai Airport Cargo Terminal Operator' (confidence 0.81) | Jev 2602 ms, text 1370 ms, browser 16 ms | page changed
+21:22:22 INFO    [chrome_plugin_jev.jev_agent] Step 18: SELECT "Search Cargo Handler [for Cargo Handler's Code] › Country :…" (confidence 0.54) | Jev 1100 ms, browser 5 ms | page changed
+21:22:23 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Search" (confidence 1.00) | Jev 1007 ms, browser 15 ms | page changed
+21:22:24 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Select AE…" (confidence 1.00) | Jev 1185 ms, browser 20 ms | page changed
+21:22:25 INFO    [chrome_plugin_jev.jev_agent] Step 21: SCROLL_DOWN 'Scroll down' (confidence 0.21, unsure: next CLICK 0.25, TYPE_TEXT 0.22) | Jev 940 ms, browser 2 ms | page did NOT change
+21:22:26 INFO    [chrome_plugin_jev.jev_agent] Step 22: SCROLL_DOWN 'Scroll down' (confidence 0.19, unsure: next CLICK 0.24, TYPE_TEXT 0.19) | Jev 959 ms, browser 2 ms | page changed
+21:22:27 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK "Search Exporter's Code" (confidence 0.54) | Jev 939 ms, browser 23 ms | page changed
+21:22:29 INFO    [chrome_plugin_jev.jev_agent] Step 24: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.93) | Jev 920 ms, text 1403 ms, browser 16 ms | page changed
+21:22:30 INFO    [chrome_plugin_jev.jev_agent] Step 25: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.76) | Jev 1015 ms, browser 13 ms | page changed
+21:22:31 INFO    [chrome_plugin_jev.jev_agent] Step 26: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 1.00) | Jev 961 ms, browser 15 ms | page changed
+21:22:33 INFO    [chrome_plugin_jev.jev_agent] Step 27: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 1071 ms, browser 20 ms | page changed
+21:22:34 INFO    [chrome_plugin_jev.jev_agent] Step 28: CLICK "Search Agent's Code" (confidence 0.54) | Jev 982 ms, browser 19 ms | page changed
+21:22:36 INFO    [chrome_plugin_jev.jev_agent] Step 29: TYPE_TEXT "Search Agent [for Agent's Code] › Name :" = 'Emirates SkyCargo Agency' (confidence 0.89) | Jev 985 ms, text 1499 ms, browser 14 ms | page changed
+21:22:37 INFO    [chrome_plugin_jev.jev_agent] Step 30: SELECT "Search Agent [for Agent's Code] › Country : → United Arab E…" (confidence 0.53) | Jev 1159 ms, browser 4 ms | page changed
+21:22:38 INFO    [chrome_plugin_jev.jev_agent] Step 31: CLICK "Search Agent [for Agent's Code] › Search" (confidence 0.99) | Jev 962 ms, browser 15 ms | page changed
+21:22:39 INFO    [chrome_plugin_jev.jev_agent] Step 32: CLICK "Search Agent [for Agent's Code] › Select AE-4001108" (confidence 1.00) | Jev 1010 ms, browser 22 ms | page changed
+21:22:40 INFO    [chrome_plugin_jev.jev_agent] Step 33: SELECT 'Invoice : * → Attached - Original' (confidence 0.66) | Jev 926 ms, browser 9 ms | page changed
+21:22:41 INFO    [chrome_plugin_jev.jev_agent] Step 34: SELECT 'AWB / BOL : * → Attached - Original' (confidence 0.94) | Jev 873 ms, browser 9 ms | page changed
+21:22:42 INFO    [chrome_plugin_jev.jev_agent] Step 35: SELECT 'Packing List : * → Attached - Copy' (confidence 0.91) | Jev 988 ms, browser 9 ms | page changed
+21:22:43 INFO    [chrome_plugin_jev.jev_agent] Step 36: SELECT 'Cert. of Origin : * → To Follow' (confidence 0.97) | Jev 879 ms, browser 8 ms | page changed
+21:22:44 INFO    [chrome_plugin_jev.jev_agent] Step 37: CLICK 'Next' (confidence 0.61) | Jev 1117 ms, browser 39 ms | page changed
+21:22:47 INFO    [chrome_plugin_jev.jev_agent] Step 38: TYPE_TEXT 'Scheduled Date : * (format DD-MM-YYYY)' = '20-12-2026' (confidence 0.64) | Jev 1171 ms, text 2047 ms, browser 21 ms | page changed
+21:22:50 WARNING [chrome_plugin_jev.jev_agent] Step 39: no value for 'Carrier Registration No. : *', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+21:22:52 INFO    [chrome_plugin_jev.jev_agent] Step 40: TYPE_TEXT 'MAWB / BOL : *' = '17612345678' (confidence 0.44, unsure: next CLICK 0.43, BLOCKED 0.04) | Jev 925 ms, text 1298 ms, browser 34 ms | page changed
+21:22:55 INFO    [chrome_plugin_jev.jev_agent] Step 41: TYPE_TEXT 'HAWB :' = 'HAWB-7781' (confidence 0.63) | Jev 1388 ms, text 1642 ms, browser 35 ms | page changed
+21:22:58 INFO    [chrome_plugin_jev.jev_agent] Step 42: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.94) | Jev 1088 ms, text 1436 ms, browser 59 ms | page changed
+21:23:00 INFO    [chrome_plugin_jev.jev_agent] Step 43: TYPE_TEXT 'Port of Load : *' = 'Kochi, India' (confidence 0.78) | Jev 1004 ms, text 1104 ms, browser 38 ms | page changed
+21:23:02 INFO    [chrome_plugin_jev.jev_agent] Step 44: TYPE_TEXT 'Port of Discharge : *' = 'Dubai International' (confidence 0.60) | Jev 1021 ms, text 1152 ms, browser 36 ms | page changed
+21:23:03 INFO    [chrome_plugin_jev.jev_agent] Step 45: CLICK 'Search Carrier Registration No.' (confidence 0.72) | Jev 1185 ms, browser 29 ms | page changed
+21:23:05 INFO    [chrome_plugin_jev.jev_agent] Step 46: SELECT 'Search Carrier [for Carrier Registration No.] › Operator : …' (confidence 0.65) | Jev 1371 ms, browser 5 ms | page changed
+21:23:06 INFO    [chrome_plugin_jev.jev_agent] Step 47: CLICK 'Search Carrier [for Carrier Registration No.] › Search' (confidence 0.94) | Jev 1135 ms, browser 15 ms | page changed
+21:23:07 INFO    [chrome_plugin_jev.jev_agent] Step 48: CLICK 'Search Carrier [for Carrier Registration No.] › Select EK05…' (confidence 1.00) | Jev 989 ms, browser 22 ms | page changed
+21:23:08 INFO    [chrome_plugin_jev.jev_agent] Step 49: CLICK 'Search Original Load Port' (confidence 0.67) | Jev 841 ms, browser 17 ms | page changed
+21:23:10 INFO    [chrome_plugin_jev.jev_agent] Step 50: TYPE_TEXT 'Search Port [for Original Load Port] › Location Name :' = 'Kochi' (confidence 0.51) | Jev 929 ms, text 1183 ms, browser 10 ms | page changed
+21:23:13 INFO    [chrome_plugin_jev.jev_agent] Step 51: SELECT 'Search Port [for Original Load Port] › Country : → INDIA' (confidence 0.90) | Jev 2623 ms, browser 4 ms | page changed
+21:23:14 INFO    [chrome_plugin_jev.jev_agent] Step 52: CLICK 'Search Port [for Original Load Port] › Search' (confidence 0.99) | Jev 1321 ms, browser 15 ms | page changed
+21:23:15 INFO    [chrome_plugin_jev.jev_agent] Step 53: CLICK 'Search Port [for Original Load Port] › Select COK' (confidence 1.00) | Jev 1103 ms, browser 19 ms | page changed
+21:23:16 INFO    [chrome_plugin_jev.jev_agent] Step 54: CLICK 'Search Port of Load' (confidence 0.67) | Jev 1306 ms, browser 17 ms | page changed
+21:23:19 INFO    [chrome_plugin_jev.jev_agent] Step 55: TYPE_TEXT 'Search Port [for Port of Load] › Location Name :' = 'Kochi' (confidence 0.81) | Jev 1120 ms, text 1416 ms, browser 10 ms | page changed
+21:23:20 INFO    [chrome_plugin_jev.jev_agent] Step 56: SELECT 'Search Port [for Port of Load] › Country : → INDIA' (confidence 0.93) | Jev 1302 ms, browser 4 ms | page changed
+21:23:21 INFO    [chrome_plugin_jev.jev_agent] Step 57: CLICK 'Search Port [for Port of Load] › Search' (confidence 1.00) | Jev 996 ms, browser 14 ms | page changed
+21:23:23 INFO    [chrome_plugin_jev.jev_agent] Step 58: CLICK 'Search Port [for Port of Load] › Select COK' (confidence 1.00) | Jev 1250 ms, browser 19 ms | page changed
+21:23:24 INFO    [chrome_plugin_jev.jev_agent] Step 59: CLICK 'Search Port of Discharge' (confidence 0.78) | Jev 1710 ms, browser 16 ms | page changed
+21:23:27 INFO    [chrome_plugin_jev.jev_agent] Step 60: TYPE_TEXT 'Search Port [for Port of Discharge] › Location Name :' = 'Dubai International' (confidence 0.73) | Jev 995 ms, text 1272 ms, browser 10 ms | page changed
+21:23:28 INFO    [chrome_plugin_jev.jev_agent] Step 61: SELECT 'Search Port [for Port of Discharge] › Country : → UNITED AR…' (confidence 0.82) | Jev 966 ms, browser 4 ms | page changed
+21:23:29 INFO    [chrome_plugin_jev.jev_agent] Step 62: CLICK 'Search Port [for Port of Discharge] › Search' (confidence 1.00) | Jev 1120 ms, browser 23 ms | page changed
+21:23:30 INFO    [chrome_plugin_jev.jev_agent] Step 63: CLICK 'Search Port [for Port of Discharge] › Select DXB' (confidence 1.00) | Jev 1132 ms, browser 20 ms | page changed
+21:23:31 INFO    [chrome_plugin_jev.jev_agent] Step 64: SCROLL_DOWN 'Scroll down' (confidence 0.21, unsure: next BLOCKED 0.25, CLICK 0.24) | Jev 863 ms, browser 3 ms | page did NOT change
+21:23:32 INFO    [chrome_plugin_jev.jev_agent] Step 65: SCROLL_DOWN 'Scroll down' (confidence 0.44, unsure: next CLICK 0.21, DONE 0.10) | Jev 1016 ms, browser 2 ms | page changed
+21:23:34 INFO    [chrome_plugin_jev.jev_agent] Step 66: TYPE_TEXT 'Net Weight :' = '450' (confidence 0.90) | Jev 1071 ms, text 1205 ms, browser 21 ms | page changed
+21:23:35 INFO    [chrome_plugin_jev.jev_agent] Step 67: SELECT 'Net weight unit → Kilogram (KG)' (confidence 0.87) | Jev 1046 ms, browser 7 ms | page changed
+21:23:37 INFO    [chrome_plugin_jev.jev_agent] Step 68: TYPE_TEXT 'Volume :' = '2.4' (confidence 0.97) | Jev 966 ms, text 1002 ms, browser 32 ms | page changed
+21:23:38 INFO    [chrome_plugin_jev.jev_agent] Step 69: SELECT 'Volume unit → Cubic Metre (CBM)' (confidence 0.84) | Jev 926 ms, browser 8 ms | page changed
+21:23:40 INFO    [chrome_plugin_jev.jev_agent] Step 70: TYPE_TEXT 'Gross Weight : *' = '480' (confidence 0.98) | Jev 1038 ms, text 1124 ms, browser 31 ms | page changed
+21:23:42 INFO    [chrome_plugin_jev.jev_agent] Step 71: SELECT 'Gross weight unit → Kilogram (KG)' (confidence 0.97) | Jev 1691 ms, browser 9 ms | page changed
+21:23:44 INFO    [chrome_plugin_jev.jev_agent] Step 72: SELECT 'Cargo Type : * → Perishable' (confidence 0.93) | Jev 1479 ms, browser 7 ms | page changed
+21:23:45 INFO    [chrome_plugin_jev.jev_agent] Step 73: CLICK 'Next' (confidence 0.78) | Jev 1246 ms, browser 37 ms | page changed
+21:23:46 INFO    [chrome_plugin_jev.jev_agent] Step 74: CLICK 'Add Invoice' (confidence 0.86) | Jev 880 ms, browser 18 ms | page changed
+21:23:48 INFO    [chrome_plugin_jev.jev_agent] Step 75: TYPE_TEXT 'Invoice No. : *' = 'INV-2026-0512' (confidence 0.97) | Jev 1398 ms, text 1155 ms, browser 22 ms | page changed
+21:23:50 INFO    [chrome_plugin_jev.jev_agent] Step 76: CLICK 'Choose Invoice Date from calendar' (confidence 0.59) | Jev 1497 ms, browser 32 ms | page did NOT change
+21:23:52 INFO    [chrome_plugin_jev.jev_agent] Step 77: TYPE_TEXT 'Invoice Date : * (format DD-MM-YYYY)' = '15-11-2026' (confidence 0.49, unsure: next CLICK 0.25, WAIT 0.18) | Jev 981 ms, text 1497 ms, browser 27 ms | page changed
+21:23:54 INFO    [chrome_plugin_jev.jev_agent] Step 78: CLICK 'Same as Exporter' (confidence 0.55) | Jev 1290 ms, browser 28 ms | page changed
+21:23:57 INFO    [chrome_plugin_jev.jev_agent] Step 79: TYPE_TEXT 'No. of Pages : *' = '2' (confidence 0.71) | Jev 1392 ms, text 1328 ms, browser 19 ms | page changed
+21:23:58 INFO    [chrome_plugin_jev.jev_agent] Step 80: SELECT 'Terms of Delivery : * → CIF - Cost, Insurance and Freight' (confidence 0.94) | Jev 1598 ms, browser 7 ms | page changed
+21:23:59 INFO    [chrome_plugin_jev.jev_agent] Step 81: SELECT 'Invoice Type : * → Commercial Invoice' (confidence 0.87) | Jev 1007 ms, browser 7 ms | page changed
+21:24:02 INFO    [chrome_plugin_jev.jev_agent] Step 82: TYPE_TEXT 'Insurance Cost : *' = '40' (confidence 0.82) | Jev 1035 ms, text 1374 ms, browser 64 ms | page changed
+21:24:06 INFO    [chrome_plugin_jev.jev_agent] Step 83: SELECT 'Insurance currency → USD' (confidence 0.86) | Jev 3812 ms, browser 8 ms | page changed
+21:24:08 INFO    [chrome_plugin_jev.jev_agent] Step 84: TYPE_TEXT 'Freight Cost : *' = '260' (confidence 0.92) | Jev 1336 ms, text 1380 ms, browser 29 ms | page changed
+21:24:09 INFO    [chrome_plugin_jev.jev_agent] Step 85: SELECT 'Freight currency → USD' (confidence 0.92) | Jev 972 ms, browser 7 ms | page changed
+21:24:10 INFO    [chrome_plugin_jev.jev_agent] Step 86: SELECT 'Currency : * → USD - US Dollar' (confidence 0.86) | Jev 860 ms, browser 8 ms | page changed
+21:24:12 INFO    [chrome_plugin_jev.jev_agent] Step 87: TYPE_TEXT 'Value : *' = '2000' (confidence 0.89) | Jev 901 ms, text 1380 ms, browser 29 ms | page changed
+21:24:13 INFO    [chrome_plugin_jev.jev_agent] Step 88: SCROLL_DOWN 'Scroll down' (confidence 0.44, unsure: next CLICK 0.26, DONE 0.12) | Jev 892 ms, browser 2 ms | page did NOT change
+21:24:14 INFO    [chrome_plugin_jev.jev_agent] Step 89: CLICK 'Same as Exporter' (confidence 0.59) | Jev 895 ms, browser 27 ms | page changed
+21:24:15 INFO    [chrome_plugin_jev.jev_agent] Step 90: SELECT 'Payment Term : * → Letter of Credit' (confidence 0.90) | Jev 1006 ms, browser 10 ms | page changed
+21:24:16 INFO    [chrome_plugin_jev.jev_agent] Step 91: CLICK 'Save' (confidence 0.57) | Jev 1042 ms, browser 27 ms | page changed
+21:24:17 INFO    [chrome_plugin_jev.jev_agent] Step 92: CLICK 'Add line items to INV-2026-0512' (confidence 0.96) | Jev 719 ms, browser 13 ms | page changed
+21:24:20 INFO    [chrome_plugin_jev.jev_agent] Step 93: CLICK 'Line Items - Invoice INV-2026-0512 › Search HS Code' (confidence 0.81) | Jev 3290 ms, browser 14 ms | page changed
+21:24:23 INFO    [chrome_plugin_jev.jev_agent] Step 94: TYPE_TEXT 'Search HS Code › Description :' = 'Cardamoms' (confidence 0.93) | Jev 1040 ms, text 1906 ms, browser 14 ms | page changed
+21:24:24 INFO    [chrome_plugin_jev.jev_agent] Step 95: CLICK 'Search HS Code › Search' (confidence 1.00) | Jev 914 ms, browser 14 ms | page changed
+21:24:26 INFO    [chrome_plugin_jev.jev_agent] Step 96: CLICK 'Search HS Code › Select 09083100' (confidence 1.00) | Jev 1098 ms, browser 17 ms | page changed
+21:24:26 INFO    [chrome_plugin_jev.jev_agent] Step 97: SELECT 'Line Items - Invoice INV-2026-0512 › Country of Origin : * …' (confidence 0.95) | Jev 964 ms, browser 7 ms | page changed
+21:24:29 INFO    [chrome_plugin_jev.jev_agent] Step 98: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Quantity : *' = '18' (confidence 0.92) | Jev 910 ms, text 1245 ms, browser 20 ms | page changed
+21:24:30 INFO    [chrome_plugin_jev.jev_agent] Step 99: SELECT 'Line Items - Invoice INV-2026-0512 › Unit : * → Carton (CTN)' (confidence 0.95) | Jev 956 ms, browser 7 ms | page changed
+21:24:33 INFO    [chrome_plugin_jev.jev_agent] Step 100: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Value (USD) : *' = '2000' (confidence 0.99) | Jev 1430 ms, text 1549 ms, browser 42 ms | page changed
+21:24:35 INFO    [chrome_plugin_jev.jev_agent] Step 101: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Net Weight (KG) : *' = '450' (confidence 1.00) | Jev 978 ms, text 1229 ms, browser 25 ms | page changed
+21:24:38 INFO    [chrome_plugin_jev.jev_agent] Step 102: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Gross Weight (KG) : *' = '480' (confidence 1.00) | Jev 1500 ms, text 1272 ms, browser 26 ms | page changed
+21:24:39 INFO    [chrome_plugin_jev.jev_agent] Step 103: CLICK 'Line Items - Invoice INV-2026-0512 › Add Line Item' (confidence 1.00) | Jev 1167 ms, browser 36 ms | page changed
+21:24:40 INFO    [chrome_plugin_jev.jev_agent] Step 104: CLICK 'Line Items - Invoice INV-2026-0512 › Done' (confidence 0.65) | Jev 1002 ms, browser 13 ms | page changed
+21:24:41 INFO    [chrome_plugin_jev.jev_agent] Step 105: CLICK 'Next' (confidence 0.88) | Jev 843 ms, browser 18 ms | page changed
+21:24:42 INFO    [chrome_plugin_jev.jev_agent] Step 106: SELECT 'Payment mode for customs duty → CDR Account' (confidence 0.90) | Jev 906 ms, browser 6 ms | page changed
+21:24:43 INFO    [chrome_plugin_jev.jev_agent] Step 107: SELECT 'Payment reference for customs duty → CDR-1002345 (Balance A…' (confidence 0.94) | Jev 886 ms, browser 5 ms | page changed
+21:24:44 INFO    [chrome_plugin_jev.jev_agent] Step 108: SELECT 'Payment mode for other charges → CDR Account' (confidence 0.87) | Jev 934 ms, browser 6 ms | page changed
+21:24:45 INFO    [chrome_plugin_jev.jev_agent] Step 109: SELECT 'Payment reference for other charges → CDR-1002345 (Balance …' (confidence 0.95) | Jev 1316 ms, browser 6 ms | page changed
+21:24:46 INFO    [chrome_plugin_jev.jev_agent] Step 110: CLICK 'I, the undersigned, being authorized by AL NOOR GENERAL TRA…' (confidence 0.86) | Jev 1317 ms, browser 13 ms | page changed
+21:24:48 INFO    [chrome_plugin_jev.jev_agent] Step 111: SCROLL_DOWN 'Scroll down' (confidence 0.35, unsure: next BLOCKED 0.28, DONE 0.16) | Jev 1364 ms, browser 3 ms | page did NOT change
+21:24:49 INFO    [chrome_plugin_jev.jev_agent] Step 112: SCROLL_DOWN 'Scroll down' (confidence 0.51) | Jev 1067 ms, browser 2 ms | page changed
+21:24:50 INFO    [chrome_plugin_jev.jev_agent] Step 113: CLICK 'Submit' (confidence 0.81) | Jev 1040 ms, browser 19 ms | page changed
+21:24:51 INFO    [chrome_plugin_jev.jev_agent] Agent finished: done after 113 action(s) in 178820 ms | Task completed in 113 browser action(s). | page reads 114x/1127 ms, Jev 114x/133696 ms, text helper 31x/41996 ms, browser actions 112x/1947 ms
+21:24:51 INFO    [chrome_plugin_jev.jobs] Job 37eb0cd7-452c-4219-98c8-fead002d4171 finished: done in 178820 ms - Task completed in 113 browser action(s).
+21:26:46 INFO    [chrome_plugin_jev.jobs] Job 87981e4c-198d-43dc-a40d-59a9968e6479 started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+21:26:46 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:26:49 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.92) | Jev 1901 ms, text 1341 ms, browser 29 ms | page changed
+21:26:51 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.84) | Jev 1314 ms, browser 36 ms | page changed
+21:26:53 INFO    [chrome_plugin_jev.jev_agent] Step 3: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.94) | Jev 1061 ms, text 1272 ms, browser 17 ms | page changed
+21:26:54 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.73) | Jev 917 ms, browser 5 ms | page changed
+21:26:55 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 0.99) | Jev 986 ms, browser 16 ms | page changed
+21:26:56 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 1317 ms, browser 22 ms | page changed
+21:26:58 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.39, unsure: next BLOCKED 0.37, TYPE_TEXT 0.10) | Jev 1206 ms, browser 21 ms | page changed
+21:27:01 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT "Search Importer [for Importer's Code] › Name :" = 'Al Noor General Trading' (confidence 0.94) | Jev 1503 ms, text 1466 ms, browser 17 ms | page changed
+21:27:02 INFO    [chrome_plugin_jev.jev_agent] Step 9: SELECT "Search Importer [for Importer's Code] › Country : → United …" (confidence 0.71) | Jev 1072 ms, browser 6 ms | page changed
+21:27:03 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK "Search Importer [for Importer's Code] › Search" (confidence 1.00) | Jev 1215 ms, browser 16 ms | page changed
+21:27:04 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer [for Importer's Code] › Select AE-1048821" (confidence 1.00) | Jev 1285 ms, browser 38 ms | page changed
+21:27:05 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.71) | Jev 887 ms, browser 21 ms | page changed
+21:27:07 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Search Notify Party [for Notify Party Code] › Name :' = 'Swift Clearing & Forwarding' (confidence 0.94) | Jev 891 ms, text 1104 ms, browser 17 ms | page changed
+21:27:08 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search Notify Party [for Notify Party Code] › Search' (confidence 0.61) | Jev 1030 ms, browser 27 ms | page changed
+21:27:09 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party [for Notify Party Code] › Select AE-200…' (confidence 0.99) | Jev 1022 ms, browser 22 ms | page changed
+21:27:10 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Cargo Handler's Code" (confidence 0.83) | Jev 1104 ms, browser 20 ms | page changed
+21:27:12 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT "Search Cargo Handler [for Cargo Handler's Code] › Name :" = 'Dubai Airport Cargo Terminal Operator' (confidence 0.84) | Jev 937 ms, text 1049 ms, browser 15 ms | page changed
+21:27:13 INFO    [chrome_plugin_jev.jev_agent] Step 18: SELECT "Search Cargo Handler [for Cargo Handler's Code] › Country :…" (confidence 0.54) | Jev 948 ms, browser 4 ms | page changed
+21:27:15 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Search" (confidence 1.00) | Jev 1342 ms, browser 16 ms | page changed
+21:27:16 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Select AE…" (confidence 1.00) | Jev 1257 ms, browser 21 ms | page changed
+21:27:17 INFO    [chrome_plugin_jev.jev_agent] Step 21: SCROLL_DOWN 'Scroll down' (confidence 0.33, unsure: next CLICK 0.21, TYPE_TEXT 0.18) | Jev 894 ms, browser 2 ms | page did NOT change
+21:27:18 INFO    [chrome_plugin_jev.jev_agent] Step 22: SCROLL_DOWN 'Scroll down' (confidence 0.22, unsure: next CLICK 0.26, TYPE_TEXT 0.19) | Jev 987 ms, browser 3 ms | page changed
+21:27:19 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK "Search Exporter's Code" (confidence 0.62) | Jev 909 ms, browser 20 ms | page changed
+21:27:21 INFO    [chrome_plugin_jev.jev_agent] Step 24: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.93) | Jev 1083 ms, text 1183 ms, browser 16 ms | page changed
+21:27:22 INFO    [chrome_plugin_jev.jev_agent] Step 25: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.83) | Jev 913 ms, browser 5 ms | page changed
+21:27:23 INFO    [chrome_plugin_jev.jev_agent] Step 26: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 1.00) | Jev 982 ms, browser 16 ms | page changed
+21:27:24 INFO    [chrome_plugin_jev.jev_agent] Step 27: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 1247 ms, browser 21 ms | page changed
+21:27:25 INFO    [chrome_plugin_jev.jev_agent] Step 28: CLICK "Search Agent's Code" (confidence 0.58) | Jev 939 ms, browser 19 ms | page changed
+21:27:28 INFO    [chrome_plugin_jev.jev_agent] Step 29: TYPE_TEXT "Search Agent [for Agent's Code] › Name :" = 'Emirates SkyCargo Agency' (confidence 0.79) | Jev 1554 ms, text 1243 ms, browser 17 ms | page changed
+21:27:29 INFO    [chrome_plugin_jev.jev_agent] Step 30: SELECT "Search Agent [for Agent's Code] › Country : → United Arab E…" (confidence 0.63) | Jev 1015 ms, browser 5 ms | page changed
+21:27:30 INFO    [chrome_plugin_jev.jev_agent] Step 31: CLICK "Search Agent [for Agent's Code] › Search" (confidence 0.99) | Jev 875 ms, browser 16 ms | page changed
+21:27:31 INFO    [chrome_plugin_jev.jev_agent] Step 32: CLICK "Search Agent [for Agent's Code] › Select AE-4001108" (confidence 1.00) | Jev 1021 ms, browser 21 ms | page changed
+21:27:32 INFO    [chrome_plugin_jev.jev_agent] Step 33: SELECT 'Invoice : * → Attached - Original' (confidence 0.45, unsure: next CLICK 0.22, TYPE_TEXT 0.13) | Jev 1046 ms, browser 8 ms | page changed
+21:27:33 INFO    [chrome_plugin_jev.jev_agent] Step 34: SELECT 'AWB / BOL : * → Attached - Original' (confidence 0.92) | Jev 1137 ms, browser 9 ms | page changed
+21:27:35 INFO    [chrome_plugin_jev.jev_agent] Step 35: SELECT 'Packing List : * → Attached - Copy' (confidence 0.97) | Jev 1406 ms, browser 9 ms | page changed
+21:27:36 INFO    [chrome_plugin_jev.jev_agent] Step 36: SELECT 'Cert. of Origin : * → To Follow' (confidence 0.96) | Jev 1311 ms, browser 9 ms | page changed
+21:27:37 INFO    [chrome_plugin_jev.jev_agent] Step 37: CLICK 'Next' (confidence 0.53) | Jev 1203 ms, browser 53 ms | page changed
+21:27:40 INFO    [chrome_plugin_jev.jev_agent] Step 38: TYPE_TEXT 'Scheduled Date : * (format DD-MM-YYYY)' = '20-12-2026' (confidence 0.64) | Jev 1015 ms, text 1985 ms, browser 44 ms | page changed
+21:27:43 WARNING [chrome_plugin_jev.jev_agent] Step 39: no value for 'Carrier Registration No. : *', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+21:27:45 INFO    [chrome_plugin_jev.jev_agent] Step 40: TYPE_TEXT 'MAWB / BOL : *' = '17612345678' (confidence 0.42, unsure: next CLICK 0.41, BLOCKED 0.08) | Jev 946 ms, text 1151 ms, browser 35 ms | page changed
+21:27:47 INFO    [chrome_plugin_jev.jev_agent] Step 41: TYPE_TEXT 'HAWB :' = 'HAWB-7781' (confidence 0.60) | Jev 1079 ms, text 1437 ms, browser 33 ms | page changed
+21:27:49 INFO    [chrome_plugin_jev.jev_agent] Step 42: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.96) | Jev 950 ms, text 1140 ms, browser 33 ms | page changed
+21:27:52 INFO    [chrome_plugin_jev.jev_agent] Step 43: TYPE_TEXT 'Port of Load : *' = 'Kochi, India' (confidence 0.67) | Jev 873 ms, text 1777 ms, browser 40 ms | page changed
+21:27:55 INFO    [chrome_plugin_jev.jev_agent] Step 44: TYPE_TEXT 'Port of Discharge : *' = 'Dubai International' (confidence 0.71) | Jev 1067 ms, text 1533 ms, browser 39 ms | page changed
+21:27:56 INFO    [chrome_plugin_jev.jev_agent] Step 45: CLICK 'Search Carrier Registration No.' (confidence 0.72) | Jev 1187 ms, browser 28 ms | page changed
+21:27:57 INFO    [chrome_plugin_jev.jev_agent] Step 46: SELECT 'Search Carrier [for Carrier Registration No.] › Operator : …' (confidence 0.81) | Jev 1313 ms, browser 5 ms | page changed
+21:27:58 INFO    [chrome_plugin_jev.jev_agent] Step 47: CLICK 'Search Carrier [for Carrier Registration No.] › Search' (confidence 0.97) | Jev 1195 ms, browser 18 ms | page changed
+21:28:00 INFO    [chrome_plugin_jev.jev_agent] Step 48: CLICK 'Search Carrier [for Carrier Registration No.] › Select EK05…' (confidence 1.00) | Jev 1049 ms, browser 21 ms | page changed
+21:28:00 INFO    [chrome_plugin_jev.jev_agent] Step 49: CLICK 'Search Original Load Port' (confidence 0.65) | Jev 841 ms, browser 17 ms | page changed
+21:28:03 INFO    [chrome_plugin_jev.jev_agent] Step 50: TYPE_TEXT 'Search Port [for Original Load Port] › Location Name :' = 'Kochi' (confidence 0.51) | Jev 943 ms, text 1495 ms, browser 12 ms | page changed
+21:28:04 INFO    [chrome_plugin_jev.jev_agent] Step 51: SELECT 'Search Port [for Original Load Port] › Country : → INDIA' (confidence 0.87) | Jev 1164 ms, browser 5 ms | page changed
+21:28:05 INFO    [chrome_plugin_jev.jev_agent] Step 52: CLICK 'Search Port [for Original Load Port] › Search' (confidence 0.99) | Jev 1018 ms, browser 25 ms | page changed
+21:28:06 INFO    [chrome_plugin_jev.jev_agent] Step 53: CLICK 'Search Port [for Original Load Port] › Select COK' (confidence 1.00) | Jev 1044 ms, browser 21 ms | page changed
+21:28:07 INFO    [chrome_plugin_jev.jev_agent] Step 54: CLICK 'Search Port of Load' (confidence 0.66) | Jev 926 ms, browser 18 ms | page changed
+21:28:09 INFO    [chrome_plugin_jev.jev_agent] Step 55: TYPE_TEXT 'Search Port [for Port of Load] › Location Name :' = 'Kochi' (confidence 0.70) | Jev 957 ms, text 1096 ms, browser 11 ms | page changed
+21:28:10 INFO    [chrome_plugin_jev.jev_agent] Step 56: SELECT 'Search Port [for Port of Load] › Country : → INDIA' (confidence 0.94) | Jev 1232 ms, browser 6 ms | page changed
+21:28:12 INFO    [chrome_plugin_jev.jev_agent] Step 57: CLICK 'Search Port [for Port of Load] › Search' (confidence 1.00) | Jev 1127 ms, browser 15 ms | page changed
+21:28:15 INFO    [chrome_plugin_jev.jev_agent] Step 58: CLICK 'Search Port [for Port of Load] › Select COK' (confidence 1.00) | Jev 3125 ms, browser 20 ms | page changed
+21:28:16 INFO    [chrome_plugin_jev.jev_agent] Step 59: CLICK 'Search Port of Discharge' (confidence 0.74) | Jev 1029 ms, browser 16 ms | page changed
+21:28:18 INFO    [chrome_plugin_jev.jev_agent] Step 60: TYPE_TEXT 'Search Port [for Port of Discharge] › Location Name :' = 'Dubai International' (confidence 0.69) | Jev 1079 ms, text 1320 ms, browser 11 ms | page changed
+21:28:19 INFO    [chrome_plugin_jev.jev_agent] Step 61: SELECT 'Search Port [for Port of Discharge] › Country : → UNITED AR…' (confidence 0.76) | Jev 1017 ms, browser 4 ms | page changed
+21:28:20 INFO    [chrome_plugin_jev.jev_agent] Step 62: CLICK 'Search Port [for Port of Discharge] › Search' (confidence 1.00) | Jev 1000 ms, browser 22 ms | page changed
+21:28:22 INFO    [chrome_plugin_jev.jev_agent] Step 63: CLICK 'Search Port [for Port of Discharge] › Select DXB' (confidence 1.00) | Jev 1307 ms, browser 21 ms | page changed
+21:28:23 INFO    [chrome_plugin_jev.jev_agent] Step 64: SCROLL_DOWN 'Scroll down' (confidence 0.36, unsure: next CLICK 0.25, DONE 0.13) | Jev 1301 ms, browser 3 ms | page did NOT change
+21:28:24 INFO    [chrome_plugin_jev.jev_agent] Step 65: SCROLL_DOWN 'Scroll down' (confidence 0.37, unsure: next CLICK 0.27, BLOCKED 0.09) | Jev 1113 ms, browser 3 ms | page changed
+21:28:27 INFO    [chrome_plugin_jev.jev_agent] Step 66: TYPE_TEXT 'Net Weight :' = '450' (confidence 0.86) | Jev 1324 ms, text 1230 ms, browser 25 ms | page changed
+21:28:28 INFO    [chrome_plugin_jev.jev_agent] Step 67: SELECT 'Net weight unit → Kilogram (KG)' (confidence 0.87) | Jev 1307 ms, browser 9 ms | page changed
+21:28:30 INFO    [chrome_plugin_jev.jev_agent] Step 68: TYPE_TEXT 'Volume :' = '2.4' (confidence 0.97) | Jev 1069 ms, text 1267 ms, browser 34 ms | page changed
+21:28:32 INFO    [chrome_plugin_jev.jev_agent] Step 69: SELECT 'Volume unit → Cubic Metre (CBM)' (confidence 0.86) | Jev 1185 ms, browser 7 ms | page changed
+21:28:34 INFO    [chrome_plugin_jev.jev_agent] Step 70: TYPE_TEXT 'Gross Weight : *' = '480' (confidence 0.98) | Jev 1071 ms, text 1094 ms, browser 32 ms | page changed
+21:28:35 INFO    [chrome_plugin_jev.jev_agent] Step 71: SELECT 'Gross weight unit → Kilogram (KG)' (confidence 0.97) | Jev 957 ms, browser 8 ms | page changed
+21:28:36 INFO    [chrome_plugin_jev.jev_agent] Step 72: SELECT 'Cargo Type : * → Perishable' (confidence 0.97) | Jev 876 ms, browser 9 ms | page changed
+21:28:37 INFO    [chrome_plugin_jev.jev_agent] Step 73: CLICK 'Next' (confidence 0.77) | Jev 943 ms, browser 41 ms | page changed
+21:28:38 INFO    [chrome_plugin_jev.jev_agent] Step 74: CLICK 'Add Invoice' (confidence 0.89) | Jev 943 ms, browser 17 ms | page changed
+21:28:40 INFO    [chrome_plugin_jev.jev_agent] Step 75: TYPE_TEXT 'Invoice No. : *' = 'INV-2026-0512' (confidence 0.97) | Jev 1147 ms, text 1112 ms, browser 22 ms | page changed
+21:28:42 INFO    [chrome_plugin_jev.jev_agent] Step 76: TYPE_TEXT 'Invoice Date : * (format DD-MM-YYYY)' = '15-11-2026' (confidence 0.46, unsure: next CLICK 0.46, SELECT 0.01) | Jev 962 ms, text 1320 ms, browser 52 ms | page changed
+21:28:44 INFO    [chrome_plugin_jev.jev_agent] Step 77: CLICK 'Same as Exporter' (confidence 0.75) | Jev 1464 ms, browser 30 ms | page changed
+21:28:46 INFO    [chrome_plugin_jev.jev_agent] Step 78: TYPE_TEXT 'No. of Pages : *' = '2' (confidence 0.67) | Jev 1293 ms, text 1177 ms, browser 23 ms | page changed
+21:28:47 INFO    [chrome_plugin_jev.jev_agent] Step 79: SELECT 'Terms of Delivery : * → CIF - Cost, Insurance and Freight' (confidence 0.91) | Jev 855 ms, browser 7 ms | page changed
+21:28:48 INFO    [chrome_plugin_jev.jev_agent] Step 80: SELECT 'Invoice Type : * → Commercial Invoice' (confidence 0.90) | Jev 903 ms, browser 7 ms | page changed
+21:28:50 INFO    [chrome_plugin_jev.jev_agent] Step 81: TYPE_TEXT 'Insurance Cost : *' = '40' (confidence 0.82) | Jev 928 ms, text 1257 ms, browser 33 ms | page changed
+21:28:51 INFO    [chrome_plugin_jev.jev_agent] Step 82: SELECT 'Insurance currency → USD' (confidence 0.92) | Jev 1053 ms, browser 8 ms | page changed
+21:28:54 INFO    [chrome_plugin_jev.jev_agent] Step 83: TYPE_TEXT 'Freight Cost : *' = '260' (confidence 0.89) | Jev 1454 ms, text 1434 ms, browser 32 ms | page changed
+21:28:56 INFO    [chrome_plugin_jev.jev_agent] Step 84: SELECT 'Freight currency → USD' (confidence 0.94) | Jev 1166 ms, browser 8 ms | page changed
+21:28:57 INFO    [chrome_plugin_jev.jev_agent] Step 85: SELECT 'Currency : * → USD - US Dollar' (confidence 0.87) | Jev 1631 ms, browser 8 ms | page changed
+21:29:00 INFO    [chrome_plugin_jev.jev_agent] Step 86: TYPE_TEXT 'Value : *' = '2000' (confidence 0.92) | Jev 1206 ms, text 1229 ms, browser 32 ms | page changed
+21:29:01 INFO    [chrome_plugin_jev.jev_agent] Step 87: SCROLL_DOWN 'Scroll down' (confidence 0.51) | Jev 1498 ms, browser 4 ms | page did NOT change
+21:29:02 INFO    [chrome_plugin_jev.jev_agent] Step 88: CLICK 'Same as Exporter' (confidence 0.60) | Jev 1237 ms, browser 27 ms | page changed
+21:29:04 INFO    [chrome_plugin_jev.jev_agent] Step 89: SELECT 'Payment Term : * → Letter of Credit' (confidence 0.90) | Jev 1822 ms, browser 8 ms | page changed
+21:29:05 INFO    [chrome_plugin_jev.jev_agent] Step 90: CLICK 'Save' (confidence 0.63) | Jev 1017 ms, browser 36 ms | page changed
+21:29:06 INFO    [chrome_plugin_jev.jev_agent] Step 91: CLICK 'Add line items to INV-2026-0512' (confidence 0.96) | Jev 1024 ms, browser 13 ms | page changed
+21:29:08 INFO    [chrome_plugin_jev.jev_agent] Step 92: CLICK 'Line Items - Invoice INV-2026-0512 › Search HS Code' (confidence 0.79) | Jev 1105 ms, browser 16 ms | page changed
+21:29:10 INFO    [chrome_plugin_jev.jev_agent] Step 93: TYPE_TEXT 'Search HS Code › Description :' = 'Cardamoms' (confidence 0.96) | Jev 756 ms, text 1386 ms, browser 15 ms | page changed
+21:29:11 INFO    [chrome_plugin_jev.jev_agent] Step 94: CLICK 'Search HS Code › Search' (confidence 0.99) | Jev 899 ms, browser 16 ms | page changed
+21:29:11 INFO    [chrome_plugin_jev.jev_agent] Step 95: CLICK 'Search HS Code › Select 09083100' (confidence 1.00) | Jev 817 ms, browser 15 ms | page changed
+21:29:13 INFO    [chrome_plugin_jev.jev_agent] Step 96: SELECT 'Line Items - Invoice INV-2026-0512 › Country of Origin : * …' (confidence 0.93) | Jev 1041 ms, browser 6 ms | page changed
+21:29:15 INFO    [chrome_plugin_jev.jev_agent] Step 97: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Quantity : *' = '18' (confidence 0.92) | Jev 1003 ms, text 1278 ms, browser 36 ms | page changed
+21:29:16 INFO    [chrome_plugin_jev.jev_agent] Step 98: SELECT 'Line Items - Invoice INV-2026-0512 › Unit : * → Carton (CTN)' (confidence 0.95) | Jev 940 ms, browser 7 ms | page changed
+21:29:19 INFO    [chrome_plugin_jev.jev_agent] Step 99: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Value (USD) : *' = '2000' (confidence 1.00) | Jev 1210 ms, text 1804 ms, browser 27 ms | page changed
+21:29:21 INFO    [chrome_plugin_jev.jev_agent] Step 100: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Net Weight (KG) : *' = '450' (confidence 1.00) | Jev 1023 ms, text 1539 ms, browser 28 ms | page changed
+21:29:24 INFO    [chrome_plugin_jev.jev_agent] Step 101: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Gross Weight (KG) : *' = '480' (confidence 1.00) | Jev 1396 ms, text 1227 ms, browser 26 ms | page changed
+21:29:25 INFO    [chrome_plugin_jev.jev_agent] Step 102: CLICK 'Line Items - Invoice INV-2026-0512 › Add Line Item' (confidence 1.00) | Jev 1147 ms, browser 39 ms | page changed
+21:29:26 INFO    [chrome_plugin_jev.jev_agent] Step 103: CLICK 'Line Items - Invoice INV-2026-0512 › Done' (confidence 0.54) | Jev 1123 ms, browser 12 ms | page changed
+21:29:27 INFO    [chrome_plugin_jev.jev_agent] Step 104: CLICK 'Next' (confidence 0.93) | Jev 975 ms, browser 15 ms | page changed
+21:29:28 INFO    [chrome_plugin_jev.jev_agent] Step 105: SELECT 'Payment mode for customs duty → CDR Account' (confidence 0.86) | Jev 851 ms, browser 6 ms | page changed
+21:29:29 INFO    [chrome_plugin_jev.jev_agent] Step 106: SELECT 'Payment reference for customs duty → CDR-1002345 (Balance A…' (confidence 0.85) | Jev 910 ms, browser 5 ms | page changed
+21:29:30 WARNING [chrome_plugin_jev.jobs] Job 87981e4c-198d-43dc-a40d-59a9968e6479 failed after 164224 ms: browser bridge error: No tab with given id 627452360.
+21:32:46 INFO    [chrome_plugin_jev.jobs] Job a888e37a-6a9a-47a3-8805-9b34746a2c45 started (Jev agent): 'fill and submit this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "C…'
+21:32:46 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab http://localhost:3000/
+21:32:48 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT "Client's Dec. Ref. No. : *" = 'TEST-2001' (confidence 0.84) | Jev 1308 ms, text 1353 ms, browser 50 ms | page changed
+21:32:50 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK "Search Exporter's Code" (confidence 0.68) | Jev 1250 ms, browser 41 ms | page changed
+21:32:52 INFO    [chrome_plugin_jev.jev_agent] Step 3: TYPE_TEXT "Search Exporter [for Exporter's Code] › Name :" = 'Kerala Spices Export House' (confidence 0.89) | Jev 1173 ms, text 1325 ms, browser 19 ms | page changed
+21:32:53 INFO    [chrome_plugin_jev.jev_agent] Step 4: SELECT "Search Exporter [for Exporter's Code] › Country : → India" (confidence 0.71) | Jev 1101 ms, browser 5 ms | page changed
+21:32:55 INFO    [chrome_plugin_jev.jev_agent] Step 5: CLICK "Search Exporter [for Exporter's Code] › Search" (confidence 0.99) | Jev 1112 ms, browser 23 ms | page changed
+21:32:56 INFO    [chrome_plugin_jev.jev_agent] Step 6: CLICK "Search Exporter [for Exporter's Code] › Select IN-EXP-20431" (confidence 1.00) | Jev 1399 ms, browser 27 ms | page changed
+21:32:57 INFO    [chrome_plugin_jev.jev_agent] Step 7: CLICK "Search Importer's Code" (confidence 0.45, unsure: next BLOCKED 0.29, TYPE_TEXT 0.11) | Jev 1088 ms, browser 21 ms | page changed
+21:33:01 INFO    [chrome_plugin_jev.jev_agent] Step 8: TYPE_TEXT "Search Importer [for Importer's Code] › Name :" = 'Al Noor General Trading' (confidence 0.95) | Jev 2841 ms, text 1408 ms, browser 16 ms | page changed
+21:33:02 INFO    [chrome_plugin_jev.jev_agent] Step 9: SELECT "Search Importer [for Importer's Code] › Country : → United …" (confidence 0.62) | Jev 1020 ms, browser 5 ms | page changed
+21:33:04 INFO    [chrome_plugin_jev.jev_agent] Step 10: CLICK "Search Importer [for Importer's Code] › Search" (confidence 1.00) | Jev 1165 ms, browser 19 ms | page changed
+21:33:05 INFO    [chrome_plugin_jev.jev_agent] Step 11: CLICK "Search Importer [for Importer's Code] › Select AE-1048821" (confidence 1.00) | Jev 941 ms, browser 24 ms | page changed
+21:33:06 INFO    [chrome_plugin_jev.jev_agent] Step 12: CLICK 'Search Notify Party Code' (confidence 0.49, unsure: next BLOCKED 0.20, TYPE_TEXT 0.14) | Jev 998 ms, browser 19 ms | page changed
+21:33:08 INFO    [chrome_plugin_jev.jev_agent] Step 13: TYPE_TEXT 'Search Notify Party [for Notify Party Code] › Name :' = 'Swift Clearing & Forwarding' (confidence 0.94) | Jev 899 ms, text 1070 ms, browser 15 ms | page changed
+21:33:09 INFO    [chrome_plugin_jev.jev_agent] Step 14: CLICK 'Search Notify Party [for Notify Party Code] › Search' (confidence 0.62) | Jev 949 ms, browser 18 ms | page changed
+21:33:10 INFO    [chrome_plugin_jev.jev_agent] Step 15: CLICK 'Search Notify Party [for Notify Party Code] › Select AE-200…' (confidence 0.99) | Jev 946 ms, browser 23 ms | page changed
+21:33:11 INFO    [chrome_plugin_jev.jev_agent] Step 16: CLICK "Search Cargo Handler's Code" (confidence 0.73) | Jev 1047 ms, browser 19 ms | page changed
+21:33:14 INFO    [chrome_plugin_jev.jev_agent] Step 17: TYPE_TEXT "Search Cargo Handler [for Cargo Handler's Code] › Name :" = 'Dubai Airport Cargo Terminal Operator' (confidence 0.84) | Jev 1494 ms, text 1453 ms, browser 17 ms | page changed
+21:33:15 INFO    [chrome_plugin_jev.jev_agent] Step 18: SELECT "Search Cargo Handler [for Cargo Handler's Code] › Country :…" (confidence 0.57) | Jev 1262 ms, browser 5 ms | page changed
+21:33:16 INFO    [chrome_plugin_jev.jev_agent] Step 19: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Search" (confidence 1.00) | Jev 1169 ms, browser 16 ms | page changed
+21:33:17 INFO    [chrome_plugin_jev.jev_agent] Step 20: CLICK "Search Cargo Handler [for Cargo Handler's Code] › Select AE…" (confidence 1.00) | Jev 884 ms, browser 22 ms | page changed
+21:33:18 INFO    [chrome_plugin_jev.jev_agent] Step 21: CLICK "Search Agent's Code" (confidence 0.65) | Jev 1014 ms, browser 18 ms | page changed
+21:33:20 INFO    [chrome_plugin_jev.jev_agent] Step 22: TYPE_TEXT "Search Agent [for Agent's Code] › Name :" = 'Emirates SkyCargo Agency' (confidence 0.94) | Jev 990 ms, text 1080 ms, browser 30 ms | page changed
+21:33:22 INFO    [chrome_plugin_jev.jev_agent] Step 23: CLICK "Search Agent [for Agent's Code] › Search" (confidence 0.65) | Jev 1289 ms, browser 19 ms | page changed
+21:33:23 INFO    [chrome_plugin_jev.jev_agent] Step 24: CLICK "Search Agent [for Agent's Code] › Select AE-4001108" (confidence 0.99) | Jev 1402 ms, browser 28 ms | page changed
+21:33:24 INFO    [chrome_plugin_jev.jev_agent] Step 25: SELECT 'Invoice : * → Attached - Original' (confidence 0.78) | Jev 1190 ms, browser 8 ms | page changed
+21:33:26 INFO    [chrome_plugin_jev.jev_agent] Step 26: SELECT 'AWB / BOL : * → Attached - Original' (confidence 0.99) | Jev 1309 ms, browser 9 ms | page changed
+21:33:27 INFO    [chrome_plugin_jev.jev_agent] Step 27: SELECT 'Packing List : * → Attached - Copy' (confidence 0.96) | Jev 1106 ms, browser 9 ms | page changed
+21:33:28 INFO    [chrome_plugin_jev.jev_agent] Step 28: SELECT 'Cert. of Origin : * → To Follow' (confidence 0.95) | Jev 1252 ms, browser 8 ms | page changed
+21:33:29 INFO    [chrome_plugin_jev.jev_agent] Step 29: CLICK 'Next' (confidence 0.43, unsure: next SELECT 0.19, BLOCKED 0.17) | Jev 846 ms, browser 55 ms | page changed
+21:33:31 INFO    [chrome_plugin_jev.jev_agent] Step 30: TYPE_TEXT 'Scheduled Date : * (format DD-MM-YYYY)' = '20-12-2026' (confidence 0.46, unsure: next BLOCKED 0.32, CLICK 0.10) | Jev 873 ms, text 1399 ms, browser 27 ms | page changed
+21:33:33 INFO    [chrome_plugin_jev.jev_agent] Step 31: TYPE_TEXT 'MAWB / BOL : *' = '17612345678' (confidence 0.62) | Jev 918 ms, text 1119 ms, browser 35 ms | page changed
+21:33:36 INFO    [chrome_plugin_jev.jev_agent] Step 32: TYPE_TEXT 'HAWB :' = 'HAWB-7781' (confidence 0.80) | Jev 1060 ms, text 1332 ms, browser 39 ms | page changed
+21:33:38 INFO    [chrome_plugin_jev.jev_agent] Step 33: TYPE_TEXT 'Original Load Port : *' = 'Kochi, India' (confidence 0.73) | Jev 1294 ms, text 1223 ms, browser 31 ms | page changed
+21:33:41 INFO    [chrome_plugin_jev.jev_agent] Step 34: TYPE_TEXT 'Port of Load : *' = 'Kochi, India' (confidence 0.46, unsure: next CLICK 0.41, WAIT 0.02) | Jev 1288 ms, text 1429 ms, browser 41 ms | page changed
+21:33:42 INFO    [chrome_plugin_jev.jev_agent] Step 35: CLICK 'Search Original Load Port' (confidence 0.56) | Jev 1176 ms, browser 43 ms | page changed
+21:33:45 INFO    [chrome_plugin_jev.jev_agent] Step 36: TYPE_TEXT 'Search Port [for Original Load Port] › Location Name :' = 'Kochi' (confidence 0.43, unsure: next SELECT 0.41, CLICK 0.07) | Jev 1174 ms, text 1332 ms, browser 11 ms | page changed
+21:33:46 INFO    [chrome_plugin_jev.jev_agent] Step 37: SELECT 'Search Port [for Original Load Port] › Country : → INDIA' (confidence 0.89) | Jev 1092 ms, browser 4 ms | page changed
+21:33:47 INFO    [chrome_plugin_jev.jev_agent] Step 38: CLICK 'Search Port [for Original Load Port] › Search' (confidence 0.98) | Jev 1130 ms, browser 17 ms | page changed
+21:33:48 INFO    [chrome_plugin_jev.jev_agent] Step 39: CLICK 'Search Port [for Original Load Port] › Select COK' (confidence 1.00) | Jev 1317 ms, browser 21 ms | page changed
+21:33:50 INFO    [chrome_plugin_jev.jev_agent] Step 40: CLICK 'Search Port of Load' (confidence 0.57) | Jev 1343 ms, browser 17 ms | page changed
+21:33:58 INFO    [chrome_plugin_jev.jev_agent] Step 41: TYPE_TEXT 'Search Port [for Port of Load] › Location Name :' = 'Kochi' (confidence 0.59) | Jev 1361 ms, text 6753 ms, browser 26 ms | page changed
+21:33:59 INFO    [chrome_plugin_jev.jev_agent] Step 42: SELECT 'Search Port [for Port of Load] › Country : → INDIA' (confidence 0.93) | Jev 1292 ms, browser 4 ms | page changed
+21:34:00 INFO    [chrome_plugin_jev.jev_agent] Step 43: CLICK 'Search Port [for Port of Load] › Search' (confidence 1.00) | Jev 1220 ms, browser 16 ms | page changed
+21:34:02 INFO    [chrome_plugin_jev.jev_agent] Step 44: CLICK 'Search Port [for Port of Load] › Select COK' (confidence 1.00) | Jev 1715 ms, browser 21 ms | page changed
+21:34:04 INFO    [chrome_plugin_jev.jev_agent] Step 45: CLICK 'Search Port of Discharge' (confidence 0.67) | Jev 1361 ms, browser 16 ms | page changed
+21:34:06 INFO    [chrome_plugin_jev.jev_agent] Step 46: TYPE_TEXT 'Search Port [for Port of Discharge] › Location Name :' = 'Dubai International' (confidence 0.80) | Jev 940 ms, text 1331 ms, browser 10 ms | page changed
+21:34:07 INFO    [chrome_plugin_jev.jev_agent] Step 47: SELECT 'Search Port [for Port of Discharge] › Country : → UNITED AR…' (confidence 0.77) | Jev 1009 ms, browser 4 ms | page changed
+21:34:08 INFO    [chrome_plugin_jev.jev_agent] Step 48: CLICK 'Search Port [for Port of Discharge] › Search' (confidence 1.00) | Jev 935 ms, browser 15 ms | page changed
+21:34:09 INFO    [chrome_plugin_jev.jev_agent] Step 49: CLICK 'Search Port [for Port of Discharge] › Select DXB' (confidence 1.00) | Jev 779 ms, browser 22 ms | page changed
+21:34:11 INFO    [chrome_plugin_jev.jev_agent] Step 50: TYPE_TEXT 'Net Weight :' = '450' (confidence 0.56) | Jev 1013 ms, text 1275 ms, browser 29 ms | page changed
+21:34:12 INFO    [chrome_plugin_jev.jev_agent] Step 51: SELECT 'Net weight unit → Kilogram (KG)' (confidence 0.89) | Jev 1015 ms, browser 9 ms | page changed
+21:34:15 INFO    [chrome_plugin_jev.jev_agent] Step 52: TYPE_TEXT 'Volume :' = '2.4' (confidence 0.91) | Jev 1587 ms, text 1567 ms, browser 39 ms | page changed
+21:34:16 INFO    [chrome_plugin_jev.jev_agent] Step 53: SELECT 'Volume unit → Cubic Metre (CBM)' (confidence 0.89) | Jev 1179 ms, browser 9 ms | page changed
+21:34:19 INFO    [chrome_plugin_jev.jev_agent] Step 54: TYPE_TEXT 'Gross Weight : *' = '480' (confidence 0.89) | Jev 1164 ms, text 1374 ms, browser 35 ms | page changed
+21:34:20 INFO    [chrome_plugin_jev.jev_agent] Step 55: SELECT 'Gross weight unit → Kilogram (KG)' (confidence 0.95) | Jev 1077 ms, browser 9 ms | page changed
+21:34:21 INFO    [chrome_plugin_jev.jev_agent] Step 56: SELECT 'Cargo Type : * → Perishable' (confidence 0.87) | Jev 914 ms, browser 8 ms | page changed
+21:34:24 WARNING [chrome_plugin_jev.jev_agent] Step 57: no value for 'Carrier Registration No. : *', skipping the field | Text helper returned no valid field value (reply: {"text": null}); nothing was typed
+21:34:25 INFO    [chrome_plugin_jev.jev_agent] Step 58: CLICK 'Search Carrier Registration No.' (confidence 0.77) | Jev 1171 ms, browser 31 ms | page changed
+21:34:27 INFO    [chrome_plugin_jev.jev_agent] Step 59: SELECT 'Search Carrier [for Carrier Registration No.] › Operator : …' (confidence 0.81) | Jev 1549 ms, browser 4 ms | page changed
+21:34:28 INFO    [chrome_plugin_jev.jev_agent] Step 60: CLICK 'Search Carrier [for Carrier Registration No.] › Search' (confidence 0.87) | Jev 1123 ms, browser 26 ms | page changed
+21:34:29 INFO    [chrome_plugin_jev.jev_agent] Step 61: CLICK 'Search Carrier [for Carrier Registration No.] › Select EK05…' (confidence 1.00) | Jev 987 ms, browser 22 ms | page changed
+21:34:30 INFO    [chrome_plugin_jev.jev_agent] Step 62: CLICK 'Next' (confidence 0.77) | Jev 1186 ms, browser 30 ms | page changed
+21:34:32 INFO    [chrome_plugin_jev.jev_agent] Step 63: CLICK 'Add Invoice' (confidence 0.89) | Jev 1191 ms, browser 24 ms | page changed
+21:34:35 INFO    [chrome_plugin_jev.jev_agent] Step 64: TYPE_TEXT 'Invoice No. : *' = 'INV-2026-0512' (confidence 0.93) | Jev 1600 ms, text 1312 ms, browser 25 ms | page changed
+21:34:37 INFO    [chrome_plugin_jev.jev_agent] Step 65: TYPE_TEXT 'Invoice Date : * (format DD-MM-YYYY)' = '15-11-2026' (confidence 0.62) | Jev 981 ms, text 1497 ms, browser 32 ms | page changed
+21:34:38 INFO    [chrome_plugin_jev.jev_agent] Step 66: CLICK 'Same as Exporter' (confidence 0.80) | Jev 1142 ms, browser 40 ms | page changed
+21:34:41 INFO    [chrome_plugin_jev.jev_agent] Step 67: TYPE_TEXT 'No. of Pages : *' = '2' (confidence 0.79) | Jev 1254 ms, text 1090 ms, browser 22 ms | page changed
+21:34:43 INFO    [chrome_plugin_jev.jev_agent] Step 68: SELECT 'Terms of Delivery : * → CIF - Cost, Insurance and Freight' (confidence 0.93) | Jev 2068 ms, browser 8 ms | page changed
+21:34:44 INFO    [chrome_plugin_jev.jev_agent] Step 69: SELECT 'Invoice Type : * → Commercial Invoice' (confidence 0.82) | Jev 1078 ms, browser 7 ms | page changed
+21:34:48 INFO    [chrome_plugin_jev.jev_agent] Step 70: TYPE_TEXT 'Insurance Cost : *' = '40' (confidence 0.82) | Jev 2359 ms, text 1325 ms, browser 33 ms | page changed
+21:34:49 INFO    [chrome_plugin_jev.jev_agent] Step 71: SELECT 'Insurance currency → USD' (confidence 0.84) | Jev 1483 ms, browser 8 ms | page changed
+21:34:51 INFO    [chrome_plugin_jev.jev_agent] Step 72: TYPE_TEXT 'Freight Cost : *' = '260' (confidence 0.91) | Jev 1153 ms, text 1116 ms, browser 33 ms | page changed
+21:34:53 INFO    [chrome_plugin_jev.jev_agent] Step 73: SELECT 'Freight currency → USD' (confidence 0.91) | Jev 1253 ms, browser 7 ms | page changed
+21:34:54 INFO    [chrome_plugin_jev.jev_agent] Step 74: SELECT 'Currency : * → USD - US Dollar' (confidence 0.89) | Jev 1161 ms, browser 7 ms | page changed
+21:34:56 INFO    [chrome_plugin_jev.jev_agent] Step 75: TYPE_TEXT 'Value : *' = '2000' (confidence 0.82) | Jev 913 ms, text 1244 ms, browser 36 ms | page changed
+21:34:57 INFO    [chrome_plugin_jev.jev_agent] Step 76: SELECT 'Payment Term : * → Letter of Credit' (confidence 0.94) | Jev 1280 ms, browser 8 ms | page changed
+21:34:59 INFO    [chrome_plugin_jev.jev_agent] Step 77: CLICK 'Same as Exporter' (confidence 0.73) | Jev 1158 ms, browser 42 ms | page did NOT change
+21:35:00 INFO    [chrome_plugin_jev.jev_agent] Step 78: CLICK 'Save & Add Line Item' (confidence 0.58) | Jev 1070 ms, browser 37 ms | page changed
+21:35:01 INFO    [chrome_plugin_jev.jev_agent] Step 79: CLICK 'Line Items - Invoice INV-2026-0512 › Search HS Code' (confidence 0.86) | Jev 848 ms, browser 16 ms | page changed
+21:35:03 INFO    [chrome_plugin_jev.jev_agent] Step 80: TYPE_TEXT 'Search HS Code › Description :' = 'Cardamoms' (confidence 0.95) | Jev 825 ms, text 1194 ms, browser 15 ms | page changed
+21:35:03 INFO    [chrome_plugin_jev.jev_agent] Step 81: CLICK 'Search HS Code › Search' (confidence 0.99) | Jev 798 ms, browser 17 ms | page changed
+21:35:05 INFO    [chrome_plugin_jev.jev_agent] Step 82: CLICK 'Search HS Code › Select 09083100' (confidence 1.00) | Jev 1271 ms, browser 19 ms | page changed
+21:35:06 INFO    [chrome_plugin_jev.jev_agent] Step 83: SELECT 'Line Items - Invoice INV-2026-0512 › Country of Origin : * …' (confidence 0.94) | Jev 1596 ms, browser 6 ms | page changed
+21:35:09 INFO    [chrome_plugin_jev.jev_agent] Step 84: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Quantity : *' = '18' (confidence 0.89) | Jev 1111 ms, text 1018 ms, browser 22 ms | page changed
+21:35:09 INFO    [chrome_plugin_jev.jev_agent] Step 85: SELECT 'Line Items - Invoice INV-2026-0512 › Unit : * → Carton (CTN)' (confidence 0.94) | Jev 841 ms, browser 8 ms | page changed
+21:35:12 INFO    [chrome_plugin_jev.jev_agent] Step 86: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Value (USD) : *' = '2000' (confidence 1.00) | Jev 1302 ms, text 1284 ms, browser 29 ms | page changed
+21:35:15 INFO    [chrome_plugin_jev.jev_agent] Step 87: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Net Weight (KG) : *' = '450' (confidence 1.00) | Jev 1460 ms, text 1370 ms, browser 33 ms | page changed
+21:35:18 INFO    [chrome_plugin_jev.jev_agent] Step 88: TYPE_TEXT 'Line Items - Invoice INV-2026-0512 › Gross Weight (KG) : *' = '480' (confidence 0.99) | Jev 1284 ms, text 1333 ms, browser 29 ms | page changed
+21:35:20 INFO    [chrome_plugin_jev.jev_agent] Step 89: CLICK 'Line Items - Invoice INV-2026-0512 › Add Line Item' (confidence 1.00) | Jev 2071 ms, browser 39 ms | page changed
+21:35:21 INFO    [chrome_plugin_jev.jev_agent] Step 90: CLICK 'Line Items - Invoice INV-2026-0512 › Done' (confidence 0.62) | Jev 1522 ms, browser 14 ms | page changed
+21:35:23 INFO    [chrome_plugin_jev.jev_agent] Step 91: CLICK 'Next' (confidence 0.91) | Jev 1519 ms, browser 22 ms | page changed
+21:35:24 INFO    [chrome_plugin_jev.jev_agent] Step 92: SELECT 'Payment mode for customs duty → CDR Account' (confidence 0.95) | Jev 1299 ms, browser 7 ms | page changed
+21:35:26 INFO    [chrome_plugin_jev.jev_agent] Step 93: SELECT 'Payment reference for customs duty → CDR-1002345 (Balance A…' (confidence 0.92) | Jev 1419 ms, browser 9 ms | page changed
+21:35:27 INFO    [chrome_plugin_jev.jev_agent] Step 94: SELECT 'Payment mode for other charges → CDR Account' (confidence 0.92) | Jev 1418 ms, browser 6 ms | page changed
+21:35:28 INFO    [chrome_plugin_jev.jev_agent] Step 95: SELECT 'Payment reference for other charges → CDR-1002345 (Balance …' (confidence 0.90) | Jev 1314 ms, browser 6 ms | page changed
+21:35:30 INFO    [chrome_plugin_jev.jev_agent] Step 96: CLICK 'I, the undersigned, being authorized by AL NOOR GENERAL TRA…' (confidence 0.95) | Jev 1413 ms, browser 18 ms | page changed
+21:35:31 INFO    [chrome_plugin_jev.jev_agent] Step 97: CLICK 'Submit' (confidence 0.83) | Jev 1306 ms, browser 21 ms | page changed
+21:35:32 INFO    [chrome_plugin_jev.jev_agent] Agent finished: done after 97 action(s) in 166258 ms | Task completed in 97 browser action(s). | page reads 98x/1131 ms, Jev 98x/119452 ms, text helper 29x/43664 ms, browser actions 96x/1964 ms
+21:35:32 INFO    [chrome_plugin_jev.jobs] Job a888e37a-6a9a-47a3-8805-9b34746a2c45 finished: done in 166258 ms - Task completed in 97 browser action(s).
+21:46:51 INFO    [chrome_plugin_jev.jobs] Job aa218481-4338-4713-9102-d49407057bbe started (Jev agent): 'navigate to google.com { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "Carg…'
+21:46:51 INFO    [chrome_plugin_jev.jev_browser] Start: goal names a site, opening https://google.com
+21:46:57 INFO    [chrome_plugin_jev.bridge] Extension tool navigate took 5172 ms
+21:46:58 INFO    [chrome_plugin_jev.jev_agent] Agent finished: done after 0 action(s) in 6579 ms | Task completed in 0 browser action(s). | page reads 2x/162 ms, Jev 1x/1244 ms
+21:46:58 INFO    [chrome_plugin_jev.jobs] Job aa218481-4338-4713-9102-d49407057bbe finished: done in 6579 ms - Task completed in 0 browser action(s).
+21:47:11 INFO    [chrome_plugin_jev.jobs] Job 69dc1662-8efb-4344-80e2-b8be068701d5 started (Jev agent): 'search facebook here { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "Cargo …'
+21:47:11 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab https://www.google.com/
+21:47:14 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT 'Search' = 'facebook' (confidence 0.74) | Jev 1186 ms, text 1662 ms, browser 63 ms | page changed
+21:47:15 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: text around the element changed; observe again before acting
+21:47:16 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK 'facebook' (confidence 0.95) | Jev 916 ms, browser 30 ms | page changed
+21:47:17 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: page was reloaded since it was read; observe again before acting
+21:47:18 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (2 in a row): Stale page: a field value changed; observe again before acting
+21:47:20 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (3 in a row): Stale page: a field value changed; observe again before acting
+21:47:20 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 2 action(s) in 8170 ms | Stopped: the browser refused the next action 3 times in a row (a field value changed). | page reads 6x/163 ms, Jev 6x/6188 ms, text helper 1x/1662 ms, browser actions 2x/93 ms
+21:47:20 INFO    [chrome_plugin_jev.jobs] Job 69dc1662-8efb-4344-80e2-b8be068701d5 finished: needs_human in 8171 ms - Stopped: the browser refused the next action 3 times in a row (a field value changed).
+21:49:15 INFO    [chrome_plugin_jev.jobs] Job 936a0222-ab79-4aa3-9a3b-f7cc3d088ed0 started (Jev agent): 'fill this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "Cargo Channe…'
+21:49:15 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab https://www.google.com/
+21:49:17 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 0 action(s) in 1612 ms | Jev could not find a safe observed action to continue. | page reads 2x/15 ms, Jev 1x/1591 ms
+21:49:17 INFO    [chrome_plugin_jev.jobs] Job 936a0222-ab79-4aa3-9a3b-f7cc3d088ed0 finished: needs_human in 1613 ms - Jev could not find a safe observed action to continue.
+21:49:43 INFO    [chrome_plugin_jev.jobs] Job af11ac12-439b-4433-a29e-cbb9c4002d40 started (Jev agent): 'fill this form { "my_saved_details": { "Step 1 - General Information": { "Regime Type": "Import", "Declaration Type": "Import to Local from ROW", "Cargo Channe…'
+21:49:43 INFO    [chrome_plugin_jev.jev_browser] Start: no site in the goal, using the open tab https://www.google.com/
+21:49:45 INFO    [chrome_plugin_jev.jev_agent] Step 1: TYPE_TEXT 'Search' = 'Al Noor General Trading' (confidence 0.33, unsure: next BLOCKED 0.41, CLICK 0.15) | Jev 1014 ms, text 1411 ms, browser 69 ms | page changed
+21:49:46 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: label changed; observe again before acting
+21:49:47 INFO    [chrome_plugin_jev.jev_agent] Step 2: CLICK 'al noor general trading' (confidence 0.62) | Jev 1108 ms, browser 25 ms | page changed
+21:49:49 WARNING [chrome_plugin_jev.jev_agent] Browser refused the action (1 in a row): Stale page: page was reloaded since it was read; observe again before acting
+21:49:52 WARNING [chrome_plugin_jev.jev_agent] Agent finished: needs_human after 2 action(s) in 9438 ms | Jev could not find a safe observed action to continue. | page reads 8x/314 ms, Jev 7x/7443 ms, text helper 1x/1411 ms, browser actions 2x/94 ms
+21:49:52 INFO    [chrome_plugin_jev.jobs] Job af11ac12-439b-4433-a29e-cbb9c4002d40 finished: needs_human in 9438 ms - Jev could not find a safe observed action to continue.

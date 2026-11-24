@@ -50,8 +50,8 @@
       "Payment Term": "Letter of Credit"
     },
     "Line Item": {
-      "HS Code": "Whole black pepper",
-      "Goods Description": "Black pepper, whole, in 25 kg bags",
+      "HS Code": "Cardamoms",
+      "Goods Description": "Cardamoms, neither crushed nor ground",
       "Country of Origin": "India",
       "Quantity": 18,
       "Unit": "Carton (CTN)",

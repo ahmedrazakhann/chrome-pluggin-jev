@@ -7,9 +7,14 @@ const TARGET = String.raw`function(payload) {
   const describe=n=>n ? n.tagName.toLowerCase()+(n.id ? '#'+n.id : '')+
     (typeof n.className==='string' && n.className ? '.'+n.className.trim().split(/\s+/).slice(0,2).join('.') : '') : 'nothing';
   if (!cache) return {stale:true,reason:'page was reloaded since it was read'};
-  const key=cache.pageKey(), old=payload.pageKey||[];
+  // Compare only what makes the observation wrong: a reload, another URL, or a
+  // changed field value. Scrolling or resizing the window (e.g. opening the side
+  // panel) doesn't: the target's position is measured again below, and a target
+  // that ended up off screen or covered is still refused there.
+  const relevant=k=>[k[0],k[1],k[6]];
+  const key=relevant(cache.pageKey()), old=relevant(payload.pageKey||[]);
   if (!same(key,old)) {
-    const parts=['page reloaded','URL changed','page scrolled','page scrolled','window resized','window resized','a field value changed'];
+    const parts=['page reloaded','URL changed','a field value changed'];
     return {stale:true,reason:parts[key.findIndex((v,i)=>!same(v,old[i]))]||'page changed'};
   }
   const e=cache.nodes.get(action.node);
@@ -23,12 +28,17 @@ const TARGET = String.raw`function(payload) {
   }
   if (!e.isConnected) return {stale:true,reason:'element was removed'};
   if (e.matches(':disabled') || e.closest('[aria-disabled="true"],[inert]')) return {stale:true,reason:'element is disabled'};
-  if (!e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})) return {stale:true,reason:'element is not visible'};
+  const shown=cache.shown ? cache.shown(e) : e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true});
+  if (!shown) return {stale:true,reason:'element is not visible'};
   if (action.kind==='fill' && (e.readOnly || e.getAttribute('aria-readonly')==='true')) return {stale:true,reason:'field is read-only'};
   const r=e.getBoundingClientRect(), x=r.x+r.width/2, y=r.y+r.height/2;
   if (!r.width || !r.height || x<0 || y<0 || x>=innerWidth || y>=innerHeight) return {stale:true,reason:'element is off screen'};
   const hit=document.elementFromPoint(x,y);
   if (!e.contains(hit)) return {stale:true,reason:'element is covered by '+describe(hit)};
+  // Clicking or typing in a field makes Chrome show its saved entries (autofill)
+  // under it. That list isn't part of the page, so the agent can't see it, and a
+  // later click can land on it and paste an old value. Ask Chrome not to offer one.
+  if (action.kind==='fill' && (e.tagName==='INPUT' || e.tagName==='TEXTAREA')) e.setAttribute('autocomplete','off');
   if (action.kind==='select') {
     if (e.tagName!=='SELECT' || ![...e.options].some(o=>o.value===action.value && !o.disabled &&
         !o.closest('optgroup[disabled]'))) return {stale:true,reason:'dropdown option is no longer available'};

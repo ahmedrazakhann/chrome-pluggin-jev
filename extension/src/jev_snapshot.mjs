@@ -10,8 +10,19 @@ export const JEV_SNAPSHOT = String.raw`(() => {
   };
   for (const [id,e] of cache.nodes) if (!e.isConnected) cache.nodes.delete(id);
   const safe = e => !['password','file','hidden'].includes(e.type);
-  const visible = e => !e.closest('[aria-hidden="true"],[inert]') &&
-    e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true});
+  // Chrome pauses animations while its window is hidden or covered, so a popup's
+  // fade-in can stay frozen at opacity 0. Transparent only because an animation
+  // is still running counts as shown.
+  const shown = cache.shown = e => {
+    if (e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true})) return true;
+    if (!e.checkVisibility({checkVisibilityCSS:true})) return false;
+    for (let n=e; n; n=n.parentElement) {
+      if (getComputedStyle(n).opacity==='0' &&
+          !n.getAnimations().some(a=>a.playState==='running' || a.playState==='paused')) return false;
+    }
+    return true;
+  };
+  const visible = e => !e.closest('[aria-hidden="true"],[inert]') && shown(e);
   const name = (e,seen=new Set()) => {
     if (!e || seen.has(e)) return '';
     seen.add(e);
@@ -63,6 +74,11 @@ export const JEV_SNAPSHOT = String.raw`(() => {
   // topmost one (opened last, so last in the DOM) is observed.
   const root=[...document.querySelectorAll('[aria-modal="true"],dialog:modal')]
     .filter(e=>e.getClientRects().length && !e.closest('[inert]')).pop() || document.body;
+  // Inside a popup, labels start with its title ("Search Importer › Name :"), so a
+  // generic box like "Name" says which item it is for.
+  const dialogTitle=root===document.body ? '' :
+    ((root.getAttribute('aria-labelledby')||'').split(/\s+/).map(id=>document.getElementById(id)?.textContent||'').join(' ').trim() ||
+     root.getAttribute('aria-label') || root.querySelector('h1,h2,h3')?.textContent || '').replace(/\s+/g,' ').trim().slice(0,60);
   cache.pageKey=()=>[performance.timeOrigin,location.href,scrollX,scrollY,innerWidth,innerHeight,
     [...document.querySelectorAll('input,textarea,select')].filter(safe)
       .map(e=>[identity(e),e.value,e.checked,e.selectedIndex,e.disabled,e.readOnly])];
@@ -81,7 +97,8 @@ export const JEV_SNAPSHOT = String.raw`(() => {
     if (!rname || r.width<=0 || r.height<=0 || x<0 || y<0 || x>=innerWidth || y>=innerHeight) continue;
     if (rname==='gridcell' && e.querySelector('button,[role="button"]')) continue;
     const hint=formatHint(e);
-    const base={node:identity(e),role:rname,label:(name(e)||rname)+(hint ? ' ('+hint+')' : ''),
+    const base={node:identity(e),role:rname,
+      label:(dialogTitle ? dialogTitle+' › ' : '')+(name(e)||rname)+(hint ? ' ('+hint+')' : ''),
       rect:{x:r.x,y:r.y,w:r.width,h:r.height}};
     for (const key of ['checked','selected','expanded']) {
       const value=e.getAttribute('aria-'+key);
@@ -99,9 +116,13 @@ export const JEV_SNAPSHOT = String.raw`(() => {
       const value='value' in e ? String(e.value) :
         e.isContentEditable || rname==='combobox' ? e.innerText.trim() : '';
       actions.push({...base,kind:editable?'fill':'click',value});
-      // Clicking a slider moves it, and clicking a date input opens a native
-      // picker Jev cannot observe, so those fields offer fill only.
-      if (editable && !hint) actions.push({...base,kind:'click',value,label:'Open '+base.label});
+      // Only a field that opens a suggestion list when clicked gets an extra
+      // "Open" click. On a plain text box a click does nothing visible, and the
+      // word "Open" made Jev mistake it for the field's lookup button.
+      const suggests=rname==='combobox' || e.hasAttribute('list') ||
+        ['listbox','true','menu','tree','grid','dialog'].includes(e.getAttribute('aria-haspopup')) ||
+        ['list','both'].includes(e.getAttribute('aria-autocomplete'));
+      if (editable && !hint && suggests) actions.push({...base,kind:'click',value,label:'Open suggestions for '+base.label});
     }
   }
   const words=[], walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);

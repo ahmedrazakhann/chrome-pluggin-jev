@@ -42,6 +42,8 @@ async function dropdownPage(args, protectedSource) {
     .find(node => node?.getAttribute('role') === 'listbox');
   if (args.phase === 'prepare') {
     el.scrollIntoView({ block: 'center' });
+    // Keep Chrome's saved-entry list from opening over the dropdown's own options.
+    if (el.tagName === 'INPUT') el.setAttribute('autocomplete', 'off');
     el.focus();
     if (el.tagName === 'INPUT' && !el.readOnly) el.select();
     return { status: 'ready', editable: el.tagName === 'INPUT' && !el.readOnly };
