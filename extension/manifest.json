@@ -9,6 +9,7 @@
   "host_permissions": ["<all_urls>"],
   "background": { "service_worker": "background.js", "type": "module" },
   "action": { "default_popup": "popup.html" },
+  "externally_connectable": { "matches": ["http://localhost/*", "http://127.0.0.1/*"] },
   "side_panel": { "default_path": "sidepanel.html" },
   "icons": {
     "16": "icon/16.png",

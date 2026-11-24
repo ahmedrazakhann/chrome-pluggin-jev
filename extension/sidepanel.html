@@ -62,7 +62,7 @@
       .samples-table th { padding: 6px; text-align: left; color: var(--muted); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
       .samples-table td { padding: 6px; vertical-align: top; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
       .samples-table th:nth-child(1), .samples-table td:nth-child(1) { width: 34px; color: var(--muted); }
-      .samples-table th:nth-child(2), .samples-table td:nth-child(2) { width: 38%; color: var(--primary); font-weight: 700; }
+      .samples-table th:nth-child(2), .samples-table td:nth-child(2), .samples-table th:nth-child(3), .samples-table td:nth-child(3) { width: 27%; color: var(--primary); font-weight: 700; }
       .samples-table pre { margin: 0; max-height: 110px; overflow: auto; font: 11px/1.4 "DM Mono", ui-monospace, monospace; white-space: pre-wrap; }
       .samples-table .download-json { width: 100%; margin: 0; padding: 6px 8px; background: var(--secondary); color: var(--primary); border-color: var(--border); font-size: 12px; }
       .samples-table .download-json:hover:not(:disabled) { background: #ececd9; }
@@ -118,7 +118,7 @@
           <h2 id="samples-title" class="section-title">Sample JSON per website</h2>
           <p class="note">Read-only list of sample JSON for each website.</p>
           <table class="samples-table">
-            <thead><tr><th>ID</th><th>Website URL</th><th>Sample JSON</th></tr></thead>
+            <thead><tr><th>ID</th><th>Name</th><th>Website URL</th><th>Sample JSON</th></tr></thead>
             <tbody id="samples"></tbody>
           </table>
         </section>

@@ -24,7 +24,7 @@ from .form_fill import (
     TypeSafeFormMatcher,
     create_form_fill_service,
 )
-from .extension_settings import SettingsUnavailable, list_extension_settings
+from .extension_settings import SettingsUnavailable, create_extension_setting, list_extension_settings
 from .jobs import job_store, normalize_instruction, schedule_job
 
 router = APIRouter()
@@ -46,6 +46,13 @@ class FormFillRequest(BaseModel):
     tab_id: int | None = Field(default=None, alias="tabId", ge=0)
     confidence_threshold: float = Field(default=0.75, alias="confidenceThreshold", ge=0, le=1)
     max_rounds: int = Field(default=5, alias="maxRounds", ge=1, le=8)
+
+
+class ExtensionSettingRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    name: str = Field(min_length=1, max_length=200)
+    website_url: str = Field(min_length=1, max_length=2000, pattern=r"^https?://")
+    sample_json: dict[str, Any] = Field(min_length=1)
 
 
 class JevRequest(BaseModel):
@@ -102,6 +109,16 @@ def get_extension_data(user: dict[str, Any] = Depends(verify_extension_user)) ->
 def get_settings(_: int = Depends(require_bridge_user)) -> dict[str, Any]:
     try:
         return {"settings": list_extension_settings()}
+    except SettingsUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+
+
+@router.post("/settings", status_code=201)
+def create_setting(payload: ExtensionSettingRequest, _: int = Depends(require_bridge_user)) -> dict[str, Any]:
+    if len(json.dumps(payload.sample_json, ensure_ascii=False).encode("utf-8")) > 100_000:
+        raise HTTPException(status_code=413, detail="sample_json exceeds 100 KB")
+    try:
+        return create_extension_setting(payload.name, payload.website_url, payload.sample_json)
     except SettingsUnavailable as error:
         raise HTTPException(status_code=503, detail=str(error)) from error
 

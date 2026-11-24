@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "name": "Personal Details Form",
+    "description": "Applicant personal and contact details used to fill the personal details form.",
+    "website": "https://example.com/personal-details",
+    "json": {
+      "First name": "Ahmad",
+      "Last name": "Raza",
+      "Date of birth": "1995-04-12",
+      "Gender": "Male",
+      "Nationality": "Pakistani",
+      "Email": "ahmad@example.com",
+      "Phone": "+971 50 123 4567",
+      "City": "Dubai",
+      "Country": "United Arab Emirates"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Customs Declaration - General Information",
+    "description": "Step 1 header and party details for a multi-step customs declaration.",
+    "website": "https://example.com/customs-declaration",
+    "json": {
+      "Declaration type": "Import",
+      "Importer": "Example Trading LLC",
+      "Exporter": "Global Exports Ltd",
+      "Country of origin": "China",
+      "Mode of transport": "Air"
+    }
+  },
+  {
+    "id": 3,
+    "name": null,
+    "description": "Carrier, ports, weights and cargo type for the shipping step.",
+    "website": "https://example.com/customs-declaration/shipping",
+    "json": null
+  },
+  {
+    "id": 4,
+    "name": "Applicant Registration",
+    "description": "Company registration details for onboarding a new applicant.",
+    "website": "https://example.com/applicant-registration",
+    "json": {
+      "Company": "Example Trading LLC",
+      "Trade licence number": "TL-2026-0042",
+      "Job title": "Operations Manager",
+      "Email": "ops@example.com"
+    }
+  }
+]

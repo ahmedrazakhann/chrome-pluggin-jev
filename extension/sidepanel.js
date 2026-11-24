@@ -35,6 +35,20 @@ function renderDetails(message, kind = "") {
   } else detailsStatus.textContent = "No JSON saved.";
 }
 
+// Validates and saves a details object; returns an error message or "" on success.
+function saveDetails(details) {
+  if (!details || typeof details !== "object" || Array.isArray(details) || !Object.keys(details).length) {
+    return 'The JSON must be an object with at least one field, like {"First name": "Ahmad"}.';
+  }
+  try {
+    localStorage.setItem(DETAILS_KEY, JSON.stringify(details));
+  } catch {
+    return "Could not save: browser storage is unavailable.";
+  }
+  detailsText.value = JSON.stringify(details, null, 2);
+  return "";
+}
+
 document.getElementById("saveDetails").addEventListener("click", () => {
   const raw = detailsText.value.trim();
   if (!raw) return renderDetails("Paste some JSON first.", "err");
@@ -45,15 +59,8 @@ document.getElementById("saveDetails").addEventListener("click", () => {
   } catch {
     return renderDetails("That is not valid JSON.", "err");
   }
-  if (!details || typeof details !== "object" || Array.isArray(details) || !Object.keys(details).length) {
-    return renderDetails('The JSON must be an object with at least one field, like {"First name": "Ahmad"}.', "err");
-  }
-  try {
-    localStorage.setItem(DETAILS_KEY, JSON.stringify(details));
-  } catch {
-    return renderDetails("Could not save: browser storage is unavailable.", "err");
-  }
-  detailsText.value = JSON.stringify(details, null, 2);
+  const error = saveDetails(details);
+  if (error) return renderDetails(error, "err");
   renderDetails();
 });
 
@@ -217,7 +224,7 @@ function renderSamples(rows, message) {
   samplesEl.textContent = "";
   if (!rows.length) {
     const td = samplesEl.insertRow().insertCell();
-    td.colSpan = 3;
+    td.colSpan = 4;
     td.className = "empty";
     td.textContent = message || "No samples yet.";
     return;
@@ -225,6 +232,7 @@ function renderSamples(rows, message) {
   for (const row of rows) {
     const tr = samplesEl.insertRow();
     tr.insertCell().textContent = row.id;
+    tr.insertCell().textContent = row.name || "";
     tr.insertCell().textContent = row.website_url || "";
     const button = document.createElement("button");
     button.type = "button";

@@ -4,8 +4,28 @@
     {
       "name": "declaration-form",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "p1/frontend", "run", "dev", "--", "-p", "3005"],
+      "runtimeArgs": [
+        "--prefix",
+        "p1/frontend",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3005"
+      ],
       "port": 3005
+    },
+    {
+      "name": "admin-table",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "3010",
+        "--directory",
+        "admin"
+      ],
+      "port": 3010
     }
   ]
 }

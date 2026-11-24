@@ -168,4 +168,29 @@ function main() {
   ws.reconnectIfNeeded();
 }
 
+// The admin page sends {name, website, json} here (Chrome only delivers messages from
+// the origins in manifest "externally_connectable"). It is saved through the backend API.
+chrome.runtime.onMessageExternal.addListener((message, _sender, reply) => {
+  const { name, website, json } = (message && message.type === "SAVE_SETTING" && message) || {};
+  const text = (value) => (typeof value === "string" ? value.trim() : "");
+  if (!text(name) || !/^https?:\/\//i.test(text(website)) || !json || typeof json !== "object" || Array.isArray(json) || !Object.keys(json).length) {
+    reply({ ok: false, error: "name, website (http/https) and a non-empty json object are required" });
+    return;
+  }
+  chrome.storage.local.get(["portal_url", "plugin_token"])
+    .then(async ({ portal_url: baseUrl, plugin_token: token }) => {
+      if (!baseUrl || !token) throw new Error("Connect the extension to the backend first (side panel > Connection).");
+      const response = await fetch(`${baseUrl}/api/chrome_plugin/settings`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "X-Chrome-Plugin-Token": token },
+        body: JSON.stringify({ name: text(name), website_url: text(website), sample_json: json }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
+      reply({ ok: true, id: body.id });
+    })
+    .catch((error) => reply({ ok: false, error: String(error.message || error) }));
+  return true;
+});
+
 main();
