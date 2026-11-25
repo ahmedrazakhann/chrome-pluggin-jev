@@ -21,7 +21,7 @@ import httpx
 from .logs import since
 
 
-MAX_STEPS = 120
+MAX_STEPS = 180
 logger = logging.getLogger(__name__)
 
 NEXT_ACTION = """Advance the user's entire goal from the CURRENT page using one operation.

@@ -13,6 +13,9 @@ from .logs import clip, since
 
 logger = logging.getLogger(__name__)
 
+OPENAI_URL = "https://api.openai.com/v1/chat/completions"
+OPENAI_MODEL = "gpt-4.1"  # change here to use another OpenAI model; the key comes from OPENAI_API_KEY
+
 # SIMILARITY = """You compare the KEYS (field names) of an input JSON object with the keys of sample JSON objects stored for the same page URL.
 # Only key names matter. Keys match when they mean the same field even if spelled differently ("First name", "firstName" and "given_name" are one field; "Email" and "Phone" are not).
 # Missing sample keys and extra input keys both lower the score. 100 means the same set of fields, 0 means no field in common.
@@ -172,12 +175,10 @@ async def compare_with_samples(website_url: str, data: dict[str, Any], rows: lis
     if not samples:
         logger.info("Similarity: no sample stored for the exact URL %s", website_url)
         return None
-    key = (os.getenv("TEXT_MODEL_API_KEY") or os.getenv("OPENROUTER_API_KEY") or "").strip()
+    key = (os.getenv("OPENAI_API_KEY") or "").strip()
     if not key:
-        logger.warning("Similarity: no TEXT_MODEL_API_KEY or OPENROUTER_API_KEY configured")
-        raise JevConfigurationError("Comparison requires TEXT_MODEL_API_KEY or OPENROUTER_API_KEY")
-    base_url = (os.getenv("TEXT_MODEL_BASE_URL") or os.getenv("OPENROUTER_BASE_URL") or "https://openrouter.ai/api/v1").rstrip("/")
-    model = os.getenv("TEXT_MODEL") or "openai/gpt-4o-mini"
+        logger.warning("Similarity: OPENAI_API_KEY is not set")
+        raise JevConfigurationError("Comparison requires OPENAI_API_KEY")
 
     def keys_only(value: Any) -> Any:  # same structure, values removed: they are never sent to the model
         if isinstance(value, dict):
@@ -189,7 +190,8 @@ async def compare_with_samples(website_url: str, data: dict[str, Any], rows: lis
         "samples": [{"id": s["id"], "name": s.get("name"), "keys": keys_only(s["sample_json"])} for s in samples],
     }
     body: dict[str, Any] = {
-        "model": model,
+        "model": OPENAI_MODEL,
+        "temperature": 0,
         "max_tokens": 300,
         "response_format": {"type": "json_object"},
         "messages": [
@@ -197,14 +199,10 @@ async def compare_with_samples(website_url: str, data: dict[str, Any], rows: lis
             {"role": "user", "content": json.dumps(request, ensure_ascii=False)},
         ],
     }
-    logger.info(json.dumps(request, ensure_ascii=False))
-    if os.getenv("TEXT_MODEL_REASONING", "").lower() == "none":
-        body["reasoning"] = {"enabled": True}
-    logger.info("Similarity: comparing %d key(s) with %d sample(s) for %s using %s", len(keys_only(data)), len(samples), website_url, model)
+    logger.info("Similarity: comparing %d key(s) with %d sample(s) for %s using %s", len(keys_only(data)), len(samples), website_url, OPENAI_MODEL)
     started = time.perf_counter()
-    result = await JevModelClient()._post_json(base_url + "/chat/completions", key, body)
+    result = await JevModelClient()._post_json(OPENAI_URL, key, body)
     try:
-        logger.info(result)
         answer = parse_single_object(result["choices"][0]["message"]["content"])
         score = max(0, min(100, round(float(answer["score"]))))
         best = next(s for s in samples if s["id"] == answer["best_match_id"])
@@ -217,5 +215,5 @@ async def compare_with_samples(website_url: str, data: dict[str, Any], rows: lis
         "score": score,
         "best_match": {"id": best["id"], "name": best.get("name")},
         "reason": str(answer.get("reason", ""))[:300],
-        "model": model,
+        "model": OPENAI_MODEL,
     }

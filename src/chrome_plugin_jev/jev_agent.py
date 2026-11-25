@@ -53,8 +53,8 @@ class JevBrowserAgent:
         self.user_id = user_id
         self.model = model or JevModelClient()
         self.max_steps = max_steps or int(os.getenv("JEV_MAX_STEPS", str(MAX_STEPS)))
-        if not 1 <= self.max_steps <= 120:
-            raise ValueError("JEV_MAX_STEPS must be between 1 and 120")
+        if not 1 <= self.max_steps <= 180:
+            raise ValueError("JEV_MAX_STEPS must be between 1 and 180")
 
     async def run(
         self,
