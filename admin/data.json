@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Dubai Trade Detail Form",
     "description": "Identification Details for Dubai Trade Registration.",
-    "website": "https://example.com/personal-details",
+    "website": "https://example.com/customs-declaration",
     "json": {
       "Step 1 - General Information": {
         "Regime Type": "Import",
@@ -79,7 +79,7 @@
     "id": 2,
     "name": "Professional Job Application - Candidate Details",
     "description": "Personal and Professional Details for Job Applications.",
-    "website": "https://example.com/customs-declaration",
+    "website": "https://example.com/application",
     "json": {
       "Full Name": "Daniel Robert Wilson",
       "Email Address": "daniel.wilson@example.com",

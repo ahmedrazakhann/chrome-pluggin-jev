@@ -168,6 +168,8 @@ async function waitForJob(baseUrl, jobId, token) {
   throw new Error("Timed out waiting for Jev");
 }
 
+const fillAgent = document.getElementById("fillAgent");
+
 send.addEventListener("click", async () => {
   const task = instruction.value.trim();
   if (!task) {
@@ -177,6 +179,7 @@ send.addEventListener("click", async () => {
   }
 
   send.disabled = true;
+  fillAgent.disabled = true;
   out.className = "";
   out.textContent = "Submitting to Jev...";
 
@@ -216,6 +219,7 @@ send.addEventListener("click", async () => {
     out.textContent = `${error}\n\nCheck that the portal server is running.`;
   } finally {
     send.disabled = false;
+    fillAgent.disabled = false;
   }
 });
 
@@ -343,7 +347,7 @@ const FILL_FORM_TASK =
   "Match each field to the closest saved detail by its label. Leave any field blank when no saved detail fits, " +
   "never invent values, and confirm the submission succeeded before finishing.";
 
-document.getElementById("fillAgent").addEventListener("click", () => {
+fillAgent.addEventListener("click", () => {
   if (send.disabled) return;
   if (!loadDetails()) {
     out.className = "err";
