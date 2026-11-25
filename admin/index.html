@@ -213,7 +213,7 @@
         color: var(--muted);
       }
       td.act {
-        width: 100px;
+        width: 130px;
         text-align: center;
       }
       button {
@@ -348,7 +348,67 @@
         font-size: 12px;
         font-weight: 600;
       }
+      td.json {
+        width: 340px;
+        max-width: 340px;
+      }
+      td.json .CodeMirror {
+        height: auto;
+        max-height: 190px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        font:
+          12px/1.5 "DM Mono",
+          ui-monospace,
+          Consolas,
+          monospace;
+      }
+      td.json .CodeMirror-scroll {
+        max-height: 190px;
+      }
+      td.json .CodeMirror-focused {
+        border-color: var(--navy-2);
+      }
+      .json-tools {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .json-tools .json-state.bad {
+        color: var(--danger);
+      }
+      .json-tools button {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: #0b4ea2;
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: underline;
+      }
+      td.json .cm-string.cm-property {
+        color: #0b4ea2;
+      }
+      td.act .push {
+        white-space: nowrap;
+      }
+      .row-note {
+        margin-top: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ok);
+      }
+      .row-note.bad {
+        color: var(--danger);
+      }
     </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+    />
   </head>
   <body>
     <header class="topbar">
@@ -398,43 +458,18 @@
           </table>
         </div>
         <footer>
-          Data is read from <code>data.json</code>. Open shows the complete JSON
-          of that row, which can be sent to the extension to be saved.
+          Data is read from <code>data.json</code>. Edit the JSON in a row, then send it to the extension to be saved.
         </footer>
       </section>
     </main>
 
-    <div
-      class="overlay"
-      id="overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="dlgTitle"
-    >
-      <div class="dialog">
-        <header>
-          <h3 id="dlgTitle"></h3>
-          <small id="dlgSub"></small>
-        </header>
-        <pre id="dlgJson"></pre>
-        <footer>
-          <span id="copied" role="status"></span>
-          <button class="btn" id="copyBtn" type="button">Copy JSON</button>
-          <button class="btn primary" id="sendBtn" type="button">
-            Save via extension
-          </button>
-          <button class="btn primary" id="closeBtn" type="button">Close</button>
-        </footer>
-      </div>
-    </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
     <script>
       const rowsEl = document.getElementById("rows");
       const countEl = document.getElementById("count");
       const searchEl = document.getElementById("search");
-      const overlay = document.getElementById("overlay");
       let records = [];
-      let current = null;
 
       function stateRow(text, cls = "") {
         rowsEl.textContent = "";
@@ -476,100 +511,99 @@
           web.append(a);
           const jsonCell = tr.insertCell();
           jsonCell.className = "json";
-          const prev = document.createElement("code");
-          prev.className = "json-preview";
-          prev.textContent = JSON.stringify(r.json);
-          const meta = document.createElement("div");
-          meta.className = "json-meta";
-          meta.textContent = `${Object.keys(r.json || {}).length} field(s)`;
-          jsonCell.append(prev, meta);
+          const editorHost = document.createElement("div");
+          const tools = document.createElement("div");
+          tools.className = "json-tools";
+          const state = document.createElement("span");
+          state.className = "json-state";
+          tools.append(state);
+          jsonCell.append(editorHost, tools);
+
+          const editor = CodeMirror(editorHost, {
+            value: r.jsonText ?? JSON.stringify(r.json, null, 2),
+            mode: { name: "javascript", json: true },
+            lineWrapping: true,
+            viewportMargin: Infinity,
+          });
+          const check = () => {
+            r.jsonText = editor.getValue();
+            const { error } = parseJson(r.jsonText);
+            state.className = error ? "json-state bad" : "json-state";
+            state.textContent = error ? `Invalid: ${error}` : "Valid JSON";
+          };
+          editor.on("change", check);
+          check();
+          requestAnimationFrame(() => editor.refresh());
+
           const act = tr.insertCell();
           act.className = "act";
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "push";
-          btn.textContent = "Open";
-          btn.addEventListener("click", () => openRecord(r));
-          act.append(btn);
+          btn.textContent = "Send to ext";
+          const note = document.createElement("div");
+          note.className = "row-note";
+          btn.addEventListener("click", () => sendToExtension(r, btn, note));
+          act.append(btn, note);
         }
       }
 
-      function openRecord(record) {
-        current = record;
-        document.getElementById("dlgTitle").textContent = record.name;
-        document.getElementById("dlgSub").textContent =
-          `ID ${record.id} · ${record.website}`;
-        document.getElementById("dlgJson").textContent = JSON.stringify(
-          record.json,
-          null,
-          2,
-        );
-        document.getElementById("copied").textContent = "";
-        overlay.classList.add("open");
-        document.getElementById("closeBtn").focus();
+      // The record JSON must be a non-empty object.
+      function parseJson(text) {
+        let value;
+        try {
+          value = JSON.parse(text);
+        } catch (e) {
+          return { error: e.message };
+        }
+        if (!value || typeof value !== "object" || Array.isArray(value)) {
+          return { error: "must be an object" };
+        }
+        if (!Object.keys(value).length) return { error: "needs a field" };
+        return { value };
       }
 
       // Fixed id: derived from the "key" in extension/manifest.json.
       const EXTENSION_ID = "ifodkkbkmngjlkhiphcjmbceeolhpfeo";
-      const sendBtn = document.getElementById("sendBtn");
-      sendBtn.addEventListener("click", () => {
-        if (sendBtn.disabled) return;
-        const note = document.getElementById("copied");
-        note.style.color = "";
-        if (!window.chrome?.runtime?.sendMessage) {
-          note.textContent =
-            "Open this page in Chrome with the extension installed.";
+
+      // Sends the row's (edited) JSON straight to the extension, which saves it.
+      function sendToExtension(record, btn, note) {
+        if (btn.disabled) return;
+        note.className = "row-note bad";
+        const { value, error } = parseJson(
+          record.jsonText ?? JSON.stringify(record.json),
+        );
+        if (error) {
+          note.textContent = `Fix the JSON first: ${error}`;
           return;
         }
-        sendBtn.disabled = true;
-        sendBtn.innerHTML = '<span class="spinner"></span>Saving...';
+        if (!window.chrome?.runtime?.sendMessage) {
+          note.textContent = "Open in Chrome with the extension installed.";
+          return;
+        }
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span>Sending...';
         note.textContent = "";
-        const done = (text, failed) => {
-          sendBtn.disabled = false;
-          sendBtn.textContent = "Save via extension";
-          note.style.color = failed ? "var(--danger)" : "";
-          note.textContent = text;
-        };
         chrome.runtime.sendMessage(
           EXTENSION_ID,
           {
             type: "SAVE_SETTING",
-            name: current.name,
-            website: current.website,
-            json: current.json,
+            name: record.name,
+            website: record.website,
+            json: value,
           },
           (reply) => {
-            const error =
+            const failure =
               chrome.runtime.lastError?.message ||
               (reply?.ok ? "" : reply?.error || "No response from extension");
-            done(
-              error
-                ? `Not saved: ${error}`
-                : "Saved. It now appears in the extension Settings tab.",
-              !!error,
-            );
+            btn.disabled = false;
+            btn.textContent = "Send to ext";
+            note.className = failure ? "row-note bad" : "row-note";
+            note.textContent = failure ? `Not saved: ${failure}` : "Saved";
           },
         );
-      });
+      }
 
-      const close = () => overlay.classList.remove("open");
-      document.getElementById("closeBtn").addEventListener("click", close);
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) close();
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") close();
-      });
-      document.getElementById("copyBtn").addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(
-            JSON.stringify(current.json, null, 2),
-          );
-          document.getElementById("copied").textContent = "Copied to clipboard";
-        } catch {
-          document.getElementById("copied").textContent = "Copy failed";
-        }
-      });
       searchEl.addEventListener("input", render);
 
       fetch("data.json")
