@@ -1,51 +1,102 @@
 [
   {
     "id": 1,
-    "name": "Personal Details Form",
-    "description": "Applicant personal and contact details used to fill the personal details form.",
+    "name": "Dubai Trade Detail Form",
+    "description": "Identification Details for Dubai Trade Registration.",
     "website": "https://example.com/personal-details",
     "json": {
-      "First name": "Ahmad",
-      "Last name": "Raza",
-      "Date of birth": "1995-04-12",
-      "Gender": "Male",
-      "Nationality": "Pakistani",
-      "Email": "ahmad@example.com",
-      "Phone": "+971 50 123 4567",
-      "City": "Dubai",
-      "Country": "United Arab Emirates"
+      "Step 1 - General Information": {
+        "Regime Type": "Import",
+        "Declaration Type": "Import to Local from ROW",
+        "Cargo Channel": "Air",
+        "Client's Dec. Ref. No.": "TEST-2001",
+        "Exporter": "Kerala Spices Export House",
+        "Importer": "Al Noor General Trading",
+        "Notify Party": "Swift Clearing & Forwarding",
+        "Cargo Handler": "Dubai Airport Cargo Terminal Operator",
+        "Agent": "Emirates SkyCargo Agency",
+        "Trade Type": "Non E-Commerce",
+        "Required documents": {
+          "Invoice": "Attached - Original",
+          "AWB / BOL": "Attached - Original",
+          "Packing List": "Attached - Copy",
+          "Cert. of Origin": "To Follow"
+        }
+      },
+      "Step 2 - Shipping Details": {
+        "Carrier": "Emirates flight from Kochi to Dubai",
+        "Scheduled Date": "20-12-2026",
+        "MAWB / BOL": "17612345678",
+        "HAWB": "HAWB-7781",
+        "Original Load Port": "Kochi, India",
+        "Port of Load": "Kochi, India",
+        "Port of Discharge": "Dubai International",
+        "Net Weight": 450,
+        "Net weight unit": "Kilogram (KG)",
+        "Gross Weight": 480,
+        "Gross weight unit": "Kilogram (KG)",
+        "Volume": 2.4,
+        "Volume unit": "Cubic Metre (CBM)",
+        "Cargo Type": "Perishable"
+      },
+      "Step 3 - Invoice Details": {
+        "Invoice": {
+          "Invoice No.": "INV-2026-0512",
+          "Invoice Date": "15-11-2026",
+          "Seller": "Kerala Spices Export House",
+          "No. of Pages": 2,
+          "Terms of Delivery": "CIF - Cost, Insurance and Freight",
+          "Invoice Type": "Commercial Invoice",
+          "Insurance Cost": 40,
+          "Insurance currency": "USD",
+          "Freight Cost": 260,
+          "Freight currency": "USD",
+          "Currency": "USD - US Dollar",
+          "Value": 2000,
+          "Payment Term": "Letter of Credit"
+        },
+        "Line Item": {
+          "HS Code": "Cardamoms",
+          "Goods Description": "Cardamoms, neither crushed nor ground",
+          "Country of Origin": "India",
+          "Quantity": 18,
+          "Unit": "Carton (CTN)",
+          "Value (USD)": 2000,
+          "Net Weight (KG)": 450,
+          "Gross Weight (KG)": 480
+        }
+      },
+      "Step 4 - Payment Details": {
+        "Payment mode for customs duty": "CDR Account",
+        "Payment reference for customs duty": "CDR-1002345 (Balance AED 25,000.00)",
+        "Payment mode for other charges": "CDR Account",
+        "Payment reference for other charges": "CDR-1002345 (Balance AED 25,000.00)",
+        "Undertaking accepted": true
+      }
     }
   },
   {
     "id": 2,
-    "name": "Customs Declaration - General Information",
-    "description": "Step 1 header and party details for a multi-step customs declaration.",
+    "name": "Professional Job Application - Candidate Details",
+    "description": "Personal and Professional Details for Job Applications.",
     "website": "https://example.com/customs-declaration",
     "json": {
-      "Declaration type": "Import",
-      "Importer": "Example Trading LLC",
-      "Exporter": "Global Exports Ltd",
-      "Country of origin": "China",
-      "Mode of transport": "Air"
-    }
-  },
-  {
-    "id": 3,
-    "name": null,
-    "description": "Carrier, ports, weights and cargo type for the shipping step.",
-    "website": "https://example.com/customs-declaration/shipping",
-    "json": null
-  },
-  {
-    "id": 4,
-    "name": "Applicant Registration",
-    "description": "Company registration details for onboarding a new applicant.",
-    "website": "https://example.com/applicant-registration",
-    "json": {
-      "Company": "Example Trading LLC",
-      "Trade licence number": "TL-2026-0042",
-      "Job title": "Operations Manager",
-      "Email": "ops@example.com"
+      "Full Name": "Daniel Robert Wilson",
+      "Email Address": "daniel.wilson@example.com",
+      "Phone Number": "+1 555 234 6789",
+      "Date of Birth": "1995-06-15",
+      "Gender": "Male",
+      "Country": "United States",
+      "City": "New York",
+      "Street Address": "245 Park Avenue, Manhattan, NY 10017",
+      "Position Applying For": "Full-Stack Developer",
+      "Years of Experience": 5,
+      "Skills": ["JavaScript", "TypeScript", "React", "Node.js", "Python"],
+      "Preferred Work Mode": "Remote",
+      "Currency": "USD",
+      "Expected Monthly Salary": 6500,
+      "Languages Spoken": ["English", "Spanish"],
+      "Cover Letter": "I am an experienced Full-Stack Developer with five years of experience building scalable web applications using React, Node.js, TypeScript, and modern backend technologies. I enjoy solving complex engineering problems, developing reliable software, and collaborating with distributed teams. I believe my technical experience and problem-solving skills make me a strong candidate for this position."
     }
   }
 ]
