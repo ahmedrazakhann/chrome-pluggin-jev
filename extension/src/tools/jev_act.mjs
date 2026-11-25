@@ -31,7 +31,14 @@ const TARGET = String.raw`function(payload) {
   const shown=cache.shown ? cache.shown(e) : e.checkVisibility({checkOpacity:true,checkVisibilityCSS:true});
   if (!shown) return {stale:true,reason:'element is not visible'};
   if (action.kind==='fill' && (e.readOnly || e.getAttribute('aria-readonly')==='true')) return {stale:true,reason:'field is read-only'};
-  const r=e.getBoundingClientRect(), x=r.x+r.width/2, y=r.y+r.height/2;
+  let r=e.getBoundingClientRect(), x=r.x+r.width/2, y=r.y+r.height/2;
+  const reachable=()=>r.width && r.height && x>=0 && y>=0 && x<innerWidth && y<innerHeight &&
+    e.contains(document.elementFromPoint(x,y));
+  if (!reachable()) {
+    // Off screen, at the very edge, or under a bar: bring it to the middle of the window and measure again.
+    e.scrollIntoView({block:'center',inline:'center',behavior:'instant'});
+    r=e.getBoundingClientRect(); x=r.x+r.width/2; y=r.y+r.height/2;
+  }
   if (!r.width || !r.height || x<0 || y<0 || x>=innerWidth || y>=innerHeight) return {stale:true,reason:'element is off screen'};
   const hit=document.elementFromPoint(x,y);
   if (!e.contains(hit)) return {stale:true,reason:'element is covered by '+describe(hit)};
@@ -76,9 +83,24 @@ export default async function run(ctx, args = {}) {
     return { executed: action.id };
   }
   if (action.kind === "scroll") {
+    const deltaY = Number(action.delta) || 0;
+    const read = async () => (await send(ctx.tabId, "Runtime.evaluate", {
+      expression: "({w:innerWidth,h:innerHeight,y:scrollY})", returnByValue: true,
+    })).result?.value || { w: 0, h: 0, y: 0 };
+    const before = await read();
+    // Wheel at the middle of the visible page: a fixed point can fall outside a short or narrow
+    // viewport (e.g. with the side panel open), and then nothing scrolls.
     await send(ctx.tabId, "Input.dispatchMouseEvent", {
-      type: "mouseWheel", x: 550, y: 650, deltaX: 0, deltaY: Number(action.delta) || 0,
+      type: "mouseWheel", x: Math.round((before.w || 800) / 2), y: Math.round((before.h || 600) / 2),
+      deltaX: 0, deltaY,
     });
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    if ((await read()).y === before.y) {
+      // The wheel went to an inner scroller that cannot move, or was ignored: scroll the page itself.
+      await send(ctx.tabId, "Runtime.evaluate", {
+        expression: `window.scrollBy({top:${deltaY},behavior:"instant"})`,
+      });
+    }
     return { executed: action.id };
   }
   if (!["click", "fill", "select"].includes(action.kind) || !Number.isInteger(action.node)) {

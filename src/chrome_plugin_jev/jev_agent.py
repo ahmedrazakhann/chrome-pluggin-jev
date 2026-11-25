@@ -18,6 +18,17 @@ logger = logging.getLogger(__name__)
 # The extension refuses an action when the page differs from what was read.
 # A real change settles after one re-read; repeated refusals mean it never will.
 MAX_STALE_RETRIES = 3
+# When the browser keeps refusing one action, the agent drops it and asks the model for a different
+# approach instead of giving up. It gives up only after this many actions were dropped in one run.
+MAX_ABANDONED_ACTIONS = 4
+# A click that changes nothing is dropped the same way, so the model tries another control. Capped
+# per run; after that the "three actions without progress" stop applies.
+MAX_NO_EFFECT_DROPS = 6
+
+# The model only sees controls inside the viewport. When it says DONE or BLOCKED while the page
+# can still scroll down, the agent scrolls and asks again instead of stopping, up to this many
+# scrolls in a row (the count restarts whenever another action runs).
+MAX_FORCED_SCROLLS = 8
 
 
 @dataclass(frozen=True)
@@ -101,6 +112,12 @@ class JevBrowserAgent:
         history: list[dict[str, Any]] = []
         model_calls = 0
         stale_in_a_row = 0
+        # Actions the browser refused repeatedly: not offered again until another action succeeds, so the
+        # model has to try something else. last_action is the one being attempted.
+        refused: set[tuple[str, str]] = set()
+        abandoned = 0
+        no_effect_drops = 0
+        last_action: dict[str, Any] | None = None
         # Fields the text helper had no value for. All their options stay out of
         # Jev's choices so it moves on instead of picking the same field again.
         skipped_fields: set[int] = set()
@@ -108,6 +125,7 @@ class JevBrowserAgent:
         # can share one popup ("Search Port" serves three port fields), so its
         # labels name that field too: "Search Port [for Port of Discharge] › Name".
         lookup_for: str | None = None
+        forced_scrolls = 0
 
         while len(history) < self.max_steps and model_calls < self.max_steps * 2:
             try:
@@ -117,6 +135,14 @@ class JevBrowserAgent:
                         "actions": [
                             item for item in page["actions"]
                             if item.get("node") not in skipped_fields
+                        ],
+                    }
+                if refused:
+                    page = {
+                        **page,
+                        "actions": [
+                            item for item in page["actions"]
+                            if (str(item.get("kind", "")), str(item.get("label", ""))) not in refused
                         ],
                     }
                 in_popup = any(" › " in str(item.get("label", "")) for item in page["actions"])
@@ -193,6 +219,51 @@ class JevBrowserAgent:
                         page=fresh_page,
                     ))
                 if selected in {"DONE", "BLOCKED"}:
+                    below = next((item for item in page["actions"] if item.get("id") == "scroll_down"), None)
+                    if below is not None and forced_scrolls < MAX_FORCED_SCROLLS:
+                        forced_scrolls += 1
+                        logger.info(
+                            "Jev chose %s but the page continues below (scroll %s); scrolling down (%d of %d) and asking again",
+                            selected, page.get("scroll"), forced_scrolls, MAX_FORCED_SCROLLS,
+                        )
+                        await browser.act(below, page)
+                        previous = page
+                        page = await observe("after scrolling past the visible part")
+                        history.append({
+                            "step": len(history) + 1,
+                            "action": f"Scrolled down: the model said {selected} but more of the page is below",
+                            "kind": "scroll",
+                            "choice": "scroll_down",
+                            "operation": "SCROLL_DOWN",
+                            "confidence": decision.get("confidence"),
+                            "latency_ms": decision.get("latency_ms"),
+                            "text": None,
+                            "page_changed": page["fingerprint"] != previous["fingerprint"],
+                            "url": page.get("url"),
+                            "elapsed_ms": round((time.perf_counter() - started) * 1000),
+                        })
+                        continue
+                    # Say what the model was looking at, so a BLOCKED can be told apart from a page
+                    # whose next field is simply off screen or was withheld by this run's own filters.
+                    offered = [str(item.get("label", "")) for item in page["actions"] if item.get("kind") != "select"]
+                    probabilities = {
+                        k: round(v, 2)
+                        for k, v in sorted(decision.get("operation_probabilities", {}).items(), key=lambda i: -i[1])[:4]
+                    }
+                    # Which editable fields still need a value, so "nothing left to do" can be told from
+                    # "something is left but the goal has no value for it".
+                    editable = [item for item in page["actions"] if item.get("kind") == "fill"]
+                    empty = [str(item.get("label", "")) for item in editable if not str(item.get("value", "")).strip()]
+                    last_step = history[-1]["action"] if history else "(none)"
+                    stop_detail = (
+                        f"Jev chose {selected} (confidence {decision.get('confidence') or 0:.2f}, top options {probabilities}). "
+                        f"Last action: {clip(last_step, 80)}. "
+                        f"{len(page['actions'])} control(s) were offered: {clip(offered, 500)}. "
+                        f"Editable fields: {len(editable) - len(empty)} filled, {len(empty)} empty"
+                        f"{' (' + clip(empty, 300) + ')' if empty else ''}. "
+                        f"Scroll position: {page.get('scroll')}."
+                    )
+                    logger.warning("%s | page text ends: %r", stop_detail, clip(str(page.get("text", ""))[-200:], 200))
                     fresh_page = await observe(f"confirm {selected}")
                     if fresh_page["fingerprint"] != page["fingerprint"]:
                         logger.debug("Page changed after Jev said %s; asking again", selected)
@@ -202,7 +273,7 @@ class JevBrowserAgent:
                     text = (
                         f"Task completed in {len(history)} browser action(s)."
                         if status == "done"
-                        else "Jev could not find a safe observed action to continue."
+                        else f"Stopped: Jev could not find a safe observed action to continue. {stop_detail}"
                     )
                     return finish(JevAgentResult(
                         session_id=session_id,
@@ -256,8 +327,11 @@ class JevBrowserAgent:
                     text_ms = track("text helper", began)
 
                 began = time.perf_counter()
+                last_action = action
                 await browser.act(action, page, text=value)
                 stale_in_a_row = 0
+                refused.clear()
+                forced_scrolls = 0
                 label = str(action.get("label", ""))
                 if action.get("kind") == "click" and label.startswith("Search ") and " › " not in label:
                     lookup_for = label.removeprefix("Search ").strip()
@@ -295,6 +369,33 @@ class JevBrowserAgent:
                     "page changed" if step["page_changed"] else "page did NOT change",
                 )
 
+                if step["page_changed"] is False and action.get("kind") == "click" and no_effect_drops < MAX_NO_EFFECT_DROPS:
+                    # The click did nothing visible (e.g. Next while a form is still unsaved): do not let the
+                    # model repeat it, make it try another control.
+                    no_effect_drops += 1
+                    refused.add((str(action.get("kind", "")), str(action.get("label", ""))))
+                    logger.warning(
+                        "%r had no effect; not offering it again for the next decision (%d of %d)",
+                        clip(action.get("label", ""), 70), no_effect_drops, MAX_NO_EFFECT_DROPS,
+                    )
+                    history.append({
+                        "step": len(history) + 1,
+                        "action": (
+                            f"No effect: clicking {action.get('label', '')} did not change the page. Do not repeat it. "
+                            "Try a different control, for example the Save, Add or Confirm button of a form that is "
+                            "still open (scroll to reach it), or fix a field the form is waiting for."
+                        ),
+                        "kind": "refused",
+                        "choice": action.get("id"),
+                        "operation": None,
+                        "confidence": None,
+                        "latency_ms": None,
+                        "text": None,
+                        "page_changed": None,
+                        "url": page.get("url"),
+                        "elapsed_ms": round((time.perf_counter() - started) * 1000),
+                    })
+
                 # Skips are decisions, not page actions, so they don't count here.
                 repeated = [item for item in history if item["kind"] != "skip"][-3:]
                 if (
@@ -316,6 +417,36 @@ class JevBrowserAgent:
                 logger.warning(
                     "Browser refused the action (%d in a row): %s", stale_in_a_row, clip(error, 140)
                 )
+                if stale_in_a_row >= MAX_STALE_RETRIES and last_action is not None and abandoned < MAX_ABANDONED_ACTIONS:
+                    # Do not give up: drop this action, tell the model it failed, and let it choose another way.
+                    abandoned += 1
+                    reason = str(error).removeprefix("Stale page: ").split(";")[0]
+                    label = str(last_action.get("label", last_action.get("id", "")))
+                    refused.add((str(last_action.get("kind", "")), str(last_action.get("label", ""))))
+                    logger.warning(
+                        "Dropping %r after %d refusals (%s); asking Jev for a different approach (%d of %d)",
+                        clip(label, 70), stale_in_a_row, reason, abandoned, MAX_ABANDONED_ACTIONS,
+                    )
+                    history.append({
+                        "step": len(history) + 1,
+                        "action": (
+                            f"Refused by the browser {stale_in_a_row} times: {label} ({reason}). Do not repeat it; "
+                            "try a different approach, such as scrolling so the control is fully in view, "
+                            "another control with the same effect, or a different path."
+                        ),
+                        "kind": "refused",
+                        "choice": last_action.get("id"),
+                        "operation": None,
+                        "confidence": None,
+                        "latency_ms": None,
+                        "text": None,
+                        "page_changed": None,
+                        "url": page.get("url"),
+                        "elapsed_ms": round((time.perf_counter() - started) * 1000),
+                    })
+                    stale_in_a_row = 0
+                    page = await observe("after dropping a refused action")
+                    continue
                 if stale_in_a_row >= MAX_STALE_RETRIES:
                     return finish(JevAgentResult(
                         session_id=session_id,

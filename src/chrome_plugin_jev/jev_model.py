@@ -49,7 +49,32 @@ WAIT only when the needed control is absent/disabled, or submitted results are s
 If the goal explicitly asks to submit or search and the required fields are ready, CLICK the
 matching Search/Submit control immediately. Otherwise, filling fields must not submit the form.
 Recent WAIT actions are not evidence of loading. Prefer a useful visible control over WAIT.
-DONE requires visible evidence that ALL requirements are satisfied. If asked to open a result,
+Never give up after one failure. A recent action of kind "refused" was rejected by the browser, and an action
+whose page did not change did not work: do not repeat either. Try a different approach: scroll so the control
+is fully in view, WAIT briefly and look again, use another control with the same effect, or take another path
+to the same result. Choose BLOCKED only after different approaches have been tried and failed.
+A form, dialog or sub-form that is open (for example "Add Invoice", a line-item form, or a search popup) must be
+finished with its OWN button first: Save, Save & Add Line Item, Add, Confirm, Select or Search. Only after it is
+saved or closed use Next. If Next had no effect, an unsaved form is the likely cause: look for that form's Save
+button, scrolling down to reach it. If the goal gives line items for an invoice, prefer "Save & Add Line Item"
+and then fill the line item.
+Toggle buttons such as "Same as Exporter" are clicked once. Do not click them again unless the goal needs the
+opposite state.
+Multi-step forms (steps such as "Step 1: General Information", with Next / Previous buttons): work through the
+current step first, then CLICK its Next or Continue button to reach the following step, and repeat until the
+last step. Next and Continue only move between steps; they are not a submission. Click Next once every field
+on the current step that the goal has a value for is filled and every lookup is selected. Do not stop on a
+step just because its fields are already filled: that means move on, not BLOCKED. Only the final submit
+control submits, and only when the goal asks to submit.
+A field that already shows a code or value (and often the matched name underneath) is satisfied, even when the
+goal only gave a name: do not search for it again and do not retype it. Lookups and selects that the recent
+actions show as done stay done.
+The page may continue below the visible part. When "Scroll down" is offered and the goal still has values to
+enter or a step to finish, SCROLL_DOWN before DONE or BLOCKED, because fields below the fold are not listed.
+Choose BLOCKED only after the whole page has been scrolled through, nothing remains to fill, no Next or submit
+control applies, and a required field has no value in the goal.
+DONE requires visible evidence that ALL requirements are satisfied. If the goal says to submit, that means the
+final step was submitted and the page shows a confirmation or the result, not merely that the fields are filled. If asked to open a result,
 a matching link is not enough. ANSWER is valid only when the user asked to find or report factual
 information and the CURRENT page visibly supports the answer from the requested or preferred source.
 BLOCKED means no supported operation can make progress."""
@@ -285,6 +310,21 @@ def _provider_error_detail(
     return " ".join(detail.split())[:800]
 
 
+def _is_relay_rejection(response: httpx.Response) -> bool:
+    """OpenRouter's gateway sometimes answers a valid request with 400 "Request path cannot be relayed".
+
+    It is a routing failure on their side and passes on a repeat of the same call. No other 400 is retried:
+    those are real validation errors.
+    """
+
+    if response.status_code != 400:
+        return False
+    try:
+        return "cannot be relayed" in response.text.lower()
+    except Exception:  # undecodable body
+        return False
+
+
 class JevModelClient:
     def __init__(self, *, timeout: float | None = None, retries: int = 3) -> None:
         self.timeout = timeout or float(os.getenv("TYPESAFE_TIMEOUT_SECONDS", "30"))
@@ -306,10 +346,12 @@ class JevModelClient:
                     raise JevProviderError(
                         "Model connection failed; no browser action executed"
                     ) from error
-                if response.status_code in {429, 503, 529} and attempt + 1 < self.retries:
+                relay_rejected = _is_relay_rejection(response)
+                if (response.status_code in {429, 503, 529} or relay_rejected) and attempt + 1 < self.retries:
                     delay = 0.5 * (2**attempt)
                     logger.warning(
-                        "Model provider busy (HTTP %s), retrying in %.1f s (attempt %d of %d)",
+                        "Model provider %s (HTTP %s), retrying in %.1f s (attempt %d of %d)",
+                        "rejected the request path (gateway error)" if relay_rejected else "busy",
                         response.status_code, delay, attempt + 2, self.retries,
                     )
                     await asyncio.sleep(delay)

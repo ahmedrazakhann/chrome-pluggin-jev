@@ -343,9 +343,11 @@ document.getElementById("tabSettings").addEventListener("click", loadSamples);
 // Run agent to fill form: runs the same flow as "Run task" with a hardcoded instruction.
 // The saved "My details" JSON is sent along with it, as with every task.
 const FILL_FORM_TASK =
-  "Fill in the form on the current page using the values in my saved details, then submit it. " +
-  "Match each field to the closest saved detail by its label. Leave any field blank when no saved detail fits, " +
-  "never invent values, and confirm the submission succeeded before finishing.";
+  "Fill in the form on the current page using the values in my saved details. " +
+  "Match each field to the closest saved detail by its label; saved details may be grouped by step or section. " +
+  "Scroll down to reach every field. If the form has several steps, fill the current step, click Next to go to " +
+  "the following step, and repeat until the last step. On the last step, submit the form and confirm the " +
+  "submission succeeded before finishing. Leave any field blank when no saved detail fits, and never invent values.";
 
 fillAgent.addEventListener("click", () => {
   if (send.disabled) return;
