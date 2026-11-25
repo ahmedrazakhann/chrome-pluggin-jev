@@ -497,19 +497,16 @@
         </section>
         <section class="section" aria-labelledby="details-title">
           <h2 id="details-title" class="section-title">My details</h2>
-          <p id="detailsStatus" class="note" role="status">No JSON saved.</p>
+          <p id="detailsStatus" class="note" role="status">
+            Paste your details as JSON. They are saved automatically and used
+            when you run the agent.
+          </p>
           <textarea
             id="detailsText"
             class="details-text"
             spellcheck="false"
-            placeholder='Paste JSON here, e.g. {"First name": "Ahmad"}'
+            placeholder="Paste your details here"
           ></textarea>
-          <div class="actions">
-            <button id="saveDetails" type="button">Save</button>
-            <button id="removeDetails" type="button" class="secondary" hidden>
-              Remove
-            </button>
-          </div>
           <button id="fillAgent" type="button">Run agent to fill form</button>
         </section>
         <section class="section" aria-labelledby="task-title">

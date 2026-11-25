@@ -168,27 +168,22 @@ function main() {
   ws.reconnectIfNeeded();
 }
 
-// The admin page sends {name, website, json} here (Chrome only delivers messages from
-// the origins in manifest "externally_connectable"). It is saved through the backend API.
+// The admin page sends the complete row {id, name, description, website, json} here (Chrome
+// only delivers messages from the origins in manifest "externally_connectable"). Only the
+// row's json is kept: the side panel picks it up from storage and puts it in "My details".
+// Nothing is stored in the backend list.
 chrome.runtime.onMessageExternal.addListener((message, _sender, reply) => {
-  const { name, website, json } = (message && message.type === "SAVE_SETTING" && message) || {};
-  const text = (value) => (typeof value === "string" ? value.trim() : "");
-  if (!text(name) || !/^https?:\/\//i.test(text(website)) || !json || typeof json !== "object" || Array.isArray(json) || !Object.keys(json).length) {
-    reply({ ok: false, error: "name, website (http/https) and a non-empty json object are required" });
+  const json = message && message.type === "PUSH_DETAILS" ? message.row?.json : null;
+  if (!json || typeof json !== "object" || Array.isArray(json) || !Object.keys(json).length) {
+    reply({ ok: false, error: "the row must have a json object with at least one field" });
     return;
   }
-  chrome.storage.local.get(["portal_url", "plugin_token"])
-    .then(async ({ portal_url: baseUrl, plugin_token: token }) => {
-      if (!baseUrl || !token) throw new Error("Connect the extension to the backend first (side panel > Connection).");
-      const response = await fetch(`${baseUrl}/api/chrome_plugin/settings`, {
-        method: "POST",
-        headers: { "content-type": "application/json", "X-Chrome-Plugin-Token": token },
-        body: JSON.stringify({ name: text(name), website_url: text(website), sample_json: json }),
-      });
-      const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
-      reply({ ok: true, id: body.id });
-    })
+  if (JSON.stringify(json).length > 100_000) {
+    reply({ ok: false, error: "json is too large (100 KB maximum)" });
+    return;
+  }
+  chrome.storage.local.set({ pushed_details: json })
+    .then(() => reply({ ok: true }))
     .catch((error) => reply({ ok: false, error: String(error.message || error) }));
   return true;
 });

@@ -458,7 +458,8 @@
           </table>
         </div>
         <footer>
-          Data is read from <code>data.json</code>. Edit the JSON in a row, then send it to the extension to be saved.
+          Edit the JSON in a row, then send it to the extension. It appears in
+          My details.
         </footer>
       </section>
     </main>
@@ -587,10 +588,8 @@
         chrome.runtime.sendMessage(
           EXTENSION_ID,
           {
-            type: "SAVE_SETTING",
-            name: record.name,
-            website: record.website,
-            json: value,
+            type: "PUSH_DETAILS",
+            row: { ...record, jsonText: undefined, json: value },
           },
           (reply) => {
             const failure =
@@ -599,7 +598,9 @@
             btn.disabled = false;
             btn.textContent = "Send to ext";
             note.className = failure ? "row-note bad" : "row-note";
-            note.textContent = failure ? `Not saved: ${failure}` : "Saved";
+            note.textContent = failure
+              ? `Not sent: ${failure}`
+              : "Sent to extension";
           },
         );
       }

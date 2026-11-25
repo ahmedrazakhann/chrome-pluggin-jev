@@ -9,7 +9,6 @@ const connectionDot = document.getElementById("connectionDot");
 const connectionStatus = document.getElementById("connectionStatus");
 const detailsText = document.getElementById("detailsText");
 const detailsStatus = document.getElementById("detailsStatus");
-const removeDetails = document.getElementById("removeDetails");
 
 // My details: a JSON object the user pastes, kept only in this extension's
 // localStorage and sent with every task.
@@ -24,58 +23,63 @@ function loadDetails() {
   }
 }
 
+const DETAILS_HINT = "Paste your details as JSON. They are saved automatically and used when you run the agent.";
+
 function renderDetails(message, kind = "") {
-  const details = loadDetails();
-  removeDetails.hidden = !details;
   detailsStatus.className = `note ${kind}`;
-  if (message) detailsStatus.textContent = message;
-  else if (details) {
-    const keys = Object.keys(details);
-    detailsStatus.textContent = `${keys.length} field(s) loaded and sent with every task: ${keys.join(", ")}`;
-  } else detailsStatus.textContent = "No JSON saved.";
+  detailsStatus.textContent = message || DETAILS_HINT;
 }
 
 // Validates and saves a details object; returns an error message or "" on success.
 function saveDetails(details) {
   if (!details || typeof details !== "object" || Array.isArray(details) || !Object.keys(details).length) {
-    return 'The JSON must be an object with at least one field, like {"First name": "Ahmad"}.';
+    return "Your details must be a JSON object with at least one field.";
   }
   try {
     localStorage.setItem(DETAILS_KEY, JSON.stringify(details));
   } catch {
     return "Could not save: browser storage is unavailable.";
   }
-  detailsText.value = JSON.stringify(details, null, 2);
   return "";
 }
 
-document.getElementById("saveDetails").addEventListener("click", () => {
+// Saved automatically as you type or paste. Anything that is not a valid details object is
+// not kept, so the agent never runs with stale details.
+detailsText.addEventListener("input", () => {
+  localStorage.removeItem(DETAILS_KEY);
   const raw = detailsText.value.trim();
-  if (!raw) return renderDetails("Paste some JSON first.", "err");
+  if (!raw) return renderDetails();
   if (raw.length > MAX_DETAILS_BYTES) return renderDetails("That JSON is too large (100 KB maximum).", "err");
   let details;
   try {
     details = JSON.parse(raw);
   } catch {
-    return renderDetails("That is not valid JSON.", "err");
+    return renderDetails("That is not valid JSON yet.", "err");
   }
   const error = saveDetails(details);
-  if (error) return renderDetails(error, "err");
-  renderDetails();
+  renderDetails(error, error ? "err" : "");
 });
-
-removeDetails.addEventListener("click", () => {
-  localStorage.removeItem(DETAILS_KEY);
-  detailsText.value = "";
-  renderDetails("Removed.", "ok");
-});
-
 
 {
   const saved = loadDetails();
   if (saved) detailsText.value = JSON.stringify(saved, null, 2);
 }
 renderDetails();
+
+// JSON pushed from the admin page (see background.js): put it in the box and in localStorage,
+// exactly as if it had been pasted. Works whether the panel was open or opened later.
+function applyPushedDetails(details) {
+  if (!details) return;
+  chrome.storage.local.remove("pushed_details");
+  const error = saveDetails(details);
+  if (error) return renderDetails(error, "err");
+  detailsText.value = JSON.stringify(details, null, 2);
+  renderDetails("Details received from the website.", "ok");
+}
+chrome.storage.local.get("pushed_details", (stored) => applyPushedDetails(stored.pushed_details));
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "local" && changes.pushed_details) applyPushedDetails(changes.pushed_details.newValue);
+});
 
 // Earlier versions kept a details form in chrome.storage and localStorage.
 chrome.storage.local.remove(["user_info", "use_user_info"]);
@@ -334,7 +338,7 @@ document.getElementById("fillAgent").addEventListener("click", () => {
   if (send.disabled) return;
   if (!loadDetails()) {
     out.className = "err";
-    out.textContent = "Save your details (My details) first, so the agent has values to fill in.";
+    out.textContent = "Add your details (My details) first, so the agent has values to fill in.";
     return;
   }
   // The Run task handler reads the textarea synchronously, so swap the text in for that click.
