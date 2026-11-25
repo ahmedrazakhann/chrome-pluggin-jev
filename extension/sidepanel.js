@@ -68,17 +68,26 @@ renderDetails();
 
 // JSON pushed from the admin page (see background.js): put it in the box and in localStorage,
 // exactly as if it had been pasted. Works whether the panel was open or opened later.
-function applyPushedDetails(details) {
+// The row's website is kept with the details: it is the site the match score is computed for.
+const WEBSITE_KEY = "twenty_saved_website";
+
+function applyPushedDetails(details, website) {
   if (!details) return;
-  chrome.storage.local.remove("pushed_details");
+  chrome.storage.local.remove(["pushed_details", "pushed_website"]);
   const error = saveDetails(details);
   if (error) return renderDetails(error, "err");
+  try {
+    if (website) localStorage.setItem(WEBSITE_KEY, website);
+    else localStorage.removeItem(WEBSITE_KEY);
+  } catch {
+    // Storage unavailable: the match score just has no website.
+  }
   detailsText.value = JSON.stringify(details, null, 2);
   renderDetails("Details received from the website.", "ok");
 }
-chrome.storage.local.get("pushed_details", (stored) => applyPushedDetails(stored.pushed_details));
+chrome.storage.local.get(["pushed_details", "pushed_website"], (stored) => applyPushedDetails(stored.pushed_details, stored.pushed_website));
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && changes.pushed_details) applyPushedDetails(changes.pushed_details.newValue);
+  if (area === "local" && changes.pushed_details) applyPushedDetails(changes.pushed_details.newValue, changes.pushed_website?.newValue);
 });
 
 // Earlier versions kept a details form in chrome.storage and localStorage.
@@ -347,3 +356,77 @@ document.getElementById("fillAgent").addEventListener("click", () => {
   send.click();
   instruction.value = typed;
 });
+
+// Similarity bar: how closely the keys of "My details" match the saved samples of the record's website
+// (the one sent with the details from the website list; backend POST /settings/compare).
+// Every check asks the backend again (no caching), so the score always reflects the current data.
+const matchBox = document.getElementById("matchBox");
+const matchLabel = document.getElementById("matchLabel");
+const matchScore = document.getElementById("matchScore");
+const matchFill = document.getElementById("matchFill");
+const matchNote = document.getElementById("matchNote");
+let matchRun = 0;
+
+function showMatch({ score = null, label = "Match with this site", note = "", loading = false, hide = false }) {
+  matchBox.hidden = hide;
+  matchBox.classList.toggle("loading", loading);
+  matchLabel.textContent = label;
+  matchScore.textContent = score === null ? "" : `${score}%`;
+  matchFill.style.width = score === null ? "" : `${score}%`;
+  matchFill.style.background = score === null ? "" : score >= 70 ? "var(--success)" : score >= 40 ? "#b45309" : "var(--danger)";
+  matchBox.querySelector(".match-bar").setAttribute("aria-valuenow", score === null ? "" : String(score));
+  matchNote.textContent = note;
+}
+
+async function refreshMatch() {
+  const run = ++matchRun;
+  const details = loadDetails();
+  if (!details) return showMatch({ hide: true });
+  let website = "";
+  try {
+    website = localStorage.getItem(WEBSITE_KEY) || "";
+  } catch {
+    // Storage unavailable: handled below as "no website".
+  }
+  if (!/^https?:\/\//i.test(website)) return showMatch({ note: "Send a record from the website list to see how well your details match it." });
+  const label = `Match with ${website}`;
+  const token = pluginToken.value.trim();
+  if (!token) return showMatch({ label, note: "Add the pairing token to see the match score." });
+
+  showMatch({ label, loading: true, note: "Checking..." });
+  try {
+    const baseUrl = portalUrl.value.trim().replace(/\/$/, "");
+    const response = await fetch(`${baseUrl}/api/chrome_plugin/settings/compare`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "X-Chrome-Plugin-Token": token },
+      body: JSON.stringify({ website_url: website, json: details }),
+    });
+    const body = await readJson(response);
+    if (run !== matchRun) return;
+    if (response.status === 404) {
+      return showMatch({ label, note: "No saved sample for this exact URL." });
+    }
+    if (!response.ok) throw new Error(body.detail || `HTTP ${response.status}`);
+    const best = body.best_match;
+    showMatch({ label, score: body.score, note: `Closest sample: ${best.name || `#${best.id}`}` });
+  } catch (error) {
+    if (run === matchRun) showMatch({ label, note: `Could not check the match: ${error.message}` });
+  }
+}
+
+let matchTimer = null;
+const refreshMatchSoon = (delay = 800) => {
+  clearTimeout(matchTimer);
+  matchTimer = setTimeout(refreshMatch, delay);
+};
+detailsText.addEventListener("input", () => {
+  if (!detailsText.value.trim()) localStorage.removeItem(WEBSITE_KEY);
+  refreshMatchSoon();
+});
+pluginToken.addEventListener("change", () => refreshMatchSoon(0));
+chrome.storage.onChanged.addListener((changes, area) => {
+  // Ignore the removal event that applyPushedDetails triggers after reading the push.
+  if (area === "local" && changes.pushed_details?.newValue) refreshMatchSoon(0);
+});
+// The saved token is filled in by the storage read above, so check after that read finishes.
+chrome.storage.local.get("plugin_token", () => refreshMatchSoon(0));

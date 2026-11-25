@@ -7,7 +7,11 @@
 
 import { WSClient } from "./src/ws.mjs";
 import { initDebugger, attach } from "./src/dbg.mjs";
-import { startKeepalive, beginHeartbeat, endHeartbeat } from "./src/keepalive.mjs";
+import {
+  startKeepalive,
+  beginHeartbeat,
+  endHeartbeat,
+} from "./src/keepalive.mjs";
 
 import navigate from "./src/tools/navigate.mjs";
 import find_tab from "./src/tools/find_tab.mjs";
@@ -109,7 +113,7 @@ async function dispatch(payload) {
   // Keep the tail resolved (no value leak) and self-prune when this is the latest.
   const tail = runP.then(
     () => {},
-    () => {}
+    () => {},
   );
   queues.set(key, tail);
   tail.then(() => {
@@ -148,8 +152,11 @@ function main() {
     } else if (type === "CONNECT") {
       if (typeof m.url === "string" && m.url.trim()) {
         const url = m.url.trim();
-        chrome.storage.local.set({ local_url: JSON.stringify(url) })
-          .then(() => ws.isConnected() && ws.url === url ? undefined : ws.connect(url))
+        chrome.storage.local
+          .set({ local_url: JSON.stringify(url) })
+          .then(() =>
+            ws.isConnected() && ws.url === url ? undefined : ws.connect(url),
+          )
           .then(() => reply({ ok: true }))
           .catch((error) => reply({ ok: false, error: String(error) }));
       } else {
@@ -170,21 +177,35 @@ function main() {
 
 // The admin page sends the complete row {id, name, description, website, json} here (Chrome
 // only delivers messages from the origins in manifest "externally_connectable"). Only the
-// row's json is kept: the side panel picks it up from storage and puts it in "My details".
-// Nothing is stored in the backend list.
+// row's json and website are kept: the side panel picks them up from storage, puts the json in
+// "My details" and uses the website for the match score. Nothing is stored in the backend list.
 chrome.runtime.onMessageExternal.addListener((message, _sender, reply) => {
-  const json = message && message.type === "PUSH_DETAILS" ? message.row?.json : null;
-  if (!json || typeof json !== "object" || Array.isArray(json) || !Object.keys(json).length) {
-    reply({ ok: false, error: "the row must have a json object with at least one field" });
+  const json =
+    message && message.type === "PUSH_DETAILS" ? message.row?.json : null;
+  const website =
+    typeof message?.row?.website === "string" ? message.row.website.trim() : "";
+  if (
+    !json ||
+    typeof json !== "object" ||
+    Array.isArray(json) ||
+    !Object.keys(json).length
+  ) {
+    reply({
+      ok: false,
+      error: "the row must have a json object with at least one field",
+    });
     return;
   }
   if (JSON.stringify(json).length > 100_000) {
     reply({ ok: false, error: "json is too large (100 KB maximum)" });
     return;
   }
-  chrome.storage.local.set({ pushed_details: json })
+  chrome.storage.local
+    .set({ pushed_details: json, pushed_website: website ? website : "" })
     .then(() => reply({ ok: true }))
-    .catch((error) => reply({ ok: false, error: String(error.message || error) }));
+    .catch((error) =>
+      reply({ ok: false, error: String(error.message || error) }),
+    );
   return true;
 });
 

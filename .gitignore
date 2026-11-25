@@ -2,3 +2,4 @@
 extension.zip
 __pycache__/
 *.py[cod]
+jev.logs

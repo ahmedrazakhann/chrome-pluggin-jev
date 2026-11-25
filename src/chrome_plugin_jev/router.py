@@ -8,6 +8,7 @@ and poll jobs through this router.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 from typing import Any
@@ -24,6 +25,8 @@ from .form_fill import (
     TypeSafeFormMatcher,
     create_form_fill_service,
 )
+from .jev_model import JevConfigurationError, JevProviderError
+from .json_similarity import SimilarityError, compare_with_samples
 from .extension_settings import SettingsUnavailable, create_extension_setting, list_extension_settings
 from .jobs import job_store, normalize_instruction, schedule_job
 
@@ -53,6 +56,12 @@ class ExtensionSettingRequest(BaseModel):
     name: str = Field(min_length=1, max_length=200)
     website_url: str = Field(min_length=1, max_length=2000, pattern=r"^https?://")
     sample_json: dict[str, Any] = Field(min_length=1)
+
+
+class CompareRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    website_url: str = Field(min_length=1, max_length=2000, pattern=r"^https?://")
+    json_data: dict[str, Any] = Field(alias="json", min_length=1)
 
 
 class JevRequest(BaseModel):
@@ -121,6 +130,25 @@ def create_setting(payload: ExtensionSettingRequest, _: int = Depends(require_br
         return create_extension_setting(payload.name, payload.website_url, payload.sample_json)
     except SettingsUnavailable as error:
         raise HTTPException(status_code=503, detail=str(error)) from error
+
+
+@router.post("/settings/compare")
+async def compare_settings(payload: CompareRequest, _: int = Depends(require_bridge_user)) -> dict[str, Any]:
+    """Score how similar the keys of ``json`` are to the samples stored for exactly this URL."""
+    if len(json.dumps(payload.json_data, ensure_ascii=False).encode("utf-8")) > 100_000:
+        raise HTTPException(status_code=413, detail="json exceeds 100 KB")
+    try:
+        rows = await asyncio.to_thread(list_extension_settings)
+        result = await compare_with_samples(payload.website_url, payload.json_data, rows)
+    except SettingsUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except JevConfigurationError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except (SimilarityError, JevProviderError) as error:
+        raise HTTPException(status_code=502, detail=str(error)) from error
+    if result is None:
+        raise HTTPException(status_code=404, detail="No sample JSON is stored for this exact URL")
+    return result
 
 
 @router.post("/sync")

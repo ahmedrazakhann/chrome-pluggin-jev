@@ -453,6 +453,58 @@
         text-align: center;
         color: var(--muted);
       }
+      .match {
+        margin-top: 12px;
+      }
+      .match-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .match-head span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .match-head strong {
+        flex-shrink: 0;
+        font-size: 16px;
+      }
+      .match-bar {
+        height: 8px;
+        margin-top: 6px;
+        overflow: hidden;
+        border-radius: 4px;
+        background: var(--secondary);
+        border: 1px solid var(--border);
+      }
+      .match-fill {
+        height: 100%;
+        width: 0;
+        border-radius: 4px;
+        background: var(--muted);
+        transition:
+          width 0.4s ease,
+          background 0.3s;
+      }
+      .match.loading .match-fill {
+        width: 40%;
+        animation: match-slide 1s ease-in-out infinite alternate;
+      }
+      @keyframes match-slide {
+        from {
+          margin-left: 0;
+        }
+        to {
+          margin-left: 60%;
+        }
+      }
+      .match .note {
+        margin-top: 6px;
+      }
     </style>
   </head>
   <body>
@@ -507,6 +559,22 @@
             spellcheck="false"
             placeholder="Paste your details here"
           ></textarea>
+          <div id="matchBox" class="match" hidden>
+            <div class="match-head">
+              <span id="matchLabel">Match with this site</span>
+              <strong id="matchScore"></strong>
+            </div>
+            <div
+              class="match-bar"
+              role="progressbar"
+              aria-label="Similarity score"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div id="matchFill" class="match-fill"></div>
+            </div>
+            <p id="matchNote" class="note"></p>
+          </div>
           <button id="fillAgent" type="button">Run agent to fill form</button>
         </section>
         <section class="section" aria-labelledby="task-title">
