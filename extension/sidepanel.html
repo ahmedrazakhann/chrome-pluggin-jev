@@ -356,17 +356,98 @@
           monospace;
         white-space: pre-wrap;
       }
-      .samples-table .download-json {
-        width: 100%;
+      .sample-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .samples-table .view-json {
+        flex: 0 0 auto;
+        width: 34px;
+        height: 30px;
         margin: 0;
-        padding: 6px 8px;
+        padding: 0;
+        display: grid;
+        place-items: center;
         background: var(--secondary);
         color: var(--primary);
         border-color: var(--border);
+      }
+      .samples-table .view-json:hover:not(:disabled) {
+        background: #ececd9;
+      }
+      .samples-table .view-json svg {
+        width: 16px;
+        height: 16px;
+      }
+      .json-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        background: rgb(2 20 57 / 55%);
+      }
+      .json-modal.open {
+        display: flex;
+      }
+      .json-modal-box {
+        width: 100%;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        background: var(--background);
+        border-top: 3px solid var(--accent);
+        border-radius: var(--radius);
+        box-shadow: 0 12px 40px rgb(0 0 0 / 30%);
+      }
+      .json-modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 12px;
+        background: var(--primary);
+        color: #fff;
+      }
+      .json-modal-head h3 {
+        margin: 0;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+      .json-modal-head button {
+        width: auto;
+        margin: 0;
+        padding: 2px 10px;
+        background: none;
+        color: #fff;
+        border-color: rgb(255 255 255 / 40%);
         font-size: 12px;
       }
-      .samples-table .download-json:hover:not(:disabled) {
-        background: #ececd9;
+      .json-modal pre {
+        margin: 0;
+        padding: 12px;
+        overflow: auto;
+        flex: 1;
+        background: var(--secondary);
+        color: #34405a;
+        font:
+          12px/1.5 "DM Mono",
+          ui-monospace,
+          monospace;
+      }
+      .tok-key {
+        color: #0b4ea2;
+      }
+      .tok-str {
+        color: #1e6b3a;
+      }
+      .tok-num {
+        color: #b45309;
+      }
+      .tok-lit {
+        color: #7c3aed;
       }
       .samples-table .empty {
         text-align: center;
@@ -464,6 +545,21 @@
         </section>
       </div>
     </main>
+    <div
+      id="jsonModal"
+      class="json-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="jsonModalTitle"
+    >
+      <div class="json-modal-box">
+        <div class="json-modal-head">
+          <h3 id="jsonModalTitle"></h3>
+          <button id="jsonModalClose" type="button">Close</button>
+        </div>
+        <pre id="jsonModalBody"></pre>
+      </div>
+    </div>
     <script src="sidepanel.js"></script>
   </body>
 </html>

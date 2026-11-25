@@ -234,14 +234,61 @@ function renderSamples(rows, message) {
     tr.insertCell().textContent = row.id;
     tr.insertCell().textContent = row.name || "";
     tr.insertCell().textContent = row.website_url || "";
+    const view = document.createElement("button");
+    view.type = "button";
+    view.className = "view-json";
+    view.title = "View JSON";
+    view.setAttribute("aria-label", "View JSON");
+    view.innerHTML = EYE_ICON;
+    view.disabled = !row.sample_json;
+    view.addEventListener("click", () => viewSample(row));
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "download-json";
-    button.textContent = "Download JSON";
+    button.className = "view-json";
+    button.title = "Download JSON";
+    button.setAttribute("aria-label", "Download JSON");
+    button.innerHTML = DOWNLOAD_ICON;
     button.disabled = !row.sample_json;
     button.addEventListener("click", () => downloadSample(row));
-    tr.insertCell().append(button);
+    const actions = document.createElement("div");
+    actions.className = "sample-actions";
+    actions.append(view, button);
+    tr.insertCell().append(actions);
   }
+}
+
+const DOWNLOAD_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
+const EYE_ICON =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+// Colors a pretty-printed JSON string: keys, strings, numbers and true/false/null.
+function highlightJson(text) {
+  const escaped = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return escaped.replace(
+    /("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g,
+    (match, str, colon, literal) => {
+      if (str) return colon ? `<span class="tok-key">${str}</span>${colon}` : `<span class="tok-str">${str}</span>`;
+      return `<span class="${literal ? "tok-lit" : "tok-num"}">${match}</span>`;
+    },
+  );
+}
+
+const jsonModal = document.getElementById("jsonModal");
+const closeJsonModal = () => jsonModal.classList.remove("open");
+document.getElementById("jsonModalClose").addEventListener("click", closeJsonModal);
+jsonModal.addEventListener("click", (event) => {
+  if (event.target === jsonModal) closeJsonModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeJsonModal();
+});
+
+function viewSample(row) {
+  document.getElementById("jsonModalTitle").textContent = row.name || row.website_url || `Sample ${row.id}`;
+  document.getElementById("jsonModalBody").innerHTML = highlightJson(JSON.stringify(row.sample_json, null, 2));
+  jsonModal.classList.add("open");
+  document.getElementById("jsonModalClose").focus();
 }
 
 function downloadSample(row) {
