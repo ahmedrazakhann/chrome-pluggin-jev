@@ -1,0 +1,253 @@
+name: Deploy Backend to EC2 (S3, SSM, EC2)
+
+on:
+  merge:
+    branches: [main]
+    paths:
+      - "verifinow_backend_v2/**"
+      - ".github/workflows/deploy-backend.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-verifinow-edu-backend
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ZIP_NAME: backend.zip
+  NODE_VERSION: "24"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # ── Build ────────────────────────────────────────────────────────────
+      - uses: actions/checkout@v7
+
+      # Fails the run if the log redactor lets a known secret shape through (cheap: ~1s)
+      - name: Verify log redaction
+        run: bash .github/scripts/redact-selftest.sh
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: node ace build
+
+      - name: Zip build
+        run: zip -r ${{ env.ZIP_NAME }} build/
+
+      # ── Upload to S3 ─────────────────────────────────────────────────────
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload zip to S3
+        run: |
+          aws s3 cp ${{ env.ZIP_NAME }} \
+            s3://${{ vars.DEPLOY_BUCKET }}/${{ vars.PROJECT_PREFIX }}/${{ env.ZIP_NAME }}
+
+      # ── Deploy via SSM ────────────────────────────────────────────────────
+      - name: Send SSM deploy command
+        id: deploy
+        run: |
+          CMD=$(cat <<'SSMEOF'
+          sudo -u ubuntu bash <<'UBUNTUEOF'
+          set -o pipefail
+          # Secret redaction: everything the deploy prints is piped through redact.pl before it
+          # reaches SSM (stored in AWS), the Actions log, or the trace file. Refuse to run
+          # without it rather than print unfiltered output.
+          echo "REPLACE_REDACT_B64" | base64 -d > /tmp/redact.pl
+          command -v perl >/dev/null 2>&1 || { echo "perl missing: refusing to print unredacted logs"; exit 1; }
+          cat > /tmp/deploy_body.sh <<'BODYEOF'
+          set -e
+
+          # ── Variables ────────────────────────────────────────────────────
+          PROJECT_PREFIX="REPLACE_PROJECT_PREFIX"
+          DEPLOY_DIR="/home/ubuntu/$PROJECT_PREFIX"
+          ZIP_NAME="REPLACE_ZIP_NAME"
+          S3_BUCKET="REPLACE_S3_BUCKET"
+          NODE_VERSION="REPLACE_NODE_VERSION"
+
+          echo "🚀 Deploying $PROJECT_PREFIX @ $(date)"
+          echo "   Dir:    $DEPLOY_DIR"
+          echo "   Bucket: $S3_BUCKET"
+          echo "   Node:   $NODE_VERSION"
+
+          # ── Ensure unzip available ────────────────────────────────────────
+          sudo apt-get install -y unzip > /dev/null 2>&1 || true
+
+          # ── Guard: verify DEPLOY_DIR is safe ──────────────────────────────
+          if [ -z "$DEPLOY_DIR" ] || \
+             [ "$DEPLOY_DIR" = "/" ] || \
+             [ "$DEPLOY_DIR" = "/home" ] || \
+             [ "$DEPLOY_DIR" = "/home/ubuntu" ]; then
+            echo "❌ ERROR: DEPLOY_DIR is unsafe: '$DEPLOY_DIR'. Aborting."
+            exit 1
+          fi
+
+          # ── Prepare deploy directory (preserve .env) ──────────────────────
+          mkdir -p "$DEPLOY_DIR"
+          # find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name ".env" -exec rm -rf {} + 2>/dev/null || true
+
+          echo "✅ Directory ready"
+
+          # ── Pull artifact from S3 ─────────────────────────────────────────
+          aws s3 cp "s3://$S3_BUCKET/$PROJECT_PREFIX/$ZIP_NAME" "/tmp/$ZIP_NAME"
+          echo "✅ Downloaded from S3"
+
+          # ── Unzip to staging ──────────────────────────────────────────────
+          # rm -rf /tmp/deploy_staging
+          unzip -oq "/tmp/$ZIP_NAME" -d "/tmp/deploy_staging"
+          # rm -f "/tmp/$ZIP_NAME"
+
+          # ── Guard: verify build/ exists in zip ────────────────────────────
+          if [ ! -d "/tmp/deploy_staging/build" ]; then
+            echo "❌ ERROR: build/ not found in zip. Contents:"
+            ls -la /tmp/deploy_staging/
+            # rm -rf /tmp/deploy_staging
+            exit 1
+          fi
+
+          # ── Flatten build/ into deploy dir ────────────────────────────────
+          cp -rf /tmp/deploy_staging/build/* "$DEPLOY_DIR/"
+          # [ -d "/tmp/deploy_staging" ] && rm -rf /tmp/deploy_staging
+          echo "✅ Files deployed to $DEPLOY_DIR"
+
+          # ── Load Node via NVM ─────────────────────────────────────────────
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+            export HOME="/home/ubuntu/"
+
+          # ── Install production dependencies ───────────────────────────────
+          cd "$DEPLOY_DIR"
+          echo "📍 Working directory: $(pwd)"
+          # timeout turns a silent hang into a visible failure (exit 124) instead of waiting forever
+          timeout -k 15 300 npm ci --omit=dev
+          echo "✅ Dependencies installed"
+
+          # ── Validate .env ─────────────────────────────────────────────────
+          [ -f .env ] && echo "✅ .env found" || echo "⚠️  WARNING: No .env found"
+
+          # ── Run migrations if DB is configured ────────────────────────────
+          if grep -q "^DB_HOST=" .env 2>/dev/null; then
+            echo "🗄️  Running migrations..."
+            timeout -k 10 90 node ace migration:run --force
+            echo "✅ Migrations complete"
+          else
+            echo "⏭️  Skipping migrations (DB_HOST not in .env)"
+          fi
+
+          # ── Restart app ───────────────────────────────────────────────────
+          timeout -k 10 60 pm2 reload "$PROJECT_PREFIX" || timeout -k 10 60 pm2 start bin/server.js --name "$PROJECT_PREFIX" --time
+          pm2 save
+          pm2 status
+          echo "✅ PM2 restarted"
+
+          echo "🎉 Deployment complete @ $(date)"
+          BODYEOF
+
+          # pipeline (not process substitution): waits for the last line to be filtered and written,
+          # and pipefail propagates a failing deploy so SSM reports Failed. The tee'd (already redacted)
+          # file lets you read the live deploy output on the instance while the script is still running.
+          bash /tmp/deploy_body.sh 2>&1 | perl -p /tmp/redact.pl | tee /home/ubuntu/deploy-last.log
+          rc=$?
+          # rm -f /tmp/deploy_body.sh
+          exit $rc
+          UBUNTUEOF
+          SSMEOF
+          )
+
+          # Inject GitHub Actions values into SSM script
+          CMD="${CMD//REPLACE_PROJECT_PREFIX/${{ vars.PROJECT_PREFIX }}}"
+          CMD="${CMD//REPLACE_ZIP_NAME/${{ env.ZIP_NAME }}}"
+          CMD="${CMD//REPLACE_S3_BUCKET/${{ vars.DEPLOY_BUCKET }}}"
+          CMD="${CMD//REPLACE_NODE_VERSION/${{ env.NODE_VERSION }}}"
+          CMD="${CMD//REPLACE_AWS_REGION/${{ vars.AWS_REGION }}}"
+          # ship the redactor to the instance (base64: no quoting/escaping issues)
+          CMD="${CMD//REPLACE_REDACT_B64/$(base64 -w0 < .github/scripts/redact.pl)}"
+
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --comment "Deploy ${{ vars.PROJECT_PREFIX }}" \
+            --parameters "$(jq -n --arg cmd "$CMD" '{commands: [$cmd]}')" \
+            --query "Command.CommandId" \
+            --output text)
+
+          echo "SSM Command ID: $COMMAND_ID"
+          echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
+
+      # ── Wait & Stream Logs ────────────────────────────────────────────────
+      - name: Wait for deployment
+        run: |
+          COMMAND_ID="${{ steps.deploy.outputs.command_id }}"
+          INSTANCE_ID="${{ secrets.EC2_INSTANCE_ID }}"
+
+          echo "Waiting for command: $COMMAND_ID"
+          sleep 10
+
+          # Max wait ~10 min. Instance-side step timeouts (npm ci 300s + migrations 90s + pm2 2x60s
+          # + download) are sized to finish inside this, so a hang fails on the instance with logs.
+          for i in $(seq 1 60); do
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "$INSTANCE_ID" \
+              --query "Status" \
+              --output text 2>/dev/null) || STATUS="Pending"
+
+            echo "[$i/60] $STATUS"
+
+            if [ "$STATUS" = "Success" ]; then
+              echo "✅ Deployment succeeded"
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id "$INSTANCE_ID" \
+                --query "StandardOutputContent" \
+                --output text | perl -p .github/scripts/redact.pl
+              exit 0
+            elif [ "$STATUS" = "Failed" ] || [ "$STATUS" = "Cancelled" ] || [ "$STATUS" = "TimedOut" ]; then
+              echo "::error::Deployment $STATUS"
+              echo "── STDOUT ──"
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id "$INSTANCE_ID" \
+                --query "StandardOutputContent" \
+                --output text | perl -p .github/scripts/redact.pl
+              echo "── STDERR ──"
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id "$INSTANCE_ID" \
+                --query "StandardErrorContent" \
+                --output text | perl -p .github/scripts/redact.pl
+              exit 1
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Deployment timed out after ~600s (command still running on instance)"
+          echo "── STDOUT (last 80 lines) ──"
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "$INSTANCE_ID" \
+            --query "StandardOutputContent" \
+            --output text 2>&1 | perl -p .github/scripts/redact.pl | tail -n 80 || true
+          echo "── STDERR (last 80 lines) ──"
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "$INSTANCE_ID" \
+            --query "StandardErrorContent" \
+            --output text 2>&1 | perl -p .github/scripts/redact.pl | tail -n 80 || true
+          exit 1
