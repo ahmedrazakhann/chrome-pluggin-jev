@@ -100,9 +100,13 @@ chrome.storage.local.get(["portal_url", "agent_profile", "plugin_token"], (store
   if (stored.plugin_token) pluginToken.value = stored.plugin_token;
 });
 
+let isConnected = false;
+
 function renderConnection(connected) {
+  isConnected = connected;
   connectionDot.classList.toggle("on", connected);
   connectionStatus.textContent = connected ? "Connected to backend" : "Disconnected";
+  connect.textContent = connected ? "Disconnect backend" : "Connect backend";
 }
 
 function getStatus() {
@@ -112,6 +116,11 @@ function getStatus() {
     });
   });
 }
+
+// The background pushes every real socket change (popup disconnect, backend drop, reconnect).
+chrome.runtime.onMessage.addListener((m) => {
+  if (m?.type === "STATUS_CHANGED" && !connect.disabled) renderConnection(!!m.connected);
+});
 
 async function connectBackend() {
   const baseUrl = portalUrl.value.trim().replace(/\/$/, "");
@@ -131,8 +140,13 @@ async function connectBackend() {
 
 connect.addEventListener("click", async () => {
   connect.disabled = true;
-  connectionStatus.textContent = "Connecting...";
   try {
+    if (isConnected) {
+      await chrome.runtime.sendMessage({ type: "DISCONNECT" });
+      renderConnection(await getStatus());
+      return;
+    }
+    connectionStatus.textContent = "Connecting...";
     await connectBackend();
   } catch (error) {
     renderConnection(false);
@@ -170,6 +184,15 @@ async function waitForJob(baseUrl, jobId, token) {
 
 const fillAgent = document.getElementById("fillAgent");
 
+// "Allow agent to submit" toggle: persisted, off by default (safe).
+const allowSubmit = document.getElementById("allowSubmit");
+const SUBMIT_RULE = " On the last step, submit the form and confirm the submission succeeded before finishing.";
+
+chrome.storage.local.get("allow_submit", (stored) => {
+  allowSubmit.checked = !!stored.allow_submit;
+});
+allowSubmit.addEventListener("change", () => chrome.storage.local.set({ allow_submit: allowSubmit.checked }));
+
 send.addEventListener("click", async () => {
   const task = instruction.value.trim();
   if (!task) {
@@ -196,6 +219,9 @@ send.addEventListener("click", async () => {
       } catch {
         // Ordinary instructions may contain JSON-like text.
       }
+    }
+    if (allowSubmit.checked && typeof taskBody.instruction === "string") {
+      taskBody = { ...taskBody, instruction: taskBody.instruction + SUBMIT_RULE };
     }
     const savedDetails = loadDetails();
     const response = await fetch(`${baseUrl}/api/chrome_plugin/jobs`, {
@@ -346,8 +372,7 @@ const FILL_FORM_TASK =
   "Fill in the form on the current page using the values in my saved details. " +
   "Match each field to the closest saved detail by its label; saved details may be grouped by step or section. " +
   "Scroll down to reach every field. If the form has several steps, fill the current step, click Next to go to " +
-  "the following step, and repeat until the last step. On the last step, submit the form and confirm the " +
-  "submission succeeded before finishing. Leave any field blank when no saved detail fits, and never invent values.";
+  "the following step, and repeat until the last step. Leave any field blank when no saved detail fits, and never invent values.";
 
 fillAgent.addEventListener("click", () => {
   if (send.disabled) return;

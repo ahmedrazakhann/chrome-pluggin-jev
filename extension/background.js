@@ -126,7 +126,14 @@ async function dispatch(payload) {
 function main() {
   initDebugger();
 
-  const ws = new WSClient({ onToolCall: dispatch });
+  const ws = new WSClient({
+    onToolCall: dispatch,
+    // Tell the open popup / side panel when the socket state changes.
+    onStatusChange: () =>
+      chrome.runtime
+        .sendMessage({ type: "STATUS_CHANGED", connected: ws.isConnected(), error: ws.lastError })
+        .catch(() => {}),
+  });
 
   // Testability / observability hooks on the SW global — used by the popup and by the
   // live test harness to set the daemon URL and force a reconnect without waiting for

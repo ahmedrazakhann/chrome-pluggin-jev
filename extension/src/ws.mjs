@@ -16,8 +16,10 @@ const DEFAULT_PORTAL_URL = "ws://127.0.0.1:8110/api/chrome_plugin/ws";
 
 export class WSClient {
   // onToolCall: async (payload{name,args}) => ({data}|{error})
-  constructor({ onToolCall } = {}) {
+  // onStatusChange: () => void, called whenever connected/disconnected state may have changed
+  constructor({ onToolCall, onStatusChange } = {}) {
     this.onToolCall = onToolCall;
+    this.onStatusChange = onStatusChange;
     this.socket = null;
     this.url = null;
     this._reconnectTimer = null;
@@ -28,6 +30,7 @@ export class WSClient {
 
   async connect(url) {
     this.manualDisconnect = false;
+    chrome.storage.local.set({ manual_disconnect: false });
     this.url = url;
     this.lastError = null;
     this.acknowledged = false;
@@ -71,6 +74,7 @@ export class WSClient {
           clearTimeout(timeout);
           this.acknowledged = true;
           this.lastError = null;
+          this.onStatusChange?.();
           resolve();
         }
       } catch {
@@ -86,6 +90,7 @@ export class WSClient {
       this.lastError = event.code === 4401
         ? "Pairing token rejected by the Chrome plugin service"
         : this.lastError || "WebSocket closed. Check that the Chrome plugin service is running and can reach the main API";
+      this.onStatusChange?.();
       reject(new Error(this.lastError));
       this._scheduleReconnect();
     };
@@ -148,6 +153,7 @@ export class WSClient {
 
   disconnect() {
     this.manualDisconnect = true;
+    chrome.storage.local.set({ manual_disconnect: true }); // survives service-worker restarts
     this.acknowledged = false;
     this.lastError = null;
     if (this._reconnectTimer) {
@@ -164,10 +170,13 @@ export class WSClient {
       }
       this.socket = null;
     }
+    this.onStatusChange?.();
   }
 
   async reconnectIfNeeded() {
     if (this.manualDisconnect) return;
+    const { manual_disconnect } = await chrome.storage.local.get("manual_disconnect");
+    if (manual_disconnect) return;
     if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) return;
     const url = await this._readLocalUrl();
     if (this.manualDisconnect || (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING))) return;

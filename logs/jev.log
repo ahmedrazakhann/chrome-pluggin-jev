@@ -183,3 +183,17 @@ chrome_plugin_jev.jev_model.JevProviderError: Model provider returned HTTP 400: 
 00:17:18 INFO    [chrome_plugin_jev.jobs] Job f8fa4be8-2dcd-4c45-8ae2-d369d7481055 finished: needs_human in 182939 ms - Stopped at the configured 120-action safety limit.
 00:25:27 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-6.1-terra
 00:25:29 WARNING [chrome_plugin_jev.jev_model] Model provider returned HTTP 403: Project `proj_F6kEN2VV3cY853mC99pp46d4` does not have access to model `gpt-6.1-terra` | invalid_request_error | model_not_found
+14:41:21 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+14:41:25 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 3761 ms - Missing field: Full Name; Extra field: Address
+15:24:19 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+15:24:23 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 3273 ms - Missing field: Full Name; Extra field: Address
+15:24:32 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+15:24:34 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 2059 ms - Missing field: Full Name; Extra field: Address
+15:24:41 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+15:24:43 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 1832 ms - Missing field: Full Name; Extra field: Address
+15:25:05 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+15:25:08 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 3094 ms - Missing field: Full Name; Extra field: Address
+15:33:53 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+15:33:56 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 3278 ms - Missing field: Full Name; Extra field: Address
+16:16:00 INFO    [chrome_plugin_jev.json_similarity] Similarity: comparing 16 key(s) with 1 sample(s) for https://example.com/application using gpt-4.1
+16:16:03 INFO    [chrome_plugin_jev.json_similarity] Similarity: score 94% (best match #10 'Personal and Professional Details for Job Applications.') in 3118 ms - Missing field: Full Name; Extra field: Address

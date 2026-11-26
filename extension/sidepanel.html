@@ -205,6 +205,20 @@
         background: var(--success);
         box-shadow: 0 0 0 3px rgb(58 107 53 / 12%);
       }
+      .submit-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 0 0;
+        text-transform: none;
+        letter-spacing: 0;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .submit-toggle input {
+        width: auto;
+        margin: 0;
+      }
       .accent-rule {
         width: 32px;
         height: 3px;
@@ -575,6 +589,10 @@
             </div>
             <p id="matchNote" class="note"></p>
           </div>
+          <label class="submit-toggle">
+            <input id="allowSubmit" type="checkbox" />
+            Allow agent to submit the form
+          </label>
           <button id="fillAgent" type="button">Run agent to fill form</button>
         </section>
         <section class="section" aria-labelledby="task-title">

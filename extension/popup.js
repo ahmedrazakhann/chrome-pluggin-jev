@@ -61,7 +61,11 @@ connectBtn.addEventListener("click", async () => {
       return;
     }
     message.textContent = "Connected";
-    refresh();
+    chrome.runtime.onMessage.addListener((m) => {
+  if (m?.type === "STATUS_CHANGED") render(m);
+});
+
+refresh();
   });
 });
 
@@ -77,6 +81,10 @@ openAgentBtn.addEventListener("click", async () => {
   const currentWindow = await chrome.windows.getCurrent();
   await chrome.sidePanel.open({ windowId: currentWindow.id });
   window.close();
+});
+
+chrome.runtime.onMessage.addListener((m) => {
+  if (m?.type === "STATUS_CHANGED") render(m);
 });
 
 refresh();
