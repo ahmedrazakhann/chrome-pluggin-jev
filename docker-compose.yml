@@ -1,0 +1,13 @@
+services:
+  chrome-plugin-jev:
+    build: .
+    container_name: chrome-plugin-jev
+    restart: unless-stopped
+    # Secrets and settings (DATABASE_URL, CHROME_PLUGIN_TOKEN, model keys, ...) come from .env.
+    env_file: .env
+    environment:
+      ENVIRONMENT: production
+    ports:
+      - "3333:8110"
+    volumes:
+      - ./dist:/app/dist # built extension zips

@@ -1,0 +1,14 @@
+.git
+.venv
+.env*
+.pytest_cache
+__pycache__
+*.py[cod]
+logs
+dist
+tests
+admin
+p1
+.claude
+.vscode
+*.ps1

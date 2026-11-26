@@ -20,7 +20,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 
 
 SERVICE_SRC = Path(__file__).resolve().parent
-REPOSITORY_ROOT = SERVICE_SRC.parents[2]
+REPOSITORY_ROOT = SERVICE_SRC.parent
 load_dotenv(REPOSITORY_ROOT / ".env")
 if str(SERVICE_SRC) not in sys.path:
     sys.path.insert(0, str(SERVICE_SRC))
