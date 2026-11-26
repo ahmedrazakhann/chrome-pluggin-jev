@@ -1,15 +1,21 @@
 name: Deploy Backend to EC2 (S3, SSM, EC2)
 
 on:
-  merge:
+  push:
     branches: [main]
     paths:
-      - "verifinow_backend_v2/**"
+      - "src/**"
+      - "domain-skills/**"
+      - "extension/**"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - "pyproject.toml"
+      - "uv.lock"
       - ".github/workflows/deploy-backend.yml"
   workflow_dispatch:
 
 concurrency:
-  group: deploy-verifinow-edu-backend
+  group: deploy-chrome-plugin-jev
   cancel-in-progress: true
 
 permissions:
@@ -18,7 +24,6 @@ permissions:
 
 env:
   ZIP_NAME: backend.zip
-  NODE_VERSION: "24"
 
 jobs:
   deploy:
@@ -32,19 +37,14 @@ jobs:
       - name: Verify log redaction
         run: bash .github/scripts/redact-selftest.sh
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: node ace build
+      # The image is built here and sent to the server; the server never builds. .env stays on the server.
+      - name: Build Docker image
+        run: |
+          docker build -t chrome-plugin-jev:latest .
+          docker save chrome-plugin-jev:latest -o image.tar
 
       - name: Zip build
-        run: zip -r ${{ env.ZIP_NAME }} build/
+        run: zip ${{ env.ZIP_NAME }} image.tar docker-compose.yml
 
       # ── Upload to S3 ─────────────────────────────────────────────────────
       - uses: aws-actions/configure-aws-credentials@v6
@@ -77,12 +77,10 @@ jobs:
           DEPLOY_DIR="/home/ubuntu/$PROJECT_PREFIX"
           ZIP_NAME="REPLACE_ZIP_NAME"
           S3_BUCKET="REPLACE_S3_BUCKET"
-          NODE_VERSION="REPLACE_NODE_VERSION"
 
           echo "🚀 Deploying $PROJECT_PREFIX @ $(date)"
           echo "   Dir:    $DEPLOY_DIR"
           echo "   Bucket: $S3_BUCKET"
-          echo "   Node:   $NODE_VERSION"
 
           # ── Ensure unzip available ────────────────────────────────────────
           sudo apt-get install -y unzip > /dev/null 2>&1 || true
@@ -111,49 +109,32 @@ jobs:
           unzip -oq "/tmp/$ZIP_NAME" -d "/tmp/deploy_staging"
           # rm -f "/tmp/$ZIP_NAME"
 
-          # ── Guard: verify build/ exists in zip ────────────────────────────
-          if [ ! -d "/tmp/deploy_staging/build" ]; then
-            echo "❌ ERROR: build/ not found in zip. Contents:"
+          # ── Guard: verify image.tar exists in zip ─────────────────────────
+          if [ ! -f "/tmp/deploy_staging/image.tar" ]; then
+            echo "❌ ERROR: image.tar not found in zip. Contents:"
             ls -la /tmp/deploy_staging/
             # rm -rf /tmp/deploy_staging
             exit 1
           fi
 
-          # ── Flatten build/ into deploy dir ────────────────────────────────
-          cp -rf /tmp/deploy_staging/build/* "$DEPLOY_DIR/"
+          # ── Copy files into deploy dir (.env is not in the zip, so it is kept) ──
+          cp -rf /tmp/deploy_staging/. "$DEPLOY_DIR/"
           # [ -d "/tmp/deploy_staging" ] && rm -rf /tmp/deploy_staging
           echo "✅ Files deployed to $DEPLOY_DIR"
 
-          # ── Load Node via NVM ─────────────────────────────────────────────
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-            export HOME="/home/ubuntu/"
-
-          # ── Install production dependencies ───────────────────────────────
+          # ── Validate .env ─────────────────────────────────────────────────
           cd "$DEPLOY_DIR"
           echo "📍 Working directory: $(pwd)"
-          # timeout turns a silent hang into a visible failure (exit 124) instead of waiting forever
-          timeout -k 15 300 npm ci --omit=dev
-          echo "✅ Dependencies installed"
-
-          # ── Validate .env ─────────────────────────────────────────────────
           [ -f .env ] && echo "✅ .env found" || echo "⚠️  WARNING: No .env found"
 
-          # ── Run migrations if DB is configured ────────────────────────────
-          if grep -q "^DB_HOST=" .env 2>/dev/null; then
-            echo "🗄️  Running migrations..."
-            timeout -k 10 90 node ace migration:run --force
-            echo "✅ Migrations complete"
-          else
-            echo "⏭️  Skipping migrations (DB_HOST not in .env)"
-          fi
-
-          # ── Restart app ───────────────────────────────────────────────────
-          timeout -k 10 60 pm2 reload "$PROJECT_PREFIX" || timeout -k 10 60 pm2 start bin/server.js --name "$PROJECT_PREFIX" --time
-          pm2 save
-          pm2 status
-          echo "✅ PM2 restarted"
+          # ── Load image and restart container ──────────────────────────────
+          # timeout turns a silent hang into a visible failure (exit 124) instead of waiting forever
+          timeout -k 15 300 docker load -i image.tar
+          rm -f image.tar
+          timeout -k 15 120 docker compose up -d
+          docker image prune -f > /dev/null
+          docker compose ps
+          echo "✅ Docker container restarted"
 
           echo "🎉 Deployment complete @ $(date)"
           BODYEOF
@@ -173,7 +154,6 @@ jobs:
           CMD="${CMD//REPLACE_PROJECT_PREFIX/${{ vars.PROJECT_PREFIX }}}"
           CMD="${CMD//REPLACE_ZIP_NAME/${{ env.ZIP_NAME }}}"
           CMD="${CMD//REPLACE_S3_BUCKET/${{ vars.DEPLOY_BUCKET }}}"
-          CMD="${CMD//REPLACE_NODE_VERSION/${{ env.NODE_VERSION }}}"
           CMD="${CMD//REPLACE_AWS_REGION/${{ vars.AWS_REGION }}}"
           # ship the redactor to the instance (base64: no quoting/escaping issues)
           CMD="${CMD//REPLACE_REDACT_B64/$(base64 -w0 < .github/scripts/redact.pl)}"
@@ -198,7 +178,7 @@ jobs:
           echo "Waiting for command: $COMMAND_ID"
           sleep 10
 
-          # Max wait ~10 min. Instance-side step timeouts (npm ci 300s + migrations 90s + pm2 2x60s
+          # Max wait ~10 min. Instance-side step timeouts (docker load 300s + compose up 120s
           # + download) are sized to finish inside this, so a hang fails on the instance with logs.
           for i in $(seq 1 60); do
             STATUS=$(aws ssm get-command-invocation \
