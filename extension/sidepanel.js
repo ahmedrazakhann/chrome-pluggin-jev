@@ -187,6 +187,13 @@ const fillAgent = document.getElementById("fillAgent");
 // "Allow agent to submit" toggle: persisted, off by default (safe).
 const allowSubmit = document.getElementById("allowSubmit");
 const SUBMIT_RULE = " On the last step, submit the form and confirm the submission succeeded before finishing.";
+// Unchecked must say so explicitly: otherwise the agent treats the last step's Submit as part of "filling".
+const NO_SUBMIT_RULE =
+  " Do NOT click the form's FINAL submission control (Submit, Finish, Place order, or the last step's Confirm). " +
+  "Everything else is allowed and required: Next/Continue, Previous, and the Save, Add, Select, Search or Confirm buttons of popups, " +
+  "dialogs and sub-forms are NOT submissions, so use them. Finishing a popup or one step does NOT mean you are done: " +
+  "after it closes, keep going with the rest of the page and every remaining step. " +
+  "Choose DONE only when you are on the LAST step, every field the details cover is filled, and the only control left is the final submit.";
 
 chrome.storage.local.get("allow_submit", (stored) => {
   allowSubmit.checked = !!stored.allow_submit;
@@ -220,8 +227,8 @@ send.addEventListener("click", async () => {
         // Ordinary instructions may contain JSON-like text.
       }
     }
-    if (allowSubmit.checked && typeof taskBody.instruction === "string") {
-      taskBody = { ...taskBody, instruction: taskBody.instruction + SUBMIT_RULE };
+    if (typeof taskBody.instruction === "string") {
+      taskBody = { ...taskBody, instruction: taskBody.instruction + (allowSubmit.checked ? SUBMIT_RULE : NO_SUBMIT_RULE) };
     }
     const savedDetails = loadDetails();
     const response = await fetch(`${baseUrl}/api/chrome_plugin/jobs`, {
